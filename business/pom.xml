@@ -16,7 +16,10 @@
   <packaging>pom</packaging>
 
   <modules>
-
+    <module>administration</module>
+    <module>appointment</module>
+    <module>client</module>
+    <module>store-management</module>
   </modules>
 
   <properties>
