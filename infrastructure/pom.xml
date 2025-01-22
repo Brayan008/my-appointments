@@ -17,7 +17,7 @@
 
   <modules>
     <module>config-server</module>
-    <module>eureka</module>
+    <module>eureka-server</module>
   </modules>
 
   <build>
