@@ -5,18 +5,19 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.technologyos</groupId>
+    <groupId>com.appointment</groupId>
     <artifactId>my-appointments</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>com.technologyos.infrastructure</groupId>
+  <groupId>com.appointment.infrastructure</groupId>
   <artifactId>infrastructure</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <modules>
-
+    <module>config-server</module>
+    <module>eureka</module>
   </modules>
 
   <build>
