@@ -1,6 +1,16 @@
 server:
+  servlet:
+    context-path: /api/v1
   port: 9091
 
 spring:
   application:
     name: administration
+  config:
+    import: optional:configserver:http://localhost:8888
+  cloud:
+    config:
+      username: admin
+      password: admin
+      name: db,general,administration
+      profile: local
