@@ -26,14 +26,21 @@
     <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <lombok.version>1.18.30</lombok.version>
-    <spring-cloud-dependencies.version>2023.0.0</spring-cloud-dependencies.version>
-    <spring-boot.version>3.4.1</spring-boot.version>
+    <spring-boot.version>3.4.2</spring-boot.version>
     <spring-cloud.version>2024.0.0</spring-cloud.version>
     <dockerfile-maven-version>1.4.13</dockerfile-maven-version>
   </properties>
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
       <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-dependencies</artifactId>
@@ -45,6 +52,11 @@
   </dependencyManagement>
 
   <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter</artifactId>
