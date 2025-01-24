@@ -66,7 +66,7 @@ public class SecurityConfig {
             Collection<GrantedAuthority> authorities = new ArrayList<>();
             String role = jwt.getClaim("role");
             if (role != null) {
-                authorities.add(new SimpleGrantedAuthority(role)); // Agregar como autoridad
+                authorities.add(new SimpleGrantedAuthority("ROLE_" + role)); // Agregar como autoridad
             }
             return Mono.just(new JwtAuthenticationToken(jwt, authorities));
         };
