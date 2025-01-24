@@ -1,5 +1,22 @@
 <h1 align="center">My appointment Services</h1>
 
+### Setting Up
+To use the system, it is necessary to start the services in a specific order. The process is detailed below:
+
+1. Start the Config Server
+* The first service to be started is the Config Server, located in the infrastructure module. This service provides configuration for the system's microservices.
+2. Start the Eureka Server
+3. Start the Gateway Server
+
+
+**Important Note:** To start the services, it is necessary to configure the appropriate profile in the `application.yml` file of each project. The profiles are described below:
+
+**Local Profile:** When using this profile, the service will automatically use the H2 database, so it will not be necessary to start the PostgreSQL database container.
+
+**Dev Profile:** If this profile is configured, you will need to follow the steps outlined to create and start the database container.
+
+### Pasos para levantar la base de datos
+
 1. **Create the container:** To create the container, run the following command in the terminal: `docker-compose up -d`. Once the creation is complete, go to the following pgAdmin URL in your browser: [http://localhost:8080/login?next=/](http://localhost:8080/login?next=/).
 
 2. **Enter credentials from the .env file:** Before proceeding, you need to enter your credentials from the `.env` file to access pgAdmin. Look for the `PGA_EMAIL` and `PGA_PASSWORD` variables and enter them during login.
