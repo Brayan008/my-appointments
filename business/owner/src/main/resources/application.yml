@@ -5,7 +5,7 @@ server:
 
 spring:
   application:
-    name: Owner
+    name: owner
   config:
     import: optional:configserver:http://localhost:8888
   cloud:

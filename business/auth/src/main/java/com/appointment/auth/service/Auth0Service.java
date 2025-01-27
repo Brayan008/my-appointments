@@ -1,7 +1,7 @@
-package com.appointment.gatewayserver.service;
+package com.appointment.auth.service;
 
-import com.appointment.gatewayserver.dto.AuthTokenResponse;
-import com.appointment.gatewayserver.dto.UserAuthResDTO;
+import com.appointment.auth.dto.AuthTokenResponse;
+import com.appointment.auth.dto.UserAuthResDTO;
 import reactor.core.publisher.Mono;
 
 public interface Auth0Service {

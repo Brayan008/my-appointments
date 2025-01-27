@@ -1,23 +1,23 @@
-package com.appointment.gatewayserver;
+package com.appointment.auth.controllers;
 
-import com.appointment.gatewayserver.dto.AuthTokenResponse;
-import com.appointment.gatewayserver.dto.UserAuthResDTO;
-import com.appointment.gatewayserver.service.Auth0Service;
+import com.appointment.auth.dto.AuthTokenResponse;
+import com.appointment.auth.dto.UserAuthResDTO;
+import com.appointment.auth.service.Auth0Service;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+
+import java.util.Map;
 
 @RestController
 @Slf4j
 @AllArgsConstructor
+@RequestMapping("/api/auth")
 public class OAuth2Controller {
 
     private Auth0Service auth0Service;
@@ -49,12 +49,6 @@ public class OAuth2Controller {
     @GetMapping("/test")
     public ResponseEntity<String> testEndpoint() {
         return ResponseEntity.ok("API is working!");
-    }
-
-    @Operation(summary = "Probar API para admins", description = "Endpoint de prueba para verificar que el rol admin funciona.", security = @SecurityRequirement(name = "bearer-jwt"))
-    @GetMapping("/test-admin")
-    public ResponseEntity<String> testAdminRole() {
-        return ResponseEntity.ok("API is working! - HI ADMIN");
     }
 
 }

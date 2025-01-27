@@ -34,11 +34,11 @@ public class SecurityConfig {
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         return http
                 .authorizeExchange(exchange -> exchange
-                        .pathMatchers("/swagger", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html","/webjars/swagger-ui/**", "/token", "/doc/**").permitAll()// Permitir rutas públicas
+                        .pathMatchers("/swagger", "/v3/api-docs/**", "/api/auth/v3/api-docs", "/swagger-ui/**", "/swagger-ui.html","/webjars/**","/api/auth/token", "/doc/**").permitAll()// Permitir rutas públicas
                         .pathMatchers("/test-admin").hasAuthority("ROLE_ADMIN")
                         .anyExchange().authenticated() // Proteger cualquier otra ruta
                 )
-                .oauth2Login(Customizer.withDefaults())
+                //.oauth2Login(Customizer.withDefaults())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
                                 .jwkSetUri(jwkUri) // Configurar el URI de las claves públicas

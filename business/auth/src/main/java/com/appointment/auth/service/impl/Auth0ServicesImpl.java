@@ -1,9 +1,9 @@
-package com.appointment.gatewayserver.service.impl;
+package com.appointment.auth.service.impl;
 
-import com.appointment.gatewayserver.dto.AuthTokenRequest;
-import com.appointment.gatewayserver.dto.AuthTokenResponse;
-import com.appointment.gatewayserver.dto.UserAuthResDTO;
-import com.appointment.gatewayserver.service.Auth0Service;
+import com.appointment.auth.dto.AuthTokenRequest;
+import com.appointment.auth.dto.AuthTokenResponse;
+import com.appointment.auth.dto.UserAuthResDTO;
+import com.appointment.auth.service.Auth0Service;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,16 +21,19 @@ public class Auth0ServicesImpl implements Auth0Service {
 
     private WebClient webClient;
 
-    @Value("${spring.security.oauth2.client.registration.auth0.client-id}")
+    @Value("${spring.security.auth0.client-id}")
     private String clientId;
 
-    @Value("${spring.security.oauth2.client.registration.auth0.client-secret}")
+    @Value("${spring.security.auth0.client-secret}")
     private String clientSecret;
+
+    @Value("${spring.security.auth0.domain}")
+    private String domain;
 
     @PostConstruct
     public void init(){
         this.webClient = WebClient.builder()
-                .baseUrl("https://dev-9pn-820c.us.auth0.com")
+                .baseUrl(domain)
                 .build();
     }
 
