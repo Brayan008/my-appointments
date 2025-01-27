@@ -10,7 +10,6 @@ import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-@OpenAPIDefinition(info = @Info(title = "API Gateway", version = "1.0", description = "Documentation API Gateway v1.0"))
 public class GatewayServerApplication {
 
     public static void main(String[] args) {
@@ -21,10 +20,7 @@ public class GatewayServerApplication {
     public RouteLocator routeLocator(RouteLocatorBuilder builder) {
         return builder
             .routes()
-            .route(r -> r.path("/category-service/v3/api-docs").and().method(HttpMethod.GET).uri("lb://category-service"))
-            .route(r -> r.path("/product-service/v3/api-docs").and().method(HttpMethod.GET).uri("lb://product-service"))
+            .route(r -> r.path("/api/auth/v3/api-docs").and().method(HttpMethod.GET).uri("lb://auth"))
             .build();
     }
-
-
 }

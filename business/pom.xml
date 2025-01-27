@@ -16,7 +16,7 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>authentication</module>
+    <module>auth</module>
     <module>owner</module>
     <module>client</module>
     <module>employee</module>
@@ -55,12 +55,6 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-webflux</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springdoc</groupId>
-      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-      <version>${org.springdoc.version}</version>
     </dependency>
 
     <dependency>

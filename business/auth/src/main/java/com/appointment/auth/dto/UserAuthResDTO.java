@@ -1,4 +1,4 @@
-package com.appointment.gatewayserver.dto;
+package com.appointment.auth.dto;
 
 import lombok.Builder;
 import lombok.Data;

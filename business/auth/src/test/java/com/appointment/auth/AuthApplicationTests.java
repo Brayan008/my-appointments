@@ -1,10 +1,10 @@
-package com.appointment.authentication;
+package com.appointment.auth;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class AuthenticationApplicationTests {
+class AuthApplicationTests {
 
 	@Test
 	void contextLoads() {
