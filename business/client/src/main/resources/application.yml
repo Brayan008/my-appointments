@@ -14,3 +14,6 @@ spring:
       password: admin
       name: db,general,client
       profile: local
+      retry:
+        max-attempts: 1
+        max-interval: 1000
