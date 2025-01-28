@@ -15,7 +15,7 @@ To use the system, it is necessary to start the services in a specific order. Th
 
 **Dev Profile:** If this profile is configured, you will need to follow the steps outlined to create and start the database container.
 
-### Pasos para levantar la base de datos
+### Steps to setting up the database
 
 1. **Create the container:** To create the container, run the following command in the terminal: `docker-compose up -d`. Once the creation is complete, go to the following pgAdmin URL in your browser: [http://localhost:8080/login?next=/](http://localhost:8080/login?next=/).
 
