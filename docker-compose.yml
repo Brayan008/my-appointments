@@ -1,6 +1,32 @@
 version: '3.8'
 
 services:
+  registry-discovery:
+    container_name: eureka-server
+    image: appointment/microservice-docker-eureka-server:0.0.1-SNAPSHOT
+    ports:
+      - 8761:8761
+    environment:
+      - JAVA_OPTS=
+        -Xms256M
+        -Xmx256M
+
+  configuration:
+    container_name: config-server
+    image: appointment/microservice-docker-config-server:0.0.1-SNAPSHOT
+    environment:
+      - JAVA_OPTS=
+        -Xms256M
+        -Xmx256M
+        -DEUREKA_SERVER=http://registry-discovery:8761/eureka/
+        -DSPRING_CLOUD_CONFIG_SERVER_GIT_URI=${SPRING_CLOUD_CONFIG_SERVER_GIT_URI}
+        -DSPRING_SECURITY_USER_NAME=${SPRING_SECURITY_USER_NAME}
+        -DSPRING_SECURITY_USER_PASSWORD=${SPRING_SECURITY_USER_PASSWORD}
+    depends_on:
+      - registry-discovery
+    ports:
+      - 8888:8888
+
   postgres:
     container_name: postgres-service
     image: postgres:16.1
