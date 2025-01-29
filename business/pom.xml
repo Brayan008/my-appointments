@@ -16,11 +16,22 @@
   <packaging>pom</packaging>
 
   <modules>
+    <module>commons</module>
     <module>auth</module>
     <module>owner</module>
     <module>client</module>
     <module>employee</module>
   </modules>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.appointment</groupId>
+        <artifactId>commons</artifactId>
+        <version>1.0.0</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <properties>
     <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
