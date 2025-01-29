@@ -10,6 +10,20 @@ spring:
       domain: https://dev-9pn-820c.us.auth0.com
       client-id: ikWPpY8zw0AkwBUhsKj6rRyqdX2m7Isi
       client-secret: KPrWBYxz754nn-4pJKUnU8DZnmGpPoU-0dCpQg_fr2ysq0AbIw-9NLxoO4cTec-W
+      security-key: HGJDFd_2asd21ds-dsa2sa
+  datasource:
+    url: jdbc:postgresql://localhost:5432/my-appointments
+    username: postgres
+    password: pass123
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
 openapi:
   service:
     title: auth-service doc
@@ -17,8 +31,10 @@ openapi:
     url: http://localhost:8080
 springdoc:
   swagger-ui:
+    enabled: true
     path: /swagger-ui.html
   api-docs:
+    enabled: true
     path: /api/auth/v3/api-docs
 eureka:
   instance:

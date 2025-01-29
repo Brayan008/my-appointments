@@ -11,14 +11,22 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class Auth0ServicesImpl implements Auth0Service {
+    @Override
+    public Mono<AuthTokenResponse> getApiToken(String code, String redirectUri) {
+        return null;
+    }
 
+    @Override
+    public Mono<UserAuthResDTO> getUserInfo(String accessToken) {
+        return null;
+    }
+/*
     private WebClient webClient;
 
     @Value("${spring.security.auth0.client-id}")
@@ -73,5 +81,5 @@ public class Auth0ServicesImpl implements Auth0Service {
                         })
                 )
                 .bodyToMono(UserAuthResDTO.class);
-    }
+    }*/
 }
