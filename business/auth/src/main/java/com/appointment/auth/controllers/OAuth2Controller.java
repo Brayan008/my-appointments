@@ -6,6 +6,7 @@ import com.appointment.auth.service.Auth0Service;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.util.Map;
 @Slf4j
 @AllArgsConstructor
 @RequestMapping("/api/auth")
+@Tag(name = "Auth0 Controller", description = "Endpoints to test and access auth0 services.")
 public class OAuth2Controller {
 
     private Auth0Service auth0Service;
