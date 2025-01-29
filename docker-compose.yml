@@ -10,6 +10,8 @@ services:
       - JAVA_OPTS=
         -Xms256M
         -Xmx256M
+    networks:
+      - discovery-network
 
   configuration:
     container_name: config-server
@@ -18,7 +20,7 @@ services:
       - JAVA_OPTS=
         -Xms256M
         -Xmx256M
-        -DEUREKA_SERVER=http://registry-discovery:8761/eureka/
+        -DEUREKA_SERVER=${EUREKA_SERVER}
         -DSPRING_CLOUD_CONFIG_SERVER_GIT_URI=${SPRING_CLOUD_CONFIG_SERVER_GIT_URI}
         -DSPRING_SECURITY_USER_NAME=${SPRING_SECURITY_USER_NAME}
         -DSPRING_SECURITY_USER_PASSWORD=${SPRING_SECURITY_USER_PASSWORD}
@@ -26,6 +28,39 @@ services:
       - registry-discovery
     ports:
       - 8888:8888
+    networks:
+      - discovery-network
+
+  administration:
+    container_name: admin-server
+    image: appointment/microservice-docker-admin-server:0.0.1-SNAPSHOT
+    environment:
+      - JAVA_OPTS=
+        -Xms256M
+        -Xmx256M
+        -DEUREKA_SERVER=${EUREKA_SERVER}
+    depends_on:
+      - registry-discovery
+    ports:
+      - 8762:8762
+    networks:
+      - discovery-network
+
+  owner:
+    container_name: owner-service
+    image: appointment/microservice-docker-owner:0.0.1-SNAPSHOT
+    environment:
+      - JAVA_OPTS=
+        -Xms256M
+        -Xmx256M
+        -DEUREKA_SERVER=${EUREKA_SERVER}
+        -Dspring.profiles.active=dev
+    depends_on:
+      - registry-discovery
+      - configuration
+    networks:
+      - discovery-network
+      - postgres-network
 
   postgres:
     container_name: postgres-service
@@ -65,5 +100,7 @@ volumes:
     driver: local
 
 networks:
+  discovery-network:
+    driver: bridge
   postgres-network:
     driver: bridge
