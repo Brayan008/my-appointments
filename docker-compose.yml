@@ -58,6 +58,8 @@ services:
     depends_on:
       - registry-discovery
       - configuration
+    ports:
+      - 9091:9091
     networks:
       - discovery-network
       - postgres-network
