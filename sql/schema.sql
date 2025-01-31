@@ -1,39 +1,53 @@
+CREATE SEQUENCE status_sequence START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE roles_sequence START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE memberships_sequence START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE customers_sequence START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE companies_sequence START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE owners_sequence START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE stores_sequence START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE services_sequence START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE employees_sequence START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE user_favorite_stores_sequence START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE status_dates_sequence START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE client_dates_sequence START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE rate_date_sequence START WITH 1 INCREMENT BY 1;
+
 CREATE TABLE status (
-    status_id VARCHAR(15) PRIMARY KEY NOT NULL,
+    status_id BIGINT PRIMARY KEY DEFAULT nextval('status_sequence'),
     name VARCHAR(15) NOT NULL,
     created_at TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE roles (
-    role_id VARCHAR(15) PRIMARY KEY NOT NULL,
+    role_id BIGINT PRIMARY KEY DEFAULT nextval('roles_sequence'),
     name VARCHAR(15) NOT NULL,
     created_at TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE memberships (
-    membership_id VARCHAR(15) PRIMARY KEY NOT NULL,
+    membership_id BIGINT PRIMARY KEY DEFAULT nextval('memberships_sequence'),
     description VARCHAR(15) NOT NULL,
     created_at TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE customers(
-	user_id VARCHAR(50) PRIMARY KEY NOT NULL,
-	status_id VARCHAR (15) NOT NULL,
-	role_id VARCHAR (15) NOT NULL,
+	user_id BIGINT PRIMARY KEY DEFAULT nextval('customers_sequence'),
+	status_id BIGINT NOT NULL,
+	role_id BIGINT NOT NULL,
 	created_at TIMESTAMP DEFAULT NOW(),
 	CONSTRAINT fk_status FOREIGN KEY (status_id) REFERENCES status(status_id),
 	CONSTRAINT fk_roles FOREIGN KEY (role_id) REFERENCES roles(role_id)
 );
 
 CREATE TABLE companies(
-	company_id VARCHAR(15) PRIMARY KEY,
+	company_id BIGINT PRIMARY KEY DEFAULT nextval('companies_sequence'),
 	name VARCHAR (15) NOT NULL,
 	logo VARCHAR (15) NOT NULL,
 	phone_number VARCHAR(15),
 	instagram_url TEXT,
 	facebook_url TEXT,
-	membership_id VARCHAR (15) NOT NULL,
-	status_id VARCHAR (15) NOT NULL,
+	membership_id BIGINT NOT NULL,
+	status_id BIGINT NOT NULL,
 	created_at TIMESTAMP DEFAULT NOW(),
 	CONSTRAINT fk_memberships FOREIGN KEY (membership_id) REFERENCES memberships(membership_id),
 	CONSTRAINT fk_status FOREIGN KEY (status_id) REFERENCES status(status_id)
@@ -41,50 +55,50 @@ CREATE TABLE companies(
 
 
 CREATE TABLE owners(
-	owner_id VARCHAR(15) PRIMARY KEY NOT NULL,
-	user_id VARCHAR (50) NOT NULL,
-	company_id VARCHAR (15) NOT NULL,
+	owner_id BIGINT PRIMARY KEY DEFAULT nextval('owners_sequence'),
+	user_id BIGINT NOT NULL,
+	company_id BIGINT NOT NULL,
 	created_at TIMESTAMP DEFAULT NOW(),
 	CONSTRAINT fk_customers FOREIGN KEY (user_id) REFERENCES customers(user_id),
 	CONSTRAINT fk_companies FOREIGN KEY (company_id) REFERENCES companies(company_id)
 );
 
 CREATE TABLE stores(
-	store_id VARCHAR(15) PRIMARY KEY,
+	store_id BIGINT PRIMARY KEY DEFAULT nextval('stores_sequence'),
 	name VARCHAR (50),
 	address VARCHAR(200),
 	description TEXT,
 	coordinates VARCHAR(400),
-	status_id VARCHAR (15) NOT NULL,
-	company_id VARCHAR (15) NOT NULL,
+	status_id BIGINT NOT NULL,
+	company_id BIGINT NOT NULL,
 	created_at TIMESTAMP DEFAULT NOW(),
 	CONSTRAINT fk_status FOREIGN KEY (status_id) REFERENCES status(status_id),
 	CONSTRAINT fk_companies FOREIGN KEY (company_id) REFERENCES companies(company_id)
 );
 
 CREATE TABLE services(
-	service_id VARCHAR(15) PRIMARY KEY NOT NULL,
+	service_id BIGINT PRIMARY KEY DEFAULT nextval('services_sequence'),
 	name TEXT NOT NULL,
 	price NUMERIC(12, 2) NOT NULL,
-	store_id VARCHAR(15) NOT NULL,
+	store_id BIGINT NOT NULL,
 	created_at TIMESTAMP DEFAULT NOW(),
 	CONSTRAINT fk_stores FOREIGN KEY (store_id) REFERENCES stores(store_id)
 );
 
 CREATE TABLE employees(
-	employee_id VARCHAR(15) PRIMARY KEY NOT NULL,
-	user_id VARCHAR(50) NOT NULL,
-	store_id VARCHAR(15) NOT NULL,
+	employee_id BIGINT PRIMARY KEY DEFAULT nextval('employees_sequence'),
+	user_id BIGINT NOT NULL,
+	store_id BIGINT NOT NULL,
 	created_at TIMESTAMP DEFAULT NOW(),
 	CONSTRAINT fk_customers FOREIGN KEY (user_id) REFERENCES customers(user_id),
 	CONSTRAINT fk_stores FOREIGN KEY (store_id) REFERENCES stores(store_id)
 );
 
 CREATE TABLE user_favorite_stores(
-	employee_id VARCHAR(15) PRIMARY KEY NOT NULL,
-	user_id VARCHAR(50) NOT NULL,
-	store_id VARCHAR(15) NOT NULL,
-	status_id VARCHAR (15) NOT NULL,
+	employee_id BIGINT PRIMARY KEY DEFAULT nextval('user_favorite_stores_sequence'),
+	user_id BIGINT NOT NULL,
+	store_id BIGINT NOT NULL,
+	status_id BIGINT NOT NULL,
 	created_at TIMESTAMP DEFAULT NOW(),
 	CONSTRAINT fk_customers FOREIGN KEY (user_id) REFERENCES customers(user_id),
 	CONSTRAINT fk_status FOREIGN KEY (status_id) REFERENCES status(status_id),
@@ -92,19 +106,19 @@ CREATE TABLE user_favorite_stores(
 );
 
 CREATE TABLE status_dates(
-	status_date_id VARCHAR(15) PRIMARY KEY NOT NULL,
+	status_date_id BIGINT PRIMARY KEY DEFAULT nextval('status_dates_sequence'),
 	name VARCHAR(50) NOT NULL,
 	created_at TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE client_dates(
-	date_id VARCHAR(15) PRIMARY KEY NOT NULL,
+	date_id BIGINT PRIMARY KEY DEFAULT nextval('client_dates_sequence'),
 	user_date TIMESTAMP,
-	status_date_id VARCHAR(15) NOT NULL,
-	service_id VARCHAR(15) NOT NULL,
-	client_id VARCHAR(15) NOT NULL,
-	store_id VARCHAR(15) NOT NULL,
-	employee_id VARCHAR(15) NOT NULL,
+	status_date_id BIGINT NOT NULL,
+	service_id BIGINT NOT NULL,
+	client_id BIGINT NOT NULL,
+	store_id BIGINT NOT NULL,
+	employee_id BIGINT NOT NULL,
 	created_at TIMESTAMP DEFAULT NOW(),
 	CONSTRAINT fk_status_dates FOREIGN KEY (status_date_id) REFERENCES status_dates(status_date_id),
 	CONSTRAINT fk_services FOREIGN KEY (service_id) REFERENCES services(service_id),
@@ -113,10 +127,10 @@ CREATE TABLE client_dates(
 );
 
 CREATE TABLE rate_date(
-	rate_date_id VARCHAR(15) PRIMARY KEY NOT NULL,
+	rate_date_id BIGINT PRIMARY KEY DEFAULT nextval('rate_date_sequence'),
 	comment TEXT,
 	rate NUMERIC(3, 1) NOT NULL,
-	date_id VARCHAR(15) NOT NULL,
+	date_id BIGINT NOT NULL,
 	created_at TIMESTAMP DEFAULT NOW(),
 	CONSTRAINT fk_client_dates FOREIGN KEY (date_id) REFERENCES client_dates(date_id)
 );
