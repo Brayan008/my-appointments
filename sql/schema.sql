@@ -14,19 +14,19 @@ CREATE SEQUENCE rate_date_sequence START WITH 1 INCREMENT BY 1;
 
 CREATE TABLE status (
     status_id BIGINT PRIMARY KEY DEFAULT nextval('status_sequence'),
-    name VARCHAR(15) NOT NULL,
+    name VARCHAR(50) NOT NULL,
     created_at TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE roles (
     role_id BIGINT PRIMARY KEY DEFAULT nextval('roles_sequence'),
-    name VARCHAR(15) NOT NULL,
+    name VARCHAR(50) NOT NULL,
     created_at TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE memberships (
     membership_id BIGINT PRIMARY KEY DEFAULT nextval('memberships_sequence'),
-    description VARCHAR(15) NOT NULL,
+    description TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT NOW()
 );
 
@@ -41,8 +41,8 @@ CREATE TABLE customers(
 
 CREATE TABLE companies(
 	company_id BIGINT PRIMARY KEY DEFAULT nextval('companies_sequence'),
-	name VARCHAR (15) NOT NULL,
-	logo VARCHAR (15) NOT NULL,
+	name TEXT NOT NULL,
+	logo VARCHAR TEXT NOT NULL,
 	phone_number VARCHAR(15),
 	instagram_url TEXT,
 	facebook_url TEXT,
@@ -65,7 +65,7 @@ CREATE TABLE owners(
 
 CREATE TABLE stores(
 	store_id BIGINT PRIMARY KEY DEFAULT nextval('stores_sequence'),
-	name VARCHAR (50),
+	name TEXT,
 	address VARCHAR(200),
 	description TEXT,
 	coordinates VARCHAR(400),
@@ -107,7 +107,7 @@ CREATE TABLE user_favorite_stores(
 
 CREATE TABLE status_dates(
 	status_date_id BIGINT PRIMARY KEY DEFAULT nextval('status_dates_sequence'),
-	name VARCHAR(50) NOT NULL,
+	name TEXT NOT NULL,
 	created_at TIMESTAMP DEFAULT NOW()
 );
 
