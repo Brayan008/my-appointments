@@ -42,7 +42,7 @@ CREATE TABLE customers(
 CREATE TABLE companies(
 	company_id BIGINT PRIMARY KEY DEFAULT nextval('companies_sequence'),
 	name TEXT NOT NULL,
-	logo VARCHAR TEXT NOT NULL,
+	logo TEXT NOT NULL,
 	phone_number VARCHAR(15),
 	instagram_url TEXT,
 	facebook_url TEXT,
