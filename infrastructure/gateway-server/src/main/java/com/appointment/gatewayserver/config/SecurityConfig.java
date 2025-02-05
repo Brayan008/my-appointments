@@ -42,7 +42,7 @@ public class SecurityConfig {
                             "/webjars/**",
                             "/api/auth/token",
                             "/doc/**",
-                            "/api/auth/user").permitAll()// Permitir rutas públicas
+                            "/api/auth/user/validate-login").permitAll()// Permitir rutas públicas
                         .pathMatchers("/test-admin").hasAuthority("ROLE_ADMIN")
                         .anyExchange().authenticated() // Proteger cualquier otra ruta
                 )

@@ -25,7 +25,6 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<Object> handleException(Exception ex){
         log.error("Exception {}", ex.getMessage());
-        ex.printStackTrace();
         return new ResponseEntity<>(this.genericErrorResponse(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()), "Error generico", ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

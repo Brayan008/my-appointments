@@ -5,5 +5,5 @@ import com.appointment.auth.dto.UserDTORes;
 import reactor.core.publisher.Mono;
 
 public interface UserService {
-    UserDTORes validateLoginUser(UserDTOReq userDTOReq);
+    Mono<UserDTORes> validateLoginUser(UserDTOReq userDTOReq);
 }

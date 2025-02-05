@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 
@@ -25,25 +26,38 @@ public class UserServiceImpl implements UserService {
     @Value("${spring.security.auth0.security-key}")
     private String securityKey;
     @Override
-    public UserDTORes validateLoginUser(UserDTOReq userDTOReq) throws CustomGenericException {
-        if (!Objects.equals(userDTOReq.getSecurityKey(), securityKey))
-            throw new BadRequestException("Error al guardar el usuario", "La clave de seguridad es incorrecta");
-        User userFound = userRepository.findByEmail(userDTOReq.getEmail());
-
-        if(userFound != null){
-            if(userFound.getStatus().getName().equals(StatusEnum.DISABLED.getValue()))
-                throw new CustomGenericException(HttpStatus.CONFLICT.toString(), "Disabled user.", "This user is disabled from my-appointments services.", HttpStatus.CONFLICT);
-        }else{
-            userRepository.save(User.builder()
-                .email(userDTOReq.getEmail())
-                .auth0Id(userDTOReq.getUserId())
-                .role(Role.builder().id(1L).build())
-                .status(Status.builder().id(1L).build())
-                .build());
+    public Mono<UserDTORes> validateLoginUser(UserDTOReq userDTOReq) {
+        if (!Objects.equals(userDTOReq.getSecurityKey(), securityKey)) {
+            return Mono.error(new BadRequestException(
+                "Error al validar el usuario",
+                "La clave de seguridad es incorrecta"
+            ));
         }
 
-        return UserDTORes.builder()
-            .email(userDTOReq.getEmail())
-            .build();
+        return userRepository.findByEmail(userDTOReq.getEmail())
+            .flatMap(userFound -> {
+                if (userFound.getStatusId().equals(StatusEnum.DISABLED.getId())) {
+                    return Mono.error(new CustomGenericException(
+                        "This user is disabled",
+                        "This user is disabled from my-appointments services.",
+                        HttpStatus.CONFLICT.toString(),
+                        HttpStatus.CONFLICT
+                    ));
+                }
+                return Mono.just(userFound);
+            })
+            .switchIfEmpty(
+                userRepository.save(
+                    User.builder()
+                        .email(userDTOReq.getEmail())
+                        .roleId(1L)
+                        .statusId(1L)
+                        .build()
+                )
+            )
+            .map(user -> UserDTORes.builder()
+                .email(user.getEmail())
+                .build()
+            );
     }
 }

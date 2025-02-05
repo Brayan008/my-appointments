@@ -1,7 +1,7 @@
 CREATE SEQUENCE status_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE roles_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE memberships_sequence START WITH 1 INCREMENT BY 1;
-CREATE SEQUENCE customers_sequence START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE users_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE companies_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE owners_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE stores_sequence START WITH 1 INCREMENT BY 1;
@@ -18,11 +18,15 @@ CREATE TABLE status (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
+INSERT INTO status (name) VALUES ('ENABLED'), ('DISABLED');
+
 CREATE TABLE roles (
     role_id BIGINT PRIMARY KEY DEFAULT nextval('roles_sequence'),
     name VARCHAR(50) NOT NULL,
     created_at TIMESTAMP DEFAULT NOW()
 );
+
+INSERT INTO roles (name) VALUES ('USER'), ('ADMIN');
 
 CREATE TABLE memberships (
     membership_id BIGINT PRIMARY KEY DEFAULT nextval('memberships_sequence'),
@@ -30,8 +34,9 @@ CREATE TABLE memberships (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
-CREATE TABLE customers(
-	user_id BIGINT PRIMARY KEY DEFAULT nextval('customers_sequence'),
+CREATE TABLE users(
+	user_id BIGINT PRIMARY KEY DEFAULT nextval('users_sequence'),
+    email VARCHAR(100) NOT NULL UNIQUE,
 	status_id BIGINT NOT NULL,
 	role_id BIGINT NOT NULL,
 	created_at TIMESTAMP DEFAULT NOW(),
@@ -59,7 +64,7 @@ CREATE TABLE owners(
 	user_id BIGINT NOT NULL,
 	company_id BIGINT NOT NULL,
 	created_at TIMESTAMP DEFAULT NOW(),
-	CONSTRAINT fk_customers FOREIGN KEY (user_id) REFERENCES customers(user_id),
+	CONSTRAINT fk_users FOREIGN KEY (user_id) REFERENCES users(user_id),
 	CONSTRAINT fk_companies FOREIGN KEY (company_id) REFERENCES companies(company_id)
 );
 
@@ -90,7 +95,7 @@ CREATE TABLE employees(
 	user_id BIGINT NOT NULL,
 	store_id BIGINT NOT NULL,
 	created_at TIMESTAMP DEFAULT NOW(),
-	CONSTRAINT fk_customers FOREIGN KEY (user_id) REFERENCES customers(user_id),
+	CONSTRAINT fk_users FOREIGN KEY (user_id) REFERENCES users(user_id),
 	CONSTRAINT fk_stores FOREIGN KEY (store_id) REFERENCES stores(store_id)
 );
 
@@ -100,7 +105,7 @@ CREATE TABLE user_favorite_stores(
 	store_id BIGINT NOT NULL,
 	status_id BIGINT NOT NULL,
 	created_at TIMESTAMP DEFAULT NOW(),
-	CONSTRAINT fk_customers FOREIGN KEY (user_id) REFERENCES customers(user_id),
+	CONSTRAINT fk_users FOREIGN KEY (user_id) REFERENCES users(user_id),
 	CONSTRAINT fk_status FOREIGN KEY (status_id) REFERENCES status(status_id),
 	CONSTRAINT fk_stores FOREIGN KEY (store_id) REFERENCES stores(store_id)
 );
@@ -122,7 +127,8 @@ CREATE TABLE client_dates(
 	created_at TIMESTAMP DEFAULT NOW(),
 	CONSTRAINT fk_status_dates FOREIGN KEY (status_date_id) REFERENCES status_dates(status_date_id),
 	CONSTRAINT fk_services FOREIGN KEY (service_id) REFERENCES services(service_id),
-	CONSTRAINT fk_employees FOREIGN KEY (employee_id) REFERENCES employees(employee_id),
+	CONSTRAINT fk_employees FOREIGN KEY (employee_id) REFERENCES users(user_id),
+    CONSTRAINT fk_client FOREIGN KEY (client_id) REFERENCES users(user_id),
 	CONSTRAINT fk_stores FOREIGN KEY (store_id) REFERENCES stores(store_id)
 );
 

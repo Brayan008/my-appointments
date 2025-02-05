@@ -1,34 +1,18 @@
 server:
   port: 9091
 spring:
-  application:
-    name: auth
   config:
     import: optional:configserver:http://localhost:8888
-  security:
-    auth0:
-      domain: https://dev-9pn-820c.us.auth0.com
-      client-id: ikWPpY8zw0AkwBUhsKj6rRyqdX2m7Isi
-      client-secret: KPrWBYxz754nn-4pJKUnU8DZnmGpPoU-0dCpQg_fr2ysq0AbIw-9NLxoO4cTec-W
-      security-key: HGJDFd_2asd21ds-dsa2sa
-  datasource:
-    url: jdbc:postgresql://localhost:5432/my-appointments
-    username: postgres
-    password: pass123
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
-    show-sql: true
+  application:
+    name: auth
+  profiles:
+    active: dev
 openapi:
   service:
     title: auth-service doc
     version: 1.0.0
-    url: http://localhost:8080
+    url-gateway: http://localhost:8080
+    url-auth: http://localhost:9091
 springdoc:
   swagger-ui:
     enabled: true

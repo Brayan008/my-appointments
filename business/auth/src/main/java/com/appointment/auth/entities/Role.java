@@ -1,21 +1,16 @@
 package com.appointment.auth.entities;
 
-import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
-@Entity
-@Table(name = "roles")
-@Getter
-@Setter
+@Data
+@Table("roles")
+@AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@AllArgsConstructor
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "role_id")
     private Long id;
-    @Column(unique = true, nullable = false)
     private String name;
-
 }

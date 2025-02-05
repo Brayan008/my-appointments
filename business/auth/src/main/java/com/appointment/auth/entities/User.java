@@ -1,29 +1,20 @@
 package com.appointment.auth.entities;
 
-import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
-@Entity
-@Table(name = "users")
-@Getter
-@Setter
-@Builder
-@RequiredArgsConstructor
+@Data
+@Table("users")
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Long id;
-    @Column(unique = true, nullable = false)
-    private String auth0Id;
-    @Column(unique = true, nullable = false)
+    @Column("user_id")
+    private Long userId;
     private String email;
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
-    @ManyToOne
-    @JoinColumn(name = "status_id")
-    private Status status;
-
+    private Long roleId;
+    private Long statusId;
 }

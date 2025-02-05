@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 @RestController
 @Slf4j
@@ -23,7 +24,7 @@ public class UserController {
         description = "This endpoint is run from auth0 for internal user validations"
     )
     @PostMapping("/validate-login")
-    public UserDTORes validateLoginUser(@RequestBody UserDTOReq userDTOReq) {
+    public Mono<UserDTORes> validateLoginUser(@RequestBody UserDTOReq userDTOReq) {
         return userService.validateLoginUser(userDTOReq);
     }
 

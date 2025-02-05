@@ -15,13 +15,19 @@ import java.util.List;
 @Configuration
 @OpenAPIDefinition
 public class OpenApiConfig {
+
+    @Value("${openapi.service.url-gateway}")
+    private String urlGateway;
+    @Value("${openapi.service.url-auth}")
+    private String urlAuth;
+
+
     @Bean
     public OpenAPI userOpenAPI(
         @Value("${openapi.service.title}") String serviceTitle,
-        @Value("${openapi.service.version}") String serviceVersion,
-        @Value("${openapi.service.url}") String url) {
+        @Value("${openapi.service.version}") String serviceVersion) {
         return new OpenAPI()
-            .servers(List.of(new Server().url(url)))
+            .servers(List.of(new Server().url(urlGateway), new Server().url(urlAuth)))
             .info(new Info().title(serviceTitle).version(serviceVersion))
             .components(new Components()
                 .addSecuritySchemes("bearer-jwt", new SecurityScheme()
