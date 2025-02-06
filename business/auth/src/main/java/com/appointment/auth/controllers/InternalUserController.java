@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 @RestController
 @Slf4j
 @AllArgsConstructor
-@RequestMapping("/internal/auth")
+@RequestMapping("/internal/v1/auth")
 @Tag(name = "Internal User Controller", description = "Endpoints to access internal users endpoints.")
 public class InternalUserController {
 
