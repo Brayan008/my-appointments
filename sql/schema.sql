@@ -18,7 +18,6 @@ CREATE TABLE status (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
-INSERT INTO status (name) VALUES ('ENABLED'), ('DISABLED');
 
 CREATE TABLE roles (
     role_id BIGINT PRIMARY KEY DEFAULT nextval('roles_sequence'),
@@ -26,7 +25,6 @@ CREATE TABLE roles (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
-INSERT INTO roles (name) VALUES ('USER'), ('ADMIN');
 
 CREATE TABLE memberships (
     membership_id BIGINT PRIMARY KEY DEFAULT nextval('memberships_sequence'),
@@ -63,6 +61,7 @@ CREATE TABLE owners(
 	owner_id BIGINT PRIMARY KEY DEFAULT nextval('owners_sequence'),
 	user_id BIGINT NOT NULL,
 	company_id BIGINT NOT NULL,
+	owner_hierarchy VARCHAR(90),
 	created_at TIMESTAMP DEFAULT NOW(),
 	CONSTRAINT fk_users FOREIGN KEY (user_id) REFERENCES users(user_id),
 	CONSTRAINT fk_companies FOREIGN KEY (company_id) REFERENCES companies(company_id)
