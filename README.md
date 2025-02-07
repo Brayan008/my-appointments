@@ -5,9 +5,14 @@ To use the system, it is necessary to start the services in a specific order. Th
 
 1. Start the Config Server
 * The first service to be started is the Config Server, located in the infrastructure module. This service provides configuration for the system's microservices.
-2. Start the Eureka Server
-3. Start the Gateway Server
 
+**Important Note:** Since the repository is private, the following steps must be followed:
+* Create a file named `config.properties` in the root of the project.
+* Add the following properties:  `git.repository` `git.username` `git.password`
+* Follow the repository administrator's instructions to obtain the required properties.
+
+3. Start the Eureka Server
+4. Start the Gateway Server
 
 **Important Note:** To start the services, it is necessary to configure the appropriate profile in the `application.yml` file of each project. The profiles are described below:
 
