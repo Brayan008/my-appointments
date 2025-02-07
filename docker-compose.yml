@@ -16,14 +16,13 @@ services:
   configuration:
     container_name: config-server
     image: appointment/microservice-docker-config-server:0.0.1-SNAPSHOT
+    env_file:
+      - ./config.properties
     environment:
       - JAVA_OPTS=
         -Xms256M
         -Xmx256M
         -DEUREKA_SERVER=${EUREKA_SERVER}
-        -DSPRING_CLOUD_CONFIG_SERVER_GIT_URI=${SPRING_CLOUD_CONFIG_SERVER_GIT_URI}
-        -DSPRING_SECURITY_USER_NAME=${SPRING_SECURITY_USER_NAME}
-        -DSPRING_SECURITY_USER_PASSWORD=${SPRING_SECURITY_USER_PASSWORD}
     depends_on:
       - registry-discovery
     ports:
@@ -45,24 +44,6 @@ services:
       - 8762:8762
     networks:
       - discovery-network
-
-  owner:
-    container_name: owner-service
-    image: appointment/microservice-docker-owner:0.0.1-SNAPSHOT
-    environment:
-      - JAVA_OPTS=
-        -Xms256M
-        -Xmx256M
-        -DEUREKA_SERVER=${EUREKA_SERVER}
-        -Dspring.profiles.active=dev
-    depends_on:
-      - registry-discovery
-      - configuration
-    ports:
-      - 9091:9091
-    networks:
-      - discovery-network
-      - postgres-network
 
   postgres:
     container_name: postgres-service
