@@ -5,11 +5,13 @@ spring:
   application:
     name: employee
   config:
-    import: optional:configserver:http://localhost:8888
+    import:
+      - optional:configserver:http://localhost:8888
+      - optional:file:./config.properties
   cloud:
     config:
-      username: admin
-      password: admin
+      username: ${security.name}
+      password: ${security.password}
       name: db,general,employee
       profile: local
       retry:
