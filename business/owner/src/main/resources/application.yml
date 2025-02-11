@@ -1,4 +1,6 @@
 server:
+  servlet:
+    context-path: /api/v1
   port: 9092
 
 spring:
@@ -13,7 +15,7 @@ spring:
       username: ${security.name}
       password: ${security.password}
       name: db,general,owner
-      profile: local
+      profile: dev
       retry:
         max-attempts: 1
         max-interval: 1000
