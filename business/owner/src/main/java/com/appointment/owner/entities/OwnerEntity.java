@@ -1,5 +1,6 @@
 package com.appointment.owner.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,19 +18,31 @@ import java.util.Objects;
 public class OwnerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "owners_seq")
-    @Column(nullable = true)
+    @Column(nullable = false)
     private Long ownerId;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private CustomersEntity userId;
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "company_id")
-    private CompanyEntity companyId;
+    @Column(name = "company_id", nullable = false)
+    private Long companyId;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    private UserEntity user;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "company_id", insertable = false, updatable = false)
+    private CompanyEntity company;
 
     @Column(nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 
     @Override
     public boolean equals(Object o) {
