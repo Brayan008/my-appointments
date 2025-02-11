@@ -1,5 +1,6 @@
 package com.appointment.owner.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -20,14 +21,20 @@ import java.util.Objects;
 public class StatusEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "status_seq")
-    @Column(nullable = true)
+    @Column(nullable = false)
     private Long statusId;
 
-    @Column(nullable = true, length = 50)
+    @Column(nullable = false, length = 50)
     private String name;
 
     @Column(nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 
     @Override
     public boolean equals(Object o) {

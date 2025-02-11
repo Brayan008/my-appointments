@@ -1,5 +1,6 @@
 package com.appointment.owner.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,29 +18,42 @@ import java.util.Objects;
 public class StoreEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "stores_seq")
-    @Column(nullable = true)
+    @Column(nullable = false)
     private Long storeId;
 
     private String name;
 
-    @Column(nullable = true, length = 200)
+    @Column(nullable = false, length = 200)
     private String address;
 
+    @Column(nullable = false)
     private String description;
 
-    @Column(nullable = true, length = 400)
+    @Column(nullable = false, length = 400)
     private String coordinates;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "status_id")
-    private StatusEntity statusId;
+    @Column(name = "status_id", nullable = false)
+    private Long statusId;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "company_id")
-    private CompanyEntity companyId;
+    @Column(name = "company_id", nullable = false)
+    private Long companyId;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "status_id", insertable = false, updatable = false)
+    private StatusEntity status;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "company_id", insertable = false, updatable = false)
+    private CompanyEntity company;
 
     @Column(nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 
     @Override
     public boolean equals(Object o) {
