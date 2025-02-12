@@ -7,6 +7,7 @@ import com.appointment.owner.repositories.CompanyRepository;
 import com.appointment.owner.services.CompanyService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,7 +27,8 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public CompanyEntity getCompanyById(Long companyId) {
         return companyRepository.findById(companyId)
-            .orElseThrow(() -> new ObjectNotFoundException("Company not found with id " + companyId));
+            .orElseThrow(() -> new ObjectNotFoundException(HttpStatus.NOT_FOUND.value(),
+                "Company not found with id " + companyId, HttpStatus.NOT_FOUND));
     }
 
     @Override

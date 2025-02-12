@@ -36,9 +36,9 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(ObjectNotFoundException.class)
-    public ResponseEntity<StandardizedApiExceptionResponse> handleObjectNotFoundException(BusinessException ex) {
+    public ResponseEntity<StandardizedApiExceptionResponse> handleObjectNotFoundException(ObjectNotFoundException ex) {
         StandardizedApiExceptionResponse response = new StandardizedApiExceptionResponse("Error de validacion",
-            ex.getCode(), ex.getMessage());
-        return new ResponseEntity(response, HttpStatus.PARTIAL_CONTENT);
+            String.valueOf(ex.getCode()), ex.getMessage());
+        return new ResponseEntity(response, HttpStatus.NOT_FOUND);
     }
 }

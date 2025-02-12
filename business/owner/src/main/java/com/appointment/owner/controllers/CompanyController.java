@@ -53,14 +53,16 @@ public class CompanyController {
         return ResponseEntity.ok(this.companyBusiness.updateCompany(companyRequest, companyId));
     }
 
-    @PutMapping("/{companyId}/enable")
-    public ResponseEntity<CompanyResponse> enableById(@PathVariable Long companyId){
+    @Operation(summary = "enabled company")
+    @PutMapping("/{companyId}/enabled")
+    public ResponseEntity<?> enableCompany(@PathVariable(name = "companyId") Long companyId){
         log.info("enabled company " + companyId);
         return ResponseEntity.ok(companyBusiness.enableById(companyId));
     }
 
+    @Operation(summary = "disabled company")
     @PutMapping("/{companyId}/disabled")
-    public ResponseEntity<CompanyResponse> disableById(@PathVariable Long companyId){
+    public ResponseEntity<?> disableCompany(@PathVariable(name = "companyId") Long companyId){
         log.info("disable company " + companyId);
         return ResponseEntity.ok(companyBusiness.disableById(companyId));
     }

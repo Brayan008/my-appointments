@@ -40,7 +40,7 @@ public class StandardizedApiExceptionResponse {
 
     @Schema(description = "A URI that identifies the specific occurrence of the error", name = "detail", required = true,
         example = "/errors/authentication/not-authorized/01")
-    private String instance = "/errors/uncategorized/bank";
+    private String instance = "/errors/uncategorized";
 
     public StandardizedApiExceptionResponse(String title, String code, String detail) {
         super();
