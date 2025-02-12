@@ -1,13 +1,81 @@
 package com.appointment.owner.controllers;
 
-import com.appointment.owner.services.CompanyService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.appointment.owner.business.CompanyBusiness;
+import com.appointment.owner.dtos.request.CompanyRequest;
+import com.appointment.owner.dtos.response.CompanyResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@Tag(name = "company resources", description = "This APi serve all functionality for management company")
+@Slf4j
+@AllArgsConstructor
 @RestController
 @RequestMapping("/company")
 public class CompanyController {
-    @Autowired
-    private CompanyService companyService;
+
+    private final CompanyBusiness companyBusiness;
+
+    @Operation(summary = "get all companies")
+    @GetMapping("/companies")
+    public ResponseEntity<?> companies(){
+        log.info("Get: companies ");
+        List<CompanyResponse> companies = this.companyBusiness.getCompanies();
+        return ResponseEntity.ok(companies);
+    }
+
+    @Operation(summary = "get a company given a company id")
+    @GetMapping("/{companyId}")
+    public ResponseEntity<?> companyById(@PathVariable(name = "companyId") Long companyId){
+        log.info("Get: company {}", companyId);
+        return ResponseEntity.ok(this.companyBusiness.getCompanyById(companyId));
+    }
+
+    @Operation(summary = "create a company")
+    @PostMapping()
+    public ResponseEntity<?> company(@RequestBody CompanyRequest companyRequest){
+        log.info("create: company {}", companyRequest.getName());
+        CompanyResponse newCompany = this.companyBusiness.createCompany(companyRequest);
+        return new ResponseEntity<>(newCompany, HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "update a company by company id")
+    @PutMapping("/{companyId}")
+    public ResponseEntity<?> updateCompany(@RequestBody CompanyRequest companyRequest,
+                                           @PathVariable(name = "companyId") Long companyId){
+        log.info("updating: company {}", companyRequest.getName());
+        return ResponseEntity.ok(this.companyBusiness.updateCompany(companyRequest, companyId));
+    }
+
+    @PutMapping("/{companyId}/enable")
+    public ResponseEntity<CompanyResponse> enableById(@PathVariable Long companyId){
+        log.info("enabled company " + companyId);
+        return ResponseEntity.ok(companyBusiness.enableById(companyId));
+    }
+
+    @PutMapping("/{companyId}/disabled")
+    public ResponseEntity<CompanyResponse> disableById(@PathVariable Long companyId){
+        log.info("disable company " + companyId);
+        return ResponseEntity.ok(companyBusiness.disableById(companyId));
+    }
+
+    @Operation(summary = "get enabled companies")
+    @GetMapping("/enabled")
+    public ResponseEntity<?> getEnabledCompany(){
+        log.info("Get enabled companies");
+        return ResponseEntity.ok(this.companyBusiness.getEnabledCompany());
+    }
+
+    @Operation(summary = "get disabled companies")
+    @GetMapping("/disabled")
+    public ResponseEntity<?> getDisabledCompany(){
+        log.info("Get enabled companies");
+        return ResponseEntity.ok(this.companyBusiness.getDisabledCompany());
+    }
 }
