@@ -25,6 +25,13 @@ public class MembershipEntity {
     @Column(nullable = false, length = 255)
     private String description;
 
+    @Column(name = "status_id", nullable = false)
+    private Long statusId;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "status_id", insertable = false, updatable = false)
+    private StatusEntity status;
+
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
