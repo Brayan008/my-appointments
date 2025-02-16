@@ -29,6 +29,8 @@ CREATE TABLE roles (
 CREATE TABLE memberships (
     membership_id BIGINT PRIMARY KEY DEFAULT nextval('memberships_sequence'),
     description TEXT NOT NULL,
+    status_id BIGINT NOT NULL,
+    CONSTRAINT fk_status FOREIGN KEY (status_id) REFERENCES status(status_id),
     created_at TIMESTAMP DEFAULT NOW()
 );
 
