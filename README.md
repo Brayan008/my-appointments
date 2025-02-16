@@ -8,7 +8,7 @@ To use the system, it is necessary to start the services in a specific order. Th
 
 **Important Note:** Since the repository is private, the following steps must be followed:
 * Create a file named `config.properties` in the root of the project.
-* Add the following properties:  `git.repository` `git.username` `git.password`
+* Add the following properties:  `git.repository` `git.username` `git.password` `security.name` `security.password`
 * Follow the repository administrator's instructions to obtain the required properties.
 
 3. Start the Eureka Server
