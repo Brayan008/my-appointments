@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -22,8 +23,12 @@ public class ServiceEntity {
     @Column(nullable = false)
     private Long serviceId;
 
+    @Column(nullable = false, length = 255)
     private String name;
+
+    @Column(nullable = false)
     private BigDecimal price;
+
     @Column(name = "store_id", nullable = false)
     private Long storeId;
 
@@ -31,14 +36,10 @@ public class ServiceEntity {
     @JoinColumn(name = "store_id", insertable = false, updatable = false)
     private StoreEntity store;
 
-    @Column(nullable = false)
+    @CreationTimestamp
+    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
 
     @Override
     public boolean equals(Object o) {
