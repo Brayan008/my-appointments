@@ -4,7 +4,7 @@ INSERT INTO roles(name) VALUES ('CLIENT'), ('ADMIN'), ('EMPLOYEE');
 
 INSERT INTO users(email, status_id, role_id) VALUES ('armando@gmail.com', 1, 3), ('brayan@gmail.com', 1, 2);
 
-INSERT INTO memberships(description) VALUES ('PREMIUM'), ('BASIC');
+INSERT INTO memberships(description, status_id) VALUES ('PREMIUM', 1), ('BASIC', 1);
 
 INSERT INTO companies(name, logo, phone_number, instagram_url, facebook_url, membership_id, status_id)
 VALUES('Appointments', 'appointments.png', '6544922933', 'https://www.instagram.com/', 'https://www.facebook.com/', 1, 1);

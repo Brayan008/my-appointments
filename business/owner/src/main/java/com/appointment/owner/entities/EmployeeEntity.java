@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -35,14 +36,10 @@ public class EmployeeEntity {
     @JoinColumn(name = "store_id", insertable = false, updatable = false )
     private StoreEntity store;
 
-    @Column(nullable = false)
+    @CreationTimestamp
+    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
 
     @Override
     public boolean equals(Object o) {

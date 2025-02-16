@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -19,8 +20,9 @@ public class CompanyEntity {
     @Column(nullable = false)
     private Long companyId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
+    @Column(nullable = false)
     private String logo;
     @Column(nullable = false, length = 15)
     private String phoneNumber;
@@ -41,14 +43,10 @@ public class CompanyEntity {
     @JoinColumn(name = "status_id", insertable = false, updatable = false)
     private StatusEntity status;
 
-    @Column(nullable = false)
+    @CreationTimestamp
+    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
 
     @Override
     public boolean equals(Object o) {
