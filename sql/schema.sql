@@ -95,9 +95,11 @@ CREATE TABLE employees(
 	employee_id BIGINT PRIMARY KEY DEFAULT nextval('employees_sequence'),
 	user_id BIGINT NOT NULL,
 	store_id BIGINT NOT NULL,
+	status_id BIGINT NOT NULL,
 	created_at TIMESTAMP DEFAULT NOW(),
 	CONSTRAINT fk_users FOREIGN KEY (user_id) REFERENCES users(user_id),
-	CONSTRAINT fk_stores FOREIGN KEY (store_id) REFERENCES stores(store_id)
+	CONSTRAINT fk_stores FOREIGN KEY (store_id) REFERENCES stores(store_id),
+	CONSTRAINT fk_status FOREIGN KEY (status_id) REFERENCES status(status_id)
 );
 
 CREATE TABLE user_favorite_stores(
