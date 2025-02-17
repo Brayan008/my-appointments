@@ -29,6 +29,7 @@
     <spring-boot.version>3.4.2</spring-boot.version>
     <spring-cloud.version>2024.0.0</spring-cloud.version>
     <dockerfile-maven-version>1.4.13</dockerfile-maven-version>
+    <skip.docker>true</skip.docker>
   </properties>
 
   <dependencyManagement>
@@ -144,6 +145,7 @@
           <buildArgs>
             <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
           </buildArgs>
+          <skip>${skip.docker}</skip>
         </configuration>
       </plugin>
 
@@ -170,4 +172,18 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>enable-docker</id>
+      <activation>
+        <file>
+          <exists>Dockerfile</exists>
+        </file>
+      </activation>
+      <properties>
+        <skip.docker>false</skip.docker>
+      </properties>
+    </profile>
+  </profiles>
 </project>
