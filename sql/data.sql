@@ -1,8 +1,8 @@
-INSERT INTO status(name) VALUES ('ENABLED'), ('DISABLED'), ('OWNER_PENDING_APPROVE');
+INSERT INTO status(name) VALUES ('ENABLED'), ('DISABLED');
 
-INSERT INTO roles(name) VALUES ('CLIENT'), ('ADMIN'), ('EMPLOYEE');
+INSERT INTO roles(name) VALUES ('USER'), ('ADMIN');
 
-INSERT INTO users(email, status_id, role_id) VALUES ('armando@gmail.com', 1, 3), ('brayan@gmail.com', 1, 2);
+INSERT INTO users(email, status_id, role_id) VALUES ('armando@gmail.com', 1, 2), ('brayan@gmail.com', 1, 2);
 
 INSERT INTO memberships(description, status_id) VALUES ('PREMIUM', 1), ('BASIC', 1);
 
