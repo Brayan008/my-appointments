@@ -31,15 +31,15 @@ public class EmployeeEntity {
     @Column(name = "status_id", nullable = false)
     private Long statusId;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private UserEntity user;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "store_id", insertable = false, updatable = false )
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "store_id", insertable = false, updatable = false)
     private StoreEntity store;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "status_id", insertable = false, updatable = false)
     private StatusEntity status;
 
