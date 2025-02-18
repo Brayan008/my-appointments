@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono;
 @RestController
 @Slf4j
 @AllArgsConstructor
-@RequestMapping("/api/auth/user")
+@RequestMapping("/api/v1/auth/user")
 @Tag(name = "Users Controller", description = "Endpoints management users.")
 public class UserController {
 
