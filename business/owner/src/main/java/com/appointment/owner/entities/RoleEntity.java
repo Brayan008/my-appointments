@@ -2,14 +2,13 @@ package com.appointment.owner.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -25,6 +24,9 @@ public class RoleEntity {
     private Long roleId;
 
     private String name;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "role")
+    private List<UserEntity> users;
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")

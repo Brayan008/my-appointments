@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Check;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
@@ -26,6 +27,7 @@ public class ServiceEntity {
     @Column(nullable = false, length = 255)
     private String name;
 
+    @Check(constraints = "rating >= 0")
     @Column(nullable = false)
     private BigDecimal price;
 
