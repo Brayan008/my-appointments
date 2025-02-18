@@ -87,7 +87,9 @@ CREATE TABLE services(
 	name TEXT NOT NULL,
 	price NUMERIC(12, 2) NOT NULL,
 	store_id BIGINT NOT NULL,
+	status_id BIGINT NOT NULL,
 	created_at TIMESTAMP DEFAULT NOW(),
+	CONSTRAINT fk_status FOREIGN KEY (status_id) REFERENCES status(status_id),
 	CONSTRAINT fk_stores FOREIGN KEY (store_id) REFERENCES stores(store_id)
 );
 

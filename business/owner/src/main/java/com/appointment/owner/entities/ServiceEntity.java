@@ -29,6 +29,13 @@ public class ServiceEntity {
     @Column(nullable = false)
     private BigDecimal price;
 
+    @Column(name = "status_id", nullable = false)
+    private Long statusId;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "status_id", insertable = false, updatable = false)
+    private StatusEntity status;
+
     @Column(name = "store_id", nullable = false)
     private Long storeId;
 
