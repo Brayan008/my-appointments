@@ -28,6 +28,9 @@ public class OwnerEntity {
     @Column(name = "company_id", nullable = false)
     private Long companyId;
 
+    @Column(name = "owner_hierarchy", nullable = false)
+    private String ownerHierarchy;
+
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private UserEntity user;

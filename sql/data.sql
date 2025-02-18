@@ -15,6 +15,6 @@ INSERT INTO stores(name, address, description, coordinates, status_id, company_i
 VALUES('Developers', 'Av. Tecnológico Ciudad Industrial, Las Aves, 38010 Celaya, Gto',
 'Una empresa de desarrollo de software', '1234', 1, 1);
 
-INSERT INTO services (name, price, store_id) VALUES('Mobile Developer', 1000.20, 1);
+INSERT INTO services (name, price, store_id, status_id) VALUES('Mobile Developer', 1000.20, 1, 1);
 
 INSERT INTO employees (user_id, store_id) VALUES (1, 1);
