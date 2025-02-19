@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 public class EmployeeRequest implements Serializable {
-    private Long employeeId;
     private Long userId;
     private Long storeId;
+    private Long statusId;
 }

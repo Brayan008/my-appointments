@@ -20,5 +20,5 @@ public class EmployeeResponse implements Serializable {
     private Long storeId;
     private UserResponse user;
     private StoreResponse store;
-    private LocalDateTime createdAt;
+    private StatusResponse status;
 }
