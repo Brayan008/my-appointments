@@ -11,21 +11,19 @@ import org.springframework.http.HttpStatus;
 public class ObjectNotFoundException extends RuntimeException {
     private Long id;
     private int code;
-    private String objectNotFoundName;
+    private String message;
     private HttpStatus httpStatus;
     private Throwable cause;
 
     public ObjectNotFoundException(int code, String message, HttpStatus httpStatus) {
-        super(message);
         this.code = code;
+        this.message = message;
         this.httpStatus = httpStatus;
         this.cause = null;
     }
 
-    public ObjectNotFoundException(String objectNotFoundName, String message,
-                                   Throwable cause) {
-        super(message, cause);
-        this.objectNotFoundName = objectNotFoundName;
+    public ObjectNotFoundException(String message, Throwable cause) {
+        this.message = message;
         this.cause = cause;
     }
 
@@ -34,7 +32,7 @@ public class ObjectNotFoundException extends RuntimeException {
         String message = super.getMessage() == null ? "": super.getMessage();
         return message
             .concat("( object not found: ")
-            .concat(this.objectNotFoundName)
+            .concat(this.message)
             .concat(")");
     }
 }
