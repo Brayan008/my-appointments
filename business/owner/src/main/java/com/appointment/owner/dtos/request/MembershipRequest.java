@@ -13,4 +13,5 @@ import java.io.Serializable;
 @Builder
 public class MembershipRequest implements Serializable {
     private String description;
+    private Long statusId;
 }
