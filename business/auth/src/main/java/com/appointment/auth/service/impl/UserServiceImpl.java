@@ -2,14 +2,12 @@ package com.appointment.auth.service.impl;
 
 import com.appointment.auth.dto.UserDTOReq;
 import com.appointment.auth.dto.UserDTORes;
-import com.appointment.auth.entities.Role;
-import com.appointment.auth.entities.Status;
 import com.appointment.auth.entities.User;
 import com.appointment.auth.enums.StatusEnum;
-import com.appointment.auth.exceptions.BadRequestException;
-import com.appointment.auth.exceptions.CustomGenericException;
 import com.appointment.auth.repository.UserRepository;
 import com.appointment.auth.service.UserService;
+import com.appointment.commons.exceptions.BadRequestException;
+import com.appointment.commons.exceptions.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -37,7 +35,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(userDTOReq.getEmail())
             .flatMap(userFound -> {
                 if (userFound.getStatusId().equals(StatusEnum.DISABLED.getId())) {
-                    return Mono.error(new CustomGenericException(
+                    return Mono.error(new BusinessException(
                         "This user is disabled",
                         "This user is disabled from my-appointments services.",
                         HttpStatus.CONFLICT.toString(),

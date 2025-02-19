@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 public class BusinessException extends Exception {
     private Long id;
     private String code;
+    private String detail;
     private HttpStatus httpStatus;
 
     public BusinessException(Long id, String code, String message, HttpStatus httpStatus) {
@@ -19,9 +20,10 @@ public class BusinessException extends Exception {
         this.httpStatus = httpStatus;
     }
 
-    public BusinessException(String code, String message, HttpStatus httpStatus) {
+    public BusinessException(String code, String message, String detail, HttpStatus httpStatus) {
         super(message);
         this.code = code;
+        this.detail = detail;
         this.httpStatus = httpStatus;
     }
 

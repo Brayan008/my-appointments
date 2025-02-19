@@ -1,14 +1,17 @@
-package com.appointment.owner.commons.exception;
-
-import java.net.UnknownHostException;
+package com.appointment.commons;
 
 import com.appointment.commons.dtos.StandardizedApiExceptionResponse;
+import com.appointment.commons.exceptions.BadRequestException;
 import com.appointment.commons.exceptions.BusinessException;
 import com.appointment.commons.exceptions.ObjectNotFoundException;
+import io.swagger.v3.oas.annotations.Hidden;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.net.UnknownHostException;
 
 /**
  * Standard http communication have five levels of response codes
@@ -19,26 +22,47 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * 500-level (Server error) — Server failed to fulfill a valid request due to an error with server
  */
 @RestControllerAdvice
+@Slf4j
+@Hidden
 public class ApiExceptionHandler {
 
     @ExceptionHandler(UnknownHostException.class)
     public ResponseEntity<StandardizedApiExceptionResponse> handleUnknownHostException(UnknownHostException ex) {
         StandardizedApiExceptionResponse response = new StandardizedApiExceptionResponse("Error de conexion",
             "error-1024", ex.getMessage());
-        return new ResponseEntity(response, HttpStatus.PARTIAL_CONTENT);
+        log.info("UnknownHostException {} ", ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<StandardizedApiExceptionResponse> handleBusinessException(BusinessException ex) {
-        StandardizedApiExceptionResponse response = new StandardizedApiExceptionResponse("Error de validacion",
-            ex.getCode(), ex.getMessage());
-        return new ResponseEntity(response, HttpStatus.PARTIAL_CONTENT);
+        StandardizedApiExceptionResponse response = new StandardizedApiExceptionResponse(ex.getMessage(),
+            ex.getCode(), ex.getDetail());
+        log.info("BusinessException {} {}", ex.getMessage(), ex.getCode());
+        return new ResponseEntity<>(response, ex.getHttpStatus());
     }
 
     @ExceptionHandler(ObjectNotFoundException.class)
     public ResponseEntity<StandardizedApiExceptionResponse> handleObjectNotFoundException(ObjectNotFoundException ex) {
         StandardizedApiExceptionResponse response = new StandardizedApiExceptionResponse("Error de validacion",
             String.valueOf(ex.getCode()), ex.getMessage());
-        return new ResponseEntity(response, HttpStatus.NOT_FOUND);
+        log.info("ObjectNotFoundException {} {}", ex.getMessage(), ex.getCode());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(value = BadRequestException.class)
+    public ResponseEntity<Object> handleBadRequest(BadRequestException ex){
+        StandardizedApiExceptionResponse response = new StandardizedApiExceptionResponse(ex.getMessage(),
+            String.valueOf(HttpStatus.BAD_REQUEST), ex.getDetail());
+        log.info("BadRequestException {} {}", ex.getMessage(), ex.getDetail());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = Exception.class)
+    public ResponseEntity<Object> handleException(Exception ex){
+        log.error("Exception {}", ex.getMessage());
+        StandardizedApiExceptionResponse response = new StandardizedApiExceptionResponse("Error de generico",
+            String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR), ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
