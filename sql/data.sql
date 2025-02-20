@@ -17,4 +17,4 @@ VALUES('Developers', 'Av. Tecnológico Ciudad Industrial, Las Aves, 38010 Celaya
 
 INSERT INTO services (name, price, store_id, status_id) VALUES('Mobile Developer', 1000.20, 1, 1);
 
-INSERT INTO employees (user_id, store_id) VALUES (1, 1);
+INSERT INTO employees (user_id, store_id, status_id) VALUES (1, 1, 1);

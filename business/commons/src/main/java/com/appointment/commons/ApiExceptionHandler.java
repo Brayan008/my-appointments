@@ -3,8 +3,8 @@ package com.appointment.commons;
 import com.appointment.commons.dtos.StandardizedApiExceptionResponse;
 import com.appointment.commons.exceptions.BadRequestException;
 import com.appointment.commons.exceptions.BusinessException;
+import com.appointment.commons.exceptions.NotFoundException;
 import com.appointment.commons.exceptions.ObjectNotFoundException;
-import io.swagger.v3.oas.annotations.Hidden;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,6 @@ import java.net.UnknownHostException;
  */
 @RestControllerAdvice
 @Slf4j
-@Hidden
 public class ApiExceptionHandler {
 
     @ExceptionHandler(UnknownHostException.class)
@@ -64,5 +63,13 @@ public class ApiExceptionHandler {
         StandardizedApiExceptionResponse response = new StandardizedApiExceptionResponse("Error de generico",
             String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR), ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(value = NotFoundException.class)
+    public ResponseEntity<Object> handleNotFoundException(Exception ex){
+        log.error("Exception {}", ex.getMessage());
+        StandardizedApiExceptionResponse response = new StandardizedApiExceptionResponse("Error de generico",
+            String.valueOf(HttpStatus.NOT_FOUND), ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 }

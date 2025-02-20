@@ -2,11 +2,20 @@ server:
   port: 9091
 spring:
   config:
-    import: optional:configserver:http://localhost:8888
+    import:
+      - optional:configserver:http://localhost:8888
+      - optional:file:./config.properties
   application:
     name: auth
-  profiles:
-    active: dev
+  cloud:
+    config:
+      username: ${security.name}
+      password: ${security.password}
+      name: auth
+      profile: dev
+      retry:
+        max-attempts: 1
+        max-interval: 1000
 openapi:
   service:
     title: auth-service doc

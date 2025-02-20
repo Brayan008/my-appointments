@@ -2,10 +2,20 @@ server:
   port: 8080
 spring:
   config:
-    import: optional:configserver:http://localhost:8888/
+    import:
+      - optional:configserver:http://localhost:8888
+      - optional:file:./config.properties
   application:
     name: gateway-server
   cloud:
+    config:
+      username: ${security.name}
+      password: ${security.password}
+      name: gateway-server
+      profile: dev
+      retry:
+        max-attempts: 1
+        max-interval: 1000
     gateway:
       discovery:
         locator:

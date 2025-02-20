@@ -1,7 +1,7 @@
 server:
+  port: 9095
   servlet:
     context-path: /internal/v1
-  port: 9095
 spring:
   application:
     name: database
@@ -33,4 +33,4 @@ springdoc:
     path: /swagger-ui.html
   api-docs:
     enabled: true
-    path: /internal/database/v3/api-docs
+    path: /database/v3/api-docs
