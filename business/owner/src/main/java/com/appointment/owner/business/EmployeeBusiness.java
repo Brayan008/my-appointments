@@ -1,8 +1,8 @@
 package com.appointment.owner.business;
 
-import com.appointment.owner.dtos.request.EmployeeRequest;
-import com.appointment.owner.dtos.response.EmployeeResponse;
-import com.appointment.owner.dtos.response.UserResponse;
+import com.appointment.commons.dtos.request.EmployeeRequest;
+import com.appointment.commons.dtos.response.EmployeeResponse;
+import com.appointment.commons.dtos.response.UserResponse;
 
 import java.util.List;
 

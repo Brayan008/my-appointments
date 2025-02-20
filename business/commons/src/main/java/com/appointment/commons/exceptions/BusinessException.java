@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 @Setter
 @ToString
 @NoArgsConstructor
-public class BusinessException extends Exception {
+public class BusinessException extends RuntimeException {
     private Long id;
     private String code;
     private String detail;

@@ -1,8 +1,8 @@
 package com.appointment.owner.controllers;
 
+import com.appointment.commons.dtos.request.CompanyRequest;
+import com.appointment.commons.dtos.response.CompanyResponse;
 import com.appointment.owner.business.CompanyBusiness;
-import com.appointment.owner.dtos.request.CompanyRequest;
-import com.appointment.owner.dtos.response.CompanyResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;

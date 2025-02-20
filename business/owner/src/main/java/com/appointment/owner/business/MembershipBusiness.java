@@ -1,7 +1,7 @@
 package com.appointment.owner.business;
 
-import com.appointment.owner.dtos.request.MembershipRequest;
-import com.appointment.owner.dtos.response.MembershipResponse;
+import com.appointment.commons.dtos.request.MembershipRequest;
+import com.appointment.commons.dtos.response.MembershipResponse;
 
 import java.util.List;
 

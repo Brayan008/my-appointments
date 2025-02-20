@@ -1,21 +1,22 @@
 package com.appointment.owner.services;
 
-import com.appointment.owner.entities.MembershipEntity;
+import com.appointment.commons.dtos.request.MembershipRequest;
+import com.appointment.commons.dtos.response.MembershipResponse;
 
 import java.util.List;
 
 public interface MembershipService {
-    List<MembershipEntity> getMemberships();
+    List<MembershipResponse> getMemberships();
 
-    MembershipEntity getMembershipById(Long membershipId);
+    MembershipResponse getMembershipById(Long membershipId);
 
-    MembershipEntity createMembership(MembershipEntity membership);
+    MembershipResponse createMembership(MembershipRequest membership);
 
-    MembershipEntity updateMembership(MembershipEntity membership, Long membershipId);
+    MembershipResponse updateMembership(MembershipRequest membership, Long membershipId);
 
-    MembershipEntity disableById(Long membershipId);
+    MembershipResponse disableById(Long membershipId);
 
-    MembershipEntity enableById(Long membershipId);
+    MembershipResponse enableById(Long membershipId);
 
-    List<MembershipEntity> findByStatusId(Long statusId);
+    List<MembershipResponse> findByStatusId(Long statusId);
 }

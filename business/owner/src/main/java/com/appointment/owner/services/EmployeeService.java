@@ -1,24 +1,25 @@
 package com.appointment.owner.services;
 
-import com.appointment.owner.entities.EmployeeEntity;
-import com.appointment.owner.entities.UserEntity;
+import com.appointment.commons.dtos.request.EmployeeRequest;
+import com.appointment.commons.dtos.response.EmployeeResponse;
+import com.appointment.commons.dtos.response.UserResponse;
 
 import java.util.List;
 
 public interface EmployeeService {
-    List<EmployeeEntity> getEmployees();
+    List<EmployeeResponse> getEmployees();
 
-    EmployeeEntity getEmployeeById(Long employeeId);
+    EmployeeResponse getEmployeeById(Long employeeId);
 
-    EmployeeEntity createEmployee(EmployeeEntity employee);
+    EmployeeResponse createEmployee(EmployeeRequest employee);
 
-    EmployeeEntity updateEmployee(EmployeeEntity currentEmployee, Long employeeId);
+    EmployeeResponse updateEmployee(EmployeeRequest currentEmployee, Long employeeId);
 
-    EmployeeEntity disableById(Long employeeId);
+    EmployeeResponse disableById(Long employeeId);
 
-    EmployeeEntity enableById(Long employeeId);
+    EmployeeResponse enableById(Long employeeId);
 
-    List<EmployeeEntity> findByStatusId(Long statusId);
+    List<EmployeeResponse> findByStatusId(Long statusId);
 
-    List<UserEntity> getEmployeesAssociated(Long storeId);
+    List<UserResponse> getEmployeesAssociated(Long storeId);
 }

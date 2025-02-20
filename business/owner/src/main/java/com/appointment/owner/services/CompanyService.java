@@ -1,21 +1,22 @@
 package com.appointment.owner.services;
 
-import com.appointment.owner.entities.CompanyEntity;
+import com.appointment.commons.dtos.request.CompanyRequest;
+import com.appointment.commons.dtos.response.CompanyResponse;
 
 import java.util.List;
 
 public interface CompanyService {
-    List<CompanyEntity> getCompanies();
+    List<CompanyResponse> getCompanies();
 
-    CompanyEntity getCompanyById(Long companyId);
+    CompanyResponse getCompanyById(Long companyId);
 
-    CompanyEntity createCompany(CompanyEntity company);
+    CompanyResponse createCompany(CompanyRequest company);
 
-    CompanyEntity updateCompany(CompanyEntity company, Long companyId);
+    CompanyResponse updateCompany(CompanyRequest company, Long companyId);
 
-    CompanyEntity disableById(Long companyId);
+    CompanyResponse disableById(Long companyId);
 
-    CompanyEntity enableById(Long companyId);
+    CompanyResponse enableById(Long companyId);
 
-    List<CompanyEntity> findByStatusId(Long statusId);
+    List<CompanyResponse> findByStatusId(Long statusId);
 }

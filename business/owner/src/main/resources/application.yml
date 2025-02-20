@@ -22,3 +22,6 @@ eureka:
   client:
     serviceUrl:
       defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka}
+microservice:
+  endpoint:
+    database: http://database/internal/v1/

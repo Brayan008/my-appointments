@@ -1,72 +1,152 @@
 package com.appointment.owner.services.impl;
 
-import com.appointment.commons.enums.Status;
-import com.appointment.commons.exceptions.ObjectNotFoundException;
-import com.appointment.owner.entities.EmployeeEntity;
-import com.appointment.owner.entities.UserEntity;
-import com.appointment.owner.repositories.EmployeeRepository;
+import com.appointment.commons.dtos.StandardizedApiExceptionResponse;
+import com.appointment.commons.dtos.request.EmployeeRequest;
+import com.appointment.commons.dtos.response.EmployeeResponse;
+import com.appointment.commons.dtos.response.UserResponse;
+import com.appointment.commons.exceptions.BusinessException;
+import com.appointment.owner.commons.mappers.ExceptionMapper;
 import com.appointment.owner.services.EmployeeService;
-import lombok.AllArgsConstructor;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 
 import java.util.List;
 
 @Service
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private final EmployeeRepository employeeRepository;
+    private RestClient restClient;
+    private final ExceptionMapper exceptionMapper;
 
-    @Override
-    public List<EmployeeEntity> getEmployees() {
-        return employeeRepository.findAll();
+    @Value("${microservice.endpoint.database}")
+    private String domain;
+
+    @PostConstruct
+    public void init() {
+        this.restClient = RestClient.builder()
+            .baseUrl(domain)
+            .build();
     }
 
     @Override
-    public EmployeeEntity getEmployeeById(Long employeeId) {
-        return employeeRepository.findById(employeeId)
-            .orElseThrow(() -> new ObjectNotFoundException(HttpStatus.NOT_FOUND.value(),
-                "employee not found with id " + employeeId, HttpStatus.NOT_FOUND));
+    public List<EmployeeResponse> getEmployees() {
+        return restClient
+            .get()
+            .uri("/employees")
+            .retrieve()
+            .onStatus(HttpStatusCode::isError, (req, res) -> {
+                log.error("Error: {}", res);
+                StandardizedApiExceptionResponse error = exceptionMapper.apiExceptionMapper(res.getBody());
+                throw new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), HttpStatus.valueOf(res.getStatusCode().value()));
+            })
+            .body(new ParameterizedTypeReference<>() {});
     }
 
     @Override
-    public EmployeeEntity createEmployee(EmployeeEntity employee) {
-        return employeeRepository.save(employee);
+    public EmployeeResponse getEmployeeById(Long employeeId) {
+        return restClient
+            .get()
+            .uri("/employees/"+employeeId)
+            .retrieve()
+            .onStatus(HttpStatusCode::isError, (req, res) -> {
+                log.error("Error: {}", res);
+                StandardizedApiExceptionResponse error = exceptionMapper.apiExceptionMapper(res.getBody());
+                throw new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), HttpStatus.valueOf(res.getStatusCode().value()));
+            })
+            .body(EmployeeResponse.class);
     }
 
     @Override
-    public EmployeeEntity updateEmployee(EmployeeEntity currentEmployee, Long employeeId) {
-        EmployeeEntity employeeUpdated = this.getEmployeeById(employeeId);
-        employeeUpdated.setUserId(currentEmployee.getUserId());
-        employeeUpdated.setStoreId(currentEmployee.getStoreId());
-        employeeUpdated.setStatusId(currentEmployee.getStatusId());
-        return this.createEmployee(employeeUpdated);
+    public EmployeeResponse createEmployee(EmployeeRequest employeeRequest) {
+        return restClient
+            .post()
+            .uri("/employees")
+            .body(employeeRequest)
+            .retrieve()
+            .onStatus(HttpStatusCode::isError, (req, res) -> {
+                log.error("Error: {}", res);
+                StandardizedApiExceptionResponse error = exceptionMapper.apiExceptionMapper(res.getBody());
+                throw new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), HttpStatus.valueOf(res.getStatusCode().value()));
+            })
+            .body(EmployeeResponse.class);
     }
 
     @Override
-    public EmployeeEntity disableById(Long employeeId) {
-        EmployeeEntity currentEmployee = this.getEmployeeById(employeeId);
-        currentEmployee.setStatusId(Status.DISABLED.getCode());
-        return this.createEmployee(currentEmployee);
+    public EmployeeResponse updateEmployee(EmployeeRequest employeeRequest, Long employeeId) {
+        return restClient
+            .put()
+            .uri("/employees/"+employeeId)
+            .body(employeeRequest)
+            .retrieve()
+            .onStatus(HttpStatusCode::isError, (req, res) -> {
+                log.error("Error: {}", res);
+                StandardizedApiExceptionResponse error = exceptionMapper.apiExceptionMapper(res.getBody());
+                throw new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), HttpStatus.valueOf(res.getStatusCode().value()));
+            })
+            .body(EmployeeResponse.class);
+    }
+    @Override
+    public EmployeeResponse disableById(Long employeeId) {
+        return restClient
+            .put()
+            .uri("/employees/"+employeeId+"/disabled")
+            .retrieve()
+            .onStatus(HttpStatusCode::isError, (req, res) -> {
+                log.error("Error: {}", res);
+                StandardizedApiExceptionResponse error = exceptionMapper.apiExceptionMapper(res.getBody());
+                throw new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), HttpStatus.valueOf(res.getStatusCode().value()));
+            })
+            .body(EmployeeResponse.class);
     }
 
     @Override
-    public EmployeeEntity enableById(Long employeeId) {
-        EmployeeEntity currentEmployee = this.getEmployeeById(employeeId);
-        currentEmployee.setStatusId(Status.ENABLED.getCode());
-        return this.createEmployee(currentEmployee);
+    public EmployeeResponse enableById(Long employeeId) {
+        return restClient
+            .put()
+            .uri("/employees/"+employeeId+"/enabled")
+            .retrieve()
+            .onStatus(HttpStatusCode::isError, (req, res) -> {
+                log.error("Error: {}", res);
+                StandardizedApiExceptionResponse error = exceptionMapper.apiExceptionMapper(res.getBody());
+                throw new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), HttpStatus.valueOf(res.getStatusCode().value()));
+            })
+            .body(EmployeeResponse.class);
     }
 
     @Override
-    public List<EmployeeEntity> findByStatusId(Long statusId) {
-        return employeeRepository.findByStatusId(statusId);
+    public List<EmployeeResponse> findByStatusId(Long statusId) {
+        return restClient
+            .get()
+            .uri("/employees/status/"+statusId)
+            .retrieve()
+            .onStatus(HttpStatusCode::isError, (req, res) -> {
+                log.error("Error: {}", res);
+                StandardizedApiExceptionResponse error = exceptionMapper.apiExceptionMapper(res.getBody());
+                throw new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), HttpStatus.valueOf(res.getStatusCode().value()));
+            })
+            .body(new ParameterizedTypeReference<>() {});
     }
 
     @Override
-    public List<UserEntity> getEmployeesAssociated(Long storeId) {
-        return employeeRepository.findEmployeesByStoreId(storeId);
+    public List<UserResponse> getEmployeesAssociated(Long storeId) {
+        return restClient
+            .get()
+            .uri("/store/"+storeId+"/employees")
+            .retrieve()
+            .onStatus(HttpStatusCode::isError, (req, res) -> {
+                log.error("Error: {}", res);
+                StandardizedApiExceptionResponse error = exceptionMapper.apiExceptionMapper(res.getBody());
+                throw new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), HttpStatus.valueOf(res.getStatusCode().value()));
+            })
+            .body(new ParameterizedTypeReference<>() {});
     }
 }

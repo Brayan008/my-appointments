@@ -1,0 +1,36 @@
+server:
+  servlet:
+    context-path: /internal/v1
+  port: 9095
+spring:
+  application:
+    name: database
+  config:
+    import:
+      - optional:configserver:http://localhost:8888
+      - optional:file:./config.properties
+  cloud:
+    config:
+      username: ${security.name}
+      password: ${security.password}
+      name: db,general
+      profile: dev
+      retry:
+        max-attempts: 1
+        max-interval: 1000
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka}
+openapi:
+  service:
+    title: database-service doc
+    version: 1.0.0
+    url-database: http://localhost:9095
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+  api-docs:
+    enabled: true
+    path: /internal/database/v3/api-docs

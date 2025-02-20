@@ -1,8 +1,8 @@
 package com.appointment.owner.controllers;
 
+import com.appointment.commons.dtos.request.MembershipRequest;
+import com.appointment.commons.dtos.response.MembershipResponse;
 import com.appointment.owner.business.MembershipBusiness;
-import com.appointment.owner.dtos.request.MembershipRequest;
-import com.appointment.owner.dtos.response.MembershipResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;

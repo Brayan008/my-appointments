@@ -17,6 +17,7 @@
 
   <modules>
     <module>commons</module>
+    <module>database</module>
     <module>auth</module>
     <module>owner</module>
     <module>client</module>
