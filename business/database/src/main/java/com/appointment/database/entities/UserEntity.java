@@ -23,6 +23,9 @@ public class UserEntity {
     @Column(nullable = false)
     private Long userId;
 
+    @Column(nullable = false)
+    private String email;
+
     @Column(name = "status_id", nullable = false)
     private Long statusId;
 
