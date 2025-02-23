@@ -8,7 +8,6 @@ import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -32,9 +31,6 @@ public class MembershipEntity {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "status_id", insertable = false, updatable = false)
     private StatusEntity status;
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "membership")
-    private List<CompanyEntity> companies;
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
