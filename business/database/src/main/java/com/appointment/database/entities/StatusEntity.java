@@ -1,6 +1,7 @@
 package com.appointment.database.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +27,8 @@ public class StatusEntity {
     @Column(nullable = false, length = 50)
     private String name;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "status")
+    @OneToMany(mappedBy = "status", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<UserEntity> users;
 
     @CreationTimestamp

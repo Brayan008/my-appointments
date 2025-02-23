@@ -7,7 +7,6 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -36,19 +35,13 @@ public class CompanyEntity {
     @Column(name = "status_id", nullable = false)
     private Long statusId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "membership_id", insertable = false, updatable = false)
     private MembershipEntity membership;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "status_id", insertable = false, updatable = false)
     private StatusEntity status;
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "company")
-    private List<OwnerEntity> owners;
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "company")
-    private List<StoreEntity> stores;
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")

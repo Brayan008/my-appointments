@@ -31,19 +31,19 @@ public class ServiceEntity {
     @Column(nullable = false)
     private BigDecimal price;
 
+    @Column(name = "store_id", nullable = false)
+    private Long storeId;
+
     @Column(name = "status_id", nullable = false)
     private Long statusId;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "status_id", insertable = false, updatable = false)
-    private StatusEntity status;
-
-    @Column(name = "store_id", nullable = false)
-    private Long storeId;
-
-    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "store_id", insertable = false, updatable = false)
     private StoreEntity store;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "status_id", insertable = false, updatable = false)
+    private StatusEntity status;
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")

@@ -1,6 +1,7 @@
 package com.appointment.database.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@SequenceGenerator(name = "customers_seq", sequenceName = "customers_sequence", allocationSize = 1)
+@SequenceGenerator(name = "users_seq", sequenceName = "users_sequence", allocationSize = 1)
 @Table(name = "users")
 @Getter
 @Setter
@@ -40,11 +41,9 @@ public class UserEntity {
     @JoinColumn(name = "role_id", insertable = false, updatable = false)
     private RoleEntity role;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<EmployeeEntity> employees;
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    private List<OwnerEntity> owners;
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")

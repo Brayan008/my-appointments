@@ -31,11 +31,11 @@ public class OwnerEntity {
     @Column(name = "owner_hierarchy", nullable = false)
     private String ownerHierarchy;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private UserEntity user;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id", insertable = false, updatable = false)
     private CompanyEntity company;
 

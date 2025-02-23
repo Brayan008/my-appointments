@@ -49,12 +49,6 @@ public class StoreEntity {
     @JoinColumn(name = "company_id", insertable = false, updatable = false)
     private CompanyEntity company;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "store")
-    private List<ServiceEntity> services;
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "store")
-    private List<EmployeeEntity> employees;
-
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
