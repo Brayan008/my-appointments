@@ -52,8 +52,8 @@ public class StoreController {
 
     @Operation(summary = "update a store by store id")
     @PutMapping("/{storeId}")
-    public ResponseEntity<?> updateMembership(@PathVariable(name = "storeId") Long storeId,
-                                              @RequestBody StoreEntity storeEntity){
+    public ResponseEntity<?> updateStore(@PathVariable(name = "storeId") Long storeId,
+                                         @RequestBody StoreEntity storeEntity){
         log.info("updating: store {}", storeId);
         return ResponseEntity.ok(this.storeService.updateStore(storeEntity, storeId));
     }
@@ -72,7 +72,7 @@ public class StoreController {
         return ResponseEntity.ok(storeService.disableById(storeId));
     }
 
-    @Operation(summary = "get store by store id")
+    @Operation(summary = "get store by statusId id")
     @GetMapping("/status/{statusId}")
     public ResponseEntity<?> findByStatusId(@PathVariable(name = "statusId") Long statusId){
         return ResponseEntity.ok(this.storeService.findByStatusId(statusId));

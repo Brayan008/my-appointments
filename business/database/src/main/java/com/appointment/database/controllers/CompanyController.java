@@ -35,7 +35,7 @@ public class CompanyController {
 
     @Operation(summary = "create a company")
     @PostMapping()
-    public ResponseEntity<?> company(@RequestBody CompanyEntity companyRequest){
+    public ResponseEntity<?> createCompany(@RequestBody CompanyEntity companyRequest){
         log.info("create: company {}", companyRequest.getName());
         return new ResponseEntity<>(this.companyBusiness.createCompany(companyRequest), HttpStatus.CREATED);
     }
