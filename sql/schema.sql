@@ -105,13 +105,11 @@ CREATE TABLE employees(
 );
 
 CREATE TABLE user_favorite_stores(
-	employee_id BIGINT PRIMARY KEY DEFAULT nextval('user_favorite_stores_sequence'),
+	user_favorite_store_id BIGINT PRIMARY KEY DEFAULT nextval('user_favorite_stores_sequence'),
 	user_id BIGINT NOT NULL,
 	store_id BIGINT NOT NULL,
-	status_id BIGINT NOT NULL,
 	created_at TIMESTAMP DEFAULT NOW(),
 	CONSTRAINT fk_users FOREIGN KEY (user_id) REFERENCES users(user_id),
-	CONSTRAINT fk_status FOREIGN KEY (status_id) REFERENCES status(status_id),
 	CONSTRAINT fk_stores FOREIGN KEY (store_id) REFERENCES stores(store_id)
 );
 
@@ -122,7 +120,7 @@ CREATE TABLE status_dates(
 );
 
 CREATE TABLE client_dates(
-	date_id BIGINT PRIMARY KEY DEFAULT nextval('client_dates_sequence'),
+	client_date_id BIGINT PRIMARY KEY DEFAULT nextval('client_dates_sequence'),
 	user_date TIMESTAMP,
 	status_date_id BIGINT NOT NULL,
 	service_id BIGINT NOT NULL,
@@ -132,16 +130,16 @@ CREATE TABLE client_dates(
 	created_at TIMESTAMP DEFAULT NOW(),
 	CONSTRAINT fk_status_dates FOREIGN KEY (status_date_id) REFERENCES status_dates(status_date_id),
 	CONSTRAINT fk_services FOREIGN KEY (service_id) REFERENCES services(service_id),
-	CONSTRAINT fk_employees FOREIGN KEY (employee_id) REFERENCES users(user_id),
-    CONSTRAINT fk_client FOREIGN KEY (client_id) REFERENCES users(user_id),
-	CONSTRAINT fk_stores FOREIGN KEY (store_id) REFERENCES stores(store_id)
+	CONSTRAINT fk_client FOREIGN KEY (client_id) REFERENCES users(user_id),
+    CONSTRAINT fk_stores FOREIGN KEY (store_id) REFERENCES stores(store_id),
+	CONSTRAINT fk_employees FOREIGN KEY (employee_id) REFERENCES users(user_id)
 );
 
 CREATE TABLE rate_date(
 	rate_date_id BIGINT PRIMARY KEY DEFAULT nextval('rate_date_sequence'),
 	comment TEXT,
 	rate NUMERIC(3, 1) NOT NULL,
-	date_id BIGINT NOT NULL,
+	client_date_id BIGINT NOT NULL,
 	created_at TIMESTAMP DEFAULT NOW(),
-	CONSTRAINT fk_client_dates FOREIGN KEY (date_id) REFERENCES client_dates(date_id)
+	CONSTRAINT fk_client_dates FOREIGN KEY (client_date_id) REFERENCES client_dates(client_date_id)
 );
