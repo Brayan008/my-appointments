@@ -38,6 +38,10 @@ public class MembershipEntity {
     @JsonIgnore
     private List<MembershipBenefit> benefits;
 
+    @OneToMany(mappedBy = "membership", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<CompanyEntity> companies;
+
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
