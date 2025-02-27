@@ -30,7 +30,7 @@ VALUES('Peluqueria A', 'Av. Tecnológico Ciudad Industrial, Las Aves, 38010 Cela
 INSERT INTO services(name, price, store_id, status_id) VALUES('Corte de pelo', 120, 1, 1);
 INSERT INTO services(name, price, store_id, status_id) VALUES('Corte de barba', 50, 1, 1);
 
-INSERT INTO employees(user_id, store_id, status_id) VALUES (3, 1, 1);
+INSERT INTO store_employees(user_id, store_id, status_id) VALUES (3, 1, 1);
 
 INSERT INTO user_favorite_stores(user_id, store_id) VALUES (3, 1);
 

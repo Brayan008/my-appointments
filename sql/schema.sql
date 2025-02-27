@@ -7,7 +7,7 @@ CREATE SEQUENCE companies_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE owners_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE stores_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE services_sequence START WITH 1 INCREMENT BY 1;
-CREATE SEQUENCE employees_sequence START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE store_employees_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE user_favorite_stores_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE status_dates_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE client_dates_sequence START WITH 1 INCREMENT BY 1;
@@ -102,8 +102,8 @@ CREATE TABLE services(
   CONSTRAINT fk_stores FOREIGN KEY (store_id) REFERENCES stores(store_id)
 );
 
-CREATE TABLE employees(
-  employee_id BIGINT PRIMARY KEY DEFAULT nextval('employees_sequence'),
+CREATE TABLE store_employees(
+  employee_id BIGINT PRIMARY KEY DEFAULT nextval('store_employees_sequence'),
   user_id BIGINT NOT NULL,
   store_id BIGINT NOT NULL,
   status_id BIGINT NOT NULL,
@@ -141,7 +141,7 @@ CREATE TABLE client_dates(
   CONSTRAINT fk_services FOREIGN KEY (service_id) REFERENCES services(service_id),
   CONSTRAINT fk_client FOREIGN KEY (user_id) REFERENCES users(user_id),
   CONSTRAINT fk_stores FOREIGN KEY (store_id) REFERENCES stores(store_id),
-  CONSTRAINT fk_employees FOREIGN KEY (employee_id) REFERENCES employees(employee_id)
+  CONSTRAINT fk_employee FOREIGN KEY (employee_id) REFERENCES users(employee_id)
 );
 
 CREATE TABLE rate_date(
@@ -151,4 +151,17 @@ CREATE TABLE rate_date(
   client_date_id BIGINT NOT NULL,
   created_at TIMESTAMP DEFAULT NOW(),
   CONSTRAINT fk_client_dates FOREIGN KEY (client_date_id) REFERENCES client_dates(client_date_id)
+);
+
+CREATE TABLE config_employee_schedule
+(
+  schedule_id BIGINT PRIMARY KEY DEFAULT nextval('status_dates_sequence'),
+  day_of_week INTEGER NOT NULL, -- Lunes = 1, Martes = 2, ..., Domingo = 7
+  start_time  TIME    NOT NULL,
+  end_time    TIME    NOT NULL,
+  start_time_lunch  TIME NOT NULL,
+  end_time_lunch    TIME NOT NULL,
+  interval_in_minutes INTEGER NOT NULL,
+  store_employees_id BIGINT  NOT NULL,
+  CONSTRAINT fk_employee FOREIGN KEY (store_employees_id) REFERENCES store_employees (store_employees_id)
 );

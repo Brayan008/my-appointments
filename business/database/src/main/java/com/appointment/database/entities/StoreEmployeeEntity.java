@@ -11,16 +11,16 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@SequenceGenerator(name = "employees_seq", sequenceName = "employees_sequence", allocationSize = 1)
-@Table(name = "employees")
+@SequenceGenerator(name = "store_employees_seq", sequenceName = "store_employees_sequence", allocationSize = 1)
+@Table(name = "store_employees")
 @Getter
 @Setter
 @ToString
-public class EmployeeEntity {
+public class StoreEmployeeEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employees_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "store_employees_seq")
     @Column(nullable = false)
-    private Long employeeId;
+    private Long storeEmployeeId;
 
     @Column(name = "user_id", nullable = false)
     private Long userId;
@@ -52,12 +52,12 @@ public class EmployeeEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        EmployeeEntity that = (EmployeeEntity) o;
-        return Objects.equals(employeeId, that.employeeId);
+        StoreEmployeeEntity that = (StoreEmployeeEntity) o;
+        return Objects.equals(storeEmployeeId, that.storeEmployeeId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(employeeId);
+        return Objects.hashCode(storeEmployeeId);
     }
 }

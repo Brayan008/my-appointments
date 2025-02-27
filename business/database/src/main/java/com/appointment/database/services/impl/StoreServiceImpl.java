@@ -1,6 +1,7 @@
 package com.appointment.database.services.impl;
 
 import com.appointment.commons.enums.Status;
+import com.appointment.commons.exceptions.BusinessException;
 import com.appointment.commons.exceptions.ObjectNotFoundException;
 import com.appointment.database.entities.StoreEntity;
 import com.appointment.database.repositories.StoreRepository;
@@ -65,5 +66,12 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public List<StoreEntity> findByStatusId(Long statusId) {
         return storeRepository.findByStatusId(statusId);
+    }
+
+    @Override
+    public List<StoreEntity> findStoresBySearchText(String searchText) {
+        if(searchText == null || searchText.isBlank())
+            throw new BusinessException(HttpStatus.BAD_REQUEST.name(), "The search text cant be null or empty.", "", HttpStatus.BAD_REQUEST);
+        return this.storeRepository.searchStores(searchText);
     }
 }

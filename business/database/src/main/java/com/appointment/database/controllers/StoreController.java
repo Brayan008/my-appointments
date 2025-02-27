@@ -84,4 +84,10 @@ public class StoreController {
         log.info("enabled store " + storeId);
         return ResponseEntity.ok(employeeService.getEmployeesAssociated(storeId));
     }
+
+    @Operation(summary = "Find stores by search text (name, address or coordinates)")
+    @GetMapping("/search")
+    public ResponseEntity<?> findStoresBySearchText(@RequestParam(name = "searchText") String searchText){
+        return ResponseEntity.ok(storeService.findStoresBySearchText(searchText));
+    }
 }
