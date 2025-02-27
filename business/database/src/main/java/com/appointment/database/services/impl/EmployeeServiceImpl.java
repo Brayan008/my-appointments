@@ -2,9 +2,9 @@ package com.appointment.database.services.impl;
 
 import com.appointment.commons.enums.Status;
 import com.appointment.commons.exceptions.ObjectNotFoundException;
-import com.appointment.database.entities.EmployeeEntity;
+import com.appointment.database.entities.StoreEmployeeEntity;
 import com.appointment.database.entities.UserEntity;
-import com.appointment.database.repositories.EmployeeRepository;
+import com.appointment.database.repositories.StoreEmployeeRepository;
 import com.appointment.database.services.EmployeeService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,28 +18,28 @@ import java.util.List;
 @AllArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private final EmployeeRepository employeeRepository;
+    private final StoreEmployeeRepository storeEmployeeRepository;
 
     @Override
-    public List<EmployeeEntity> getEmployees() {
-        return employeeRepository.findAll();
+    public List<StoreEmployeeEntity> getEmployees() {
+        return storeEmployeeRepository.findAll();
     }
 
     @Override
-    public EmployeeEntity getEmployeeById(Long employeeId) {
-        return employeeRepository.findById(employeeId)
+    public StoreEmployeeEntity getEmployeeById(Long employeeId) {
+        return storeEmployeeRepository.findById(employeeId)
             .orElseThrow(() -> new ObjectNotFoundException(HttpStatus.NOT_FOUND.value(),
                 "employee not found with id " + employeeId, HttpStatus.NOT_FOUND));
     }
 
     @Override
-    public EmployeeEntity createEmployee(EmployeeEntity employee) {
-        return employeeRepository.save(employee);
+    public StoreEmployeeEntity createEmployee(StoreEmployeeEntity employee) {
+        return storeEmployeeRepository.save(employee);
     }
 
     @Override
-    public EmployeeEntity updateEmployee(EmployeeEntity currentEmployee, Long employeeId) {
-        EmployeeEntity employeeUpdated = this.getEmployeeById(employeeId);
+    public StoreEmployeeEntity updateEmployee(StoreEmployeeEntity currentEmployee, Long employeeId) {
+        StoreEmployeeEntity employeeUpdated = this.getEmployeeById(employeeId);
         employeeUpdated.setUserId(currentEmployee.getUserId());
         employeeUpdated.setStoreId(currentEmployee.getStoreId());
         employeeUpdated.setStatusId(currentEmployee.getStatusId());
@@ -47,26 +47,26 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeEntity disableById(Long employeeId) {
-        EmployeeEntity currentEmployee = this.getEmployeeById(employeeId);
+    public StoreEmployeeEntity disableById(Long employeeId) {
+        StoreEmployeeEntity currentEmployee = this.getEmployeeById(employeeId);
         currentEmployee.setStatusId(Status.DISABLED.getCode());
         return this.createEmployee(currentEmployee);
     }
 
     @Override
-    public EmployeeEntity enableById(Long employeeId) {
-        EmployeeEntity currentEmployee = this.getEmployeeById(employeeId);
+    public StoreEmployeeEntity enableById(Long employeeId) {
+        StoreEmployeeEntity currentEmployee = this.getEmployeeById(employeeId);
         currentEmployee.setStatusId(Status.ENABLED.getCode());
         return this.createEmployee(currentEmployee);
     }
 
     @Override
-    public List<EmployeeEntity> findByStatusId(Long statusId) {
-        return employeeRepository.findByStatusId(statusId);
+    public List<StoreEmployeeEntity> findByStatusId(Long statusId) {
+        return storeEmployeeRepository.findByStatusId(statusId);
     }
 
     @Override
     public List<UserEntity> getEmployeesAssociated(Long storeId) {
-        return employeeRepository.findEmployeesByStoreId(storeId);
+        return storeEmployeeRepository.findEmployeesByStoreId(storeId);
     }
 }

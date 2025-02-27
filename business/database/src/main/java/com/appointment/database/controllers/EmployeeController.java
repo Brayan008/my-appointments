@@ -1,6 +1,6 @@
 package com.appointment.database.controllers;
 
-import com.appointment.database.entities.EmployeeEntity;
+import com.appointment.database.entities.StoreEmployeeEntity;
 import com.appointment.database.services.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,7 +34,7 @@ public class EmployeeController {
 
     @Operation(summary = "create an employee")
     @PostMapping()
-    public ResponseEntity<?> createEmployee(@RequestBody EmployeeEntity employeeRequest,
+    public ResponseEntity<?> createEmployee(@RequestBody StoreEmployeeEntity employeeRequest,
                                             HttpServletRequest request){
         log.info("create: employee {}", employeeRequest.getUserId());
 
@@ -44,7 +44,7 @@ public class EmployeeController {
     @Operation(summary = "update an employee by employee id")
     @PutMapping("/{employeeId}")
     public ResponseEntity<?> updateEmployee(@PathVariable(name = "employeeId") Long employeeId,
-                                            @RequestBody EmployeeEntity employeeRequest){
+                                            @RequestBody StoreEmployeeEntity employeeRequest){
         log.info("updating: employee {}", employeeRequest.getUserId());
         return ResponseEntity.ok(this.employeeService.updateEmployee(employeeRequest, employeeId));
     }

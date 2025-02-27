@@ -1,24 +1,24 @@
 package com.appointment.database.services;
 
-import com.appointment.database.entities.EmployeeEntity;
+import com.appointment.database.entities.StoreEmployeeEntity;
 import com.appointment.database.entities.UserEntity;
 
 import java.util.List;
 
 public interface EmployeeService {
-    List<EmployeeEntity> getEmployees();
+    List<StoreEmployeeEntity> getEmployees();
 
-    EmployeeEntity getEmployeeById(Long employeeId);
+    StoreEmployeeEntity getEmployeeById(Long employeeId);
 
-    EmployeeEntity createEmployee(EmployeeEntity employee);
+    StoreEmployeeEntity createEmployee(StoreEmployeeEntity employee);
 
-    EmployeeEntity updateEmployee(EmployeeEntity currentEmployee, Long employeeId);
+    StoreEmployeeEntity updateEmployee(StoreEmployeeEntity currentEmployee, Long employeeId);
 
-    EmployeeEntity disableById(Long employeeId);
+    StoreEmployeeEntity disableById(Long employeeId);
 
-    EmployeeEntity enableById(Long employeeId);
+    StoreEmployeeEntity enableById(Long employeeId);
 
-    List<EmployeeEntity> findByStatusId(Long statusId);
+    List<StoreEmployeeEntity> findByStatusId(Long statusId);
 
     List<UserEntity> getEmployeesAssociated(Long storeId);
 }
