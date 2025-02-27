@@ -1,20 +1,44 @@
 INSERT INTO status(name) VALUES ('ENABLED'), ('DISABLED');
 
-INSERT INTO roles(name) VALUES ('USER'), ('ADMIN');
+INSERT INTO roles(name) VALUES ('USER'), ('ADMIN'), ('ASSISTANT_ADMINISTRATOR');
 
-INSERT INTO users(email, status_id, role_id) VALUES ('armando@gmail.com', 1, 2), ('brayan@gmail.com', 1, 2);
+INSERT INTO users(email, status_id, role_id) VALUES ('armando@gmail.com', 1, 2),
+('brayan@gmail.com', 1, 2), ('fredy@gmail.com', 1, 1), ('eddy@gmail.com', 1, 1);
 
-INSERT INTO memberships(description, status_id) VALUES ('PREMIUM', 1), ('BASIC', 1);
+INSERT INTO memberships(membership_type, price, description, status_id) VALUES
+('Free', 0, 'The basics for individuals and organizations', 1),
+('Team', 4, 'Advanced individuals and organizations', 1),
+('Enterprise', 21, 'Security, compliance, and flexible services', 1);
+
+INSERT INTO membership_benefits(benefit, description, membership_id) VALUES
+('Unlimited public/private repositories', 'Host open source projects in public GitHub repositories, accessible via web or command line. Public repositories are accessible to anyone at', 1),
+('Automatic security and version updates', 'Keep projects secure by automatically opening pull requests that update vulnerable dependencies to secure versions, and update out-of-date dependencies.', 1),
+('Everything included in Free', '', 2),
+('Access to GitHub Codespaces', 'Blazing fast cloud developer environments with flexible compute and pre-configured containers, developers can code, collaborate, and debug from any browser.', 2)
+('Everything included in Team', '', 3)
+('Data residency', 'GitHub Enterprise Cloud offers a multi-tenant enterprise SaaS solution on Microsoft Azure, allowing you to choose a regional cloud deployment for data residency, so your in-scope data is stored at rest in a designated location.', 3);
 
 INSERT INTO companies(name, logo, phone_number, instagram_url, facebook_url, membership_id, status_id)
-VALUES('Appointments', 'appointments.png', '6544922933', 'https://www.instagram.com/', 'https://www.facebook.com/', 1, 1);
+VALUES('Barber', 'barber.png', '6544922933', 'https://www.instagram.com/', 'https://www.facebook.com/', 1, 1);
 
 INSERT INTO owners(user_id, company_id, owner_hierarchy) VALUES(1, 1, 'OWNER');
 
 INSERT INTO stores(name, address, description, coordinates, status_id, company_id)
-VALUES('Developers', 'Av. Tecnológico Ciudad Industrial, Las Aves, 38010 Celaya, Gto',
-'Una empresa de desarrollo de software', '1234', 1, 1);
+VALUES('Peluqueria A', 'Av. Tecnológico Ciudad Industrial, Las Aves, 38010 Celaya, Gto',
+'Barberia profecional', '1234', 1, 1);
 
-INSERT INTO services (name, price, store_id, status_id) VALUES('Mobile Developer', 1000.20, 1, 1);
+INSERT INTO services(name, price, store_id, status_id) VALUES('Corte de pelo', 120, 1, 1);
+INSERT INTO services(name, price, store_id, status_id) VALUES('Corte de barba', 50, 1, 1);
 
-INSERT INTO employees (user_id, store_id, status_id) VALUES (1, 1, 1);
+INSERT INTO employees(user_id, store_id, status_id) VALUES (3, 1, 1);
+
+INSERT INTO user_favorite_stores(user_id, store_id) VALUES (3, 1);
+
+INSERT INTO status_dates(name) VALUES ('PENDING'), ('CANCELED'), ('COMPLETE'), ('NOPAID');
+
+INSERT INTO client_dates(user_date, status_date_id, service_id, user_id, store_id, employee_id)
+VALUES ('2025-02-26 14:00:00.84322', 1, 1, 3, 1, 1);
+INSERT INTO client_dates(user_date, status_date_id, service_id, user_id, store_id, employee_id)
+VALUES ('2025-02-26 14:00:00.84322', 1, 1, 4, 1, 1);
+
+INSERT INTO rate_date(comment, rate, client_date_id) VALUES('Muy buen servicio, personas muy amables', 4, 1);
