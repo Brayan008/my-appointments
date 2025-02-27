@@ -1,6 +1,6 @@
-INSERT INTO status(name) VALUES ('ENABLED'), ('DISABLED');
+INSERT INTO status(name) VALUES ('ENABLED'), ('DISABLED'), ('PENDING');
 
-INSERT INTO roles(name) VALUES ('USER'), ('ADMIN'), ('ASSISTANT_ADMINISTRATOR');
+INSERT INTO roles(name) VALUES ('USER'), ('ADMIN');
 
 INSERT INTO users(email, status_id, role_id) VALUES ('armando@gmail.com', 1, 2),
 ('brayan@gmail.com', 1, 2), ('fredy@gmail.com', 1, 1), ('eddy@gmail.com', 1, 1);
@@ -14,8 +14,8 @@ INSERT INTO membership_benefits(benefit, description, membership_id) VALUES
 ('Unlimited public/private repositories', 'Host open source projects in public GitHub repositories, accessible via web or command line. Public repositories are accessible to anyone at', 1),
 ('Automatic security and version updates', 'Keep projects secure by automatically opening pull requests that update vulnerable dependencies to secure versions, and update out-of-date dependencies.', 1),
 ('Everything included in Free', '', 2),
-('Access to GitHub Codespaces', 'Blazing fast cloud developer environments with flexible compute and pre-configured containers, developers can code, collaborate, and debug from any browser.', 2)
-('Everything included in Team', '', 3)
+('Access to GitHub Codespaces', 'Blazing fast cloud developer environments with flexible compute and pre-configured containers, developers can code, collaborate, and debug from any browser.', 2),
+('Everything included in Team', '', 3),
 ('Data residency', 'GitHub Enterprise Cloud offers a multi-tenant enterprise SaaS solution on Microsoft Azure, allowing you to choose a regional cloud deployment for data residency, so your in-scope data is stored at rest in a designated location.', 3);
 
 INSERT INTO companies(name, logo, phone_number, instagram_url, facebook_url, membership_id, status_id)
