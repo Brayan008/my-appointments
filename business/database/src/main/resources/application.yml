@@ -26,7 +26,7 @@ openapi:
   service:
     title: database-service doc
     version: 1.0.0
-    url-database: http://localhost:9095
+    url-database: http://localhost:9095/internal/v1/
 springdoc:
   swagger-ui:
     enabled: true
