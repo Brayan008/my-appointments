@@ -41,8 +41,8 @@ public class ClientDateEntity {
     private UserEntity clientEntity;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "employee_id", insertable = false, updatable = false)
-    private UserEntity employeeEntity;
+    @JoinColumn(name = "store_employee_id", insertable = false, updatable = false)
+    private StoreEmployeeEntity storeEmployeeEntity;
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")

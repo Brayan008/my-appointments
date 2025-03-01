@@ -25,11 +25,11 @@ public class EmployeeController {
         return ResponseEntity.ok(this.storeEmployeeService.getEmployees());
     }
 
-    @Operation(summary = "get an employee given a employee id")
+    @Operation(summary = "get an employee given a store employee id")
     @GetMapping("/{employeeId}")
     public ResponseEntity<?> employeeById(@PathVariable(name = "employeeId") Long employeeId){
         log.info("Get: employee {}", employeeId);
-        return ResponseEntity.ok(this.storeEmployeeService.getEmployeeById(employeeId));
+        return ResponseEntity.ok(this.storeEmployeeService.getStoreEmployeeById(employeeId));
     }
 
     @Operation(summary = "create an employee")

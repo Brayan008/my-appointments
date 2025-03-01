@@ -11,14 +11,14 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@SequenceGenerator(name = "store_employees_seq", sequenceName = "store_employees_sequence", allocationSize = 1)
-@Table(name = "store_employees")
+@SequenceGenerator(name = "store_employee_seq", sequenceName = "store_employee_sequence", allocationSize = 1)
+@Table(name = "store_employee")
 @Getter
 @Setter
 @ToString
 public class StoreEmployeeEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "store_employees_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "store_employee_seq")
     @Column(nullable = false)
     private Long storeEmployeeId;
 

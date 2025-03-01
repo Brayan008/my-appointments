@@ -21,7 +21,7 @@ public class ClientDateRequest {
 
     private Double totalPaid;
 
-    private String employeeEmail;
+    private Long idStoreEmployee;
 
     private String clientEmail;
 

@@ -7,7 +7,7 @@ CREATE SEQUENCE companies_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE owners_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE stores_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE services_sequence START WITH 1 INCREMENT BY 1;
-CREATE SEQUENCE store_employees_sequence START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE store_employee_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE user_favorite_stores_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE status_dates_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE client_dates_sequence START WITH 1 INCREMENT BY 1;
@@ -103,8 +103,8 @@ CREATE TABLE services(
   CONSTRAINT fk_stores FOREIGN KEY (store_id) REFERENCES stores(store_id)
 );
 
-CREATE TABLE store_employees(
-  employee_id BIGINT PRIMARY KEY DEFAULT nextval('store_employees_sequence'),
+CREATE TABLE store_employee(
+  employee_id BIGINT PRIMARY KEY DEFAULT nextval('store_employee_sequence'),
   user_id BIGINT NOT NULL,
   store_id BIGINT NOT NULL,
   status_id BIGINT NOT NULL,
@@ -135,13 +135,13 @@ CREATE TABLE client_dates(
   status_date_id BIGINT NOT NULL,
   service_id BIGINT NOT NULL,
   client_id BIGINT NOT NULL,
-  employee_id BIGINT NOT NULL,
+  store_employee_id BIGINT NOT NULL,
   total_paid DECIMAL,
   created_at TIMESTAMP DEFAULT NOW(),
   CONSTRAINT fk_status_dates FOREIGN KEY (status_date_id) REFERENCES status_dates(status_date_id),
   CONSTRAINT fk_services FOREIGN KEY (service_id) REFERENCES services(service_id),
   CONSTRAINT fk_client FOREIGN KEY (client_id) REFERENCES users(user_id),
-  CONSTRAINT fk_employee FOREIGN KEY (employee_id) REFERENCES users(user_id)
+  CONSTRAINT fk_store_employee FOREIGN KEY (store_employee_id) REFERENCES store_employee(store_employee_id)
 );
 
 CREATE TABLE rate_date(
