@@ -15,13 +15,11 @@ public class ClientDateRequest {
 
     private LocalDateTime userDate;
 
-    private Long statusDateId;
-
     private Long serviceId;
 
     private Double totalPaid;
 
-    private Long idStoreEmployee;
+    private Long storeEmployeeId;
 
     private String clientEmail;
 

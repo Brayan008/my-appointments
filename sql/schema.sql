@@ -104,7 +104,7 @@ CREATE TABLE services(
 );
 
 CREATE TABLE store_employee(
-  employee_id BIGINT PRIMARY KEY DEFAULT nextval('store_employee_sequence'),
+  store_employee_id BIGINT PRIMARY KEY DEFAULT nextval('store_employee_sequence'),
   user_id BIGINT NOT NULL,
   store_id BIGINT NOT NULL,
   status_id BIGINT NOT NULL,
@@ -158,10 +158,13 @@ CREATE TABLE config_employee_schedule(
   day_of_week INTEGER NOT NULL,
   start_time  TIME    NOT NULL,
   end_time    TIME    NOT NULL,
-  start_time_lunch  TIME NOT NULL,
-  end_time_lunch    TIME NOT NULL,
+  start_time_break  TIME NOT NULL,
+  end_time_break    TIME NOT NULL,
   interval_in_minutes INTEGER NOT NULL,
-  store_employees_id INTEGER  NOT NULL,
+  store_employee_id INTEGER  NOT NULL,
+  default_status_date_id INTEGER  NOT NULL,
   created_at TIMESTAMP DEFAULT NOW(),
-  CONSTRAINT fk_store_employee FOREIGN KEY (store_employees_id) REFERENCES store_employees(store_employees_id)
+  CONSTRAINT fk_store_employee FOREIGN KEY (store_employee_id) REFERENCES store_employee(store_employee_id),
+  CONSTRAINT fk_status_dates FOREIGN KEY (default_status_date_id) REFERENCES status_dates(status_date_id)
+
 );

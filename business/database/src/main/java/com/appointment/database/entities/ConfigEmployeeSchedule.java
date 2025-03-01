@@ -8,6 +8,7 @@ import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @SequenceGenerator(name = "config_employee_schedule_seq", sequenceName = "config_employee_schedule_sequence", allocationSize = 1)
@@ -26,20 +27,24 @@ public class ConfigEmployeeSchedule {
     @JoinColumn(name = "store_employees_id", insertable = false, updatable = false)
     private StoreEmployeeEntity storeEmployeeEntity;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "default_status_date_id", insertable = false, updatable = false)
+    private StatusDateEntity defaultStatusDateEntity;
+
     @Column(name = "day_of_week", nullable = false)
     private Integer dayOfWeek;
 
     @Column(name = "start_time", nullable = false)
-    private LocalDateTime startTime;
+    private LocalTime startTime;
 
     @Column(name = "end_time", nullable = false)
-    private LocalDateTime endTime;
+    private LocalTime endTime;
 
-    @Column(name = "start_time_lunch", nullable = false)
-    private LocalDateTime startTimeLunch;
+    @Column(name = "start_time_break", nullable = false)
+    private LocalTime startTimeBreak;
 
-    @Column(name = "end_time_lunch", nullable = false)
-    private LocalDateTime endTimeLunch;
+    @Column(name = "end_time_break", nullable = false)
+    private LocalTime endTimeBreak;
 
     @Column(name = "interval_in_minutes", nullable = false)
     private Integer intervalInMinutes;

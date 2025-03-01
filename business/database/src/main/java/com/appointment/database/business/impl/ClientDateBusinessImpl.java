@@ -27,13 +27,12 @@ public class ClientDateBusinessImpl implements ClientDatesBusiness {
     public ClientDateEntity createClientDate(ClientDateRequest clientDateRequest) {
         UserEntity client = this.userService.getUserByEmail(clientDateRequest.getClientEmail(), "client");
         ServiceEntity service = this.serviceService.getServiceById(clientDateRequest.getServiceId());
-        StoreEmployeeEntity storeEmployee = this.storeEmployeeService.getStoreEmployeeById(clientDateRequest.getIdStoreEmployee());
+        StoreEmployeeEntity storeEmployee = this.storeEmployeeService.getStoreEmployeeById(clientDateRequest.getStoreEmployeeId());
 
         ClientDateEntity clientDateEntity = new ClientDateEntity();
         clientDateEntity.setStoreEmployeeEntity(storeEmployee);
         clientDateEntity.setClientEntity(client);
         clientDateEntity.setUserDate(clientDateRequest.getUserDate());
-        clientDateEntity.setStatusDateId(clientDateRequest.getStatusDateId());
         clientDateEntity.setServiceEntity(service);
         clientDateEntity.setTotalPaid(clientDateRequest.getTotalPaid());
         return this.clientDatesService.createClientDate(clientDateEntity);
