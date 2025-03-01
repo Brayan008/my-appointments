@@ -1,6 +1,7 @@
 package com.appointment.database.services.impl;
 
 import com.appointment.commons.enums.Status;
+import com.appointment.commons.exceptions.BusinessException;
 import com.appointment.commons.exceptions.ObjectNotFoundException;
 import com.appointment.database.entities.ServiceEntity;
 import com.appointment.database.repositories.ServiceRepository;
@@ -26,9 +27,12 @@ public class ServiceServiceImpl implements ServiceService {
 
     @Override
     public ServiceEntity getServiceById(Long serviceId) {
-        return serviceRepository.findById(serviceId)
+        ServiceEntity service = serviceRepository.findById(serviceId)
             .orElseThrow(() -> new ObjectNotFoundException(HttpStatus.NOT_FOUND.value(),
-                "service not found with id " + serviceId, HttpStatus.NOT_FOUND));
+                "service not found with.", HttpStatus.NOT_FOUND));
+        if(service.getStatusId().equals(Status.DISABLED.getCode()))
+            throw new BusinessException(HttpStatus.CONFLICT.name(), "The services are disabled.", "", HttpStatus.CONFLICT);
+        return service;
     }
 
     @Override

@@ -5,7 +5,7 @@ import com.appointment.commons.exceptions.ObjectNotFoundException;
 import com.appointment.database.entities.StoreEmployeeEntity;
 import com.appointment.database.entities.UserEntity;
 import com.appointment.database.repositories.StoreEmployeeRepository;
-import com.appointment.database.services.EmployeeService;
+import com.appointment.database.services.StoreEmployeeService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 @Slf4j
 @AllArgsConstructor
-public class EmployeeServiceImpl implements EmployeeService {
+public class StoreEmployeeServiceImpl implements StoreEmployeeService {
 
     private final StoreEmployeeRepository storeEmployeeRepository;
 
