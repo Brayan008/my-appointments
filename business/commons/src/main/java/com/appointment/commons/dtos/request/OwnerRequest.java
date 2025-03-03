@@ -1,5 +1,6 @@
 package com.appointment.commons.dtos.request;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 public class OwnerRequest implements Serializable {
+    @NotNull
     private Long userId;
+    @NotNull
     private Long companyId;
 }
