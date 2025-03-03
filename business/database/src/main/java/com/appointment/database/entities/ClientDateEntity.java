@@ -2,6 +2,7 @@ package com.appointment.database.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -28,17 +29,20 @@ public class ClientDateEntity {
     @Column(name = "status_date_id", nullable = false)
     private Long statusDateId;
 
-    @Column(name = "service_id", nullable = false)
-    private Long serviceId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "service_id", insertable = false, updatable = false)
+    private ServiceEntity serviceEntity;
 
-    @Column(name = "client_id", nullable = false)
-    private Long clientId;
+    @Column(name = "total_paid", nullable = false)
+    private Double totalPaid;
 
-    @Column(name = "store_id", nullable = false)
-    private Long storeId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "client_id", insertable = false, updatable = false)
+    private UserEntity clientEntity;
 
-    @Column(name = "employee_id", nullable = false)
-    private Long employeeId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "store_employee_id", insertable = false, updatable = false)
+    private StoreEmployeeEntity storeEmployeeEntity;
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")

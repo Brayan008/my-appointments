@@ -1,7 +1,7 @@
 package com.appointment.database.controllers;
 
 import com.appointment.database.entities.StoreEmployeeEntity;
-import com.appointment.database.services.EmployeeService;
+import com.appointment.database.services.StoreEmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,19 +17,19 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class EmployeeController {
 
-    private final EmployeeService employeeService;
+    private final StoreEmployeeService storeEmployeeService;
 
     @Operation(summary = "get employees")
     @GetMapping()
     public ResponseEntity<?> employees(){
-        return ResponseEntity.ok(this.employeeService.getEmployees());
+        return ResponseEntity.ok(this.storeEmployeeService.getEmployees());
     }
 
-    @Operation(summary = "get an employee given a employee id")
+    @Operation(summary = "get an employee given a store employee id")
     @GetMapping("/{employeeId}")
     public ResponseEntity<?> employeeById(@PathVariable(name = "employeeId") Long employeeId){
         log.info("Get: employee {}", employeeId);
-        return ResponseEntity.ok(this.employeeService.getEmployeeById(employeeId));
+        return ResponseEntity.ok(this.storeEmployeeService.getStoreEmployeeById(employeeId));
     }
 
     @Operation(summary = "create an employee")
@@ -38,7 +38,7 @@ public class EmployeeController {
                                             HttpServletRequest request){
         log.info("create: employee {}", employeeRequest.getUserId());
 
-        return ResponseEntity.ok().body(this.employeeService.createEmployee(employeeRequest));
+        return ResponseEntity.ok().body(this.storeEmployeeService.createEmployee(employeeRequest));
     }
 
     @Operation(summary = "update an employee by employee id")
@@ -46,27 +46,27 @@ public class EmployeeController {
     public ResponseEntity<?> updateEmployee(@PathVariable(name = "employeeId") Long employeeId,
                                             @RequestBody StoreEmployeeEntity employeeRequest){
         log.info("updating: employee {}", employeeRequest.getUserId());
-        return ResponseEntity.ok(this.employeeService.updateEmployee(employeeRequest, employeeId));
+        return ResponseEntity.ok(this.storeEmployeeService.updateEmployee(employeeRequest, employeeId));
     }
 
     @Operation(summary = "enabled employee")
     @PutMapping("/{employeeId}/enabled")
     public ResponseEntity<?> enableEmployee(@PathVariable(name = "employeeId") Long employeeId){
         log.info("enabled employee " + employeeId);
-        return ResponseEntity.ok(employeeService.enableById(employeeId));
+        return ResponseEntity.ok(storeEmployeeService.enableById(employeeId));
     }
 
     @Operation(summary = "disabled employee")
     @PutMapping("/{employeeId}/disabled")
     public ResponseEntity<?> disableEmployee(@PathVariable(name = "employeeId") Long employeeId){
         log.info("disable employee " + employeeId);
-        return ResponseEntity.ok(employeeService.disableById(employeeId));
+        return ResponseEntity.ok(storeEmployeeService.disableById(employeeId));
     }
 
     @Operation(summary = "get employees by status id")
     @GetMapping("/status/{statusId}")
     public ResponseEntity<?> getEnabledEmployees(@PathVariable(name = "statusId") Long statusId){
-        return ResponseEntity.ok(this.employeeService.findByStatusId(statusId));
+        return ResponseEntity.ok(this.storeEmployeeService.findByStatusId(statusId));
     }
 
 }

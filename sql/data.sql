@@ -30,15 +30,15 @@ VALUES('Peluqueria A', 'Av. Tecnológico Ciudad Industrial, Las Aves, 38010 Cela
 INSERT INTO services(name, price, store_id, status_id) VALUES('Corte de pelo', 120, 1, 1);
 INSERT INTO services(name, price, store_id, status_id) VALUES('Corte de barba', 50, 1, 1);
 
-INSERT INTO store_employees(user_id, store_id, status_id) VALUES (3, 1, 1);
+INSERT INTO store_employee(user_id, store_id, status_id) VALUES (3, 1, 1);
 
 INSERT INTO user_favorite_stores(user_id, store_id) VALUES (3, 1);
 
-INSERT INTO status_dates(name) VALUES ('PENDING'), ('CANCELED'), ('COMPLETE'), ('NOPAID');
+INSERT INTO status_dates(name) VALUES ('PENDING'), ('CANCELED'), ('COMPLETED'), ('NOPAID');
 
-INSERT INTO client_dates(user_date, status_date_id, service_id, user_id, store_id, employee_id)
-VALUES ('2025-02-26 14:00:00.84322', 1, 1, 3, 1, 1);
-INSERT INTO client_dates(user_date, status_date_id, service_id, user_id, store_id, employee_id)
-VALUES ('2025-02-26 14:00:00.84322', 1, 1, 4, 1, 1);
+INSERT INTO client_dates(user_date, status_date_id, service_id, client_id, store_employee_id, total_paid)
+VALUES ('2025-02-26 14:00:00.84322', 1, 1, 1,1, 88.8);
+INSERT INTO client_dates(user_date, status_date_id, service_id, client_id, store_employee_id, total_paid)
+VALUES ('2025-02-26 14:00:00.84322', 1, 1, 2, 1, 2);
 
 INSERT INTO rate_date(comment, rate, client_date_id) VALUES('Muy buen servicio, personas muy amables', 4, 1);

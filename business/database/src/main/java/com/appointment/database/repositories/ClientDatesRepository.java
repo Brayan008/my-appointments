@@ -1,0 +1,16 @@
+package com.appointment.database.repositories;
+
+import com.appointment.database.entities.ClientDateEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+
+@Repository
+public interface ClientDatesRepository extends JpaRepository<ClientDateEntity, Long> {
+
+    @Query(value = "SELECT COUNT(*) > 0 FROM client_dates WHERE user_date = :userDate AND status_date_id != 2", nativeQuery = true)
+    boolean existsActiveUserDate(LocalDateTime userDate);
+
+}

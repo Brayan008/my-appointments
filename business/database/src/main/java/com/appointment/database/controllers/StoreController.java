@@ -1,7 +1,7 @@
 package com.appointment.database.controllers;
 
 import com.appointment.database.entities.StoreEntity;
-import com.appointment.database.services.EmployeeService;
+import com.appointment.database.services.StoreEmployeeService;
 import com.appointment.database.services.StoreService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,7 +21,7 @@ import java.net.URI;
 public class StoreController {
 
     private final StoreService storeService;
-    private final EmployeeService employeeService;
+    private final StoreEmployeeService storeEmployeeService;
 
     @Operation(summary = "get stores")
     @GetMapping()
@@ -82,7 +82,7 @@ public class StoreController {
     @GetMapping("/{storeId}/employees")
     public ResponseEntity<?> employeesAssociated(@PathVariable(name = "storeId") Long storeId){
         log.info("enabled store " + storeId);
-        return ResponseEntity.ok(employeeService.getEmployeesAssociated(storeId));
+        return ResponseEntity.ok(storeEmployeeService.getEmployeesAssociated(storeId));
     }
 
     @Operation(summary = "Find stores by search text (name, address or coordinates)")

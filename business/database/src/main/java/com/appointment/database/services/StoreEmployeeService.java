@@ -5,10 +5,10 @@ import com.appointment.database.entities.UserEntity;
 
 import java.util.List;
 
-public interface EmployeeService {
+public interface StoreEmployeeService {
     List<StoreEmployeeEntity> getEmployees();
 
-    StoreEmployeeEntity getEmployeeById(Long employeeId);
+    StoreEmployeeEntity getStoreEmployeeById(Long employeeId);
 
     StoreEmployeeEntity createEmployee(StoreEmployeeEntity employee);
 

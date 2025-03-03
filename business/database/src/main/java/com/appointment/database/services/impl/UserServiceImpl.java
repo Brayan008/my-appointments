@@ -1,6 +1,8 @@
 package com.appointment.database.services.impl;
 
+import com.appointment.commons.constants.StatusConstants;
 import com.appointment.commons.enums.Status;
+import com.appointment.commons.exceptions.BusinessException;
 import com.appointment.commons.exceptions.ObjectNotFoundException;
 import com.appointment.database.entities.UserEntity;
 import com.appointment.database.repositories.UserRepository;
@@ -60,5 +62,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserEntity> findByStatusId(Long statusId) {
         return this.userRepository.findByStatusId(statusId);
+    }
+
+    @Override
+    public UserEntity getUserByEmail(String email, String typeUser) {
+
+        String typeUserToReturn = typeUser != null ? typeUser : "user";
+
+        UserEntity user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new ObjectNotFoundException(HttpStatus.NOT_FOUND.value(),
+                "The " + typeUserToReturn + " not found.", HttpStatus.NOT_FOUND));
+
+        if(user.getStatusId().equals(StatusConstants.ID_STATUS_DISABLED))
+            throw new BusinessException(HttpStatus.CONFLICT.name(), "The "+ typeUserToReturn +" are disabled", "", HttpStatus.CONFLICT);
+
+        return user;
     }
 }
