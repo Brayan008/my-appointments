@@ -35,6 +35,6 @@ public class ClientAppointmentBusinessImpl implements ClientAppointmentBusiness 
         clientAppointmentEntity.setUserAppointment(clientDBAppointmentRequest.getUserAppointment());
         clientAppointmentEntity.setServiceEntity(service);
         clientAppointmentEntity.setTotalPaid(service.getPrice());
-        return this.clientAppointmentsService.createClientDate(clientAppointmentEntity);
+        return this.clientAppointmentsService.createClientAppointment(clientAppointmentEntity);
     }
 }

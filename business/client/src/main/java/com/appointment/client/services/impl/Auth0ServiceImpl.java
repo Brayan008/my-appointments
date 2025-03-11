@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
 public class Auth0ServiceImpl implements Auth0Service {
     private WebClient webClient;
 
-    @Value("${spring.security.auth0.domain}")
+    @Value("${auth0.domain}")
     private String domain;
 
     @PostConstruct
@@ -37,6 +37,7 @@ public class Auth0ServiceImpl implements Auth0Service {
                     return Mono.error(new Exception(String.valueOf(error)));
                 })
             )
-            .bodyToMono(UserAuthResponse.class);
+            .bodyToMono(UserAuthResponse.class)
+            .doOnNext(res-> log.info(String.valueOf(res)));
     }
 }

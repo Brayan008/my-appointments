@@ -3,16 +3,13 @@ package com.appointment.commons;
 import com.appointment.commons.dtos.StandardizedApiExceptionResponse;
 import com.appointment.commons.exceptions.BadRequestException;
 import com.appointment.commons.exceptions.BusinessException;
-import com.appointment.commons.exceptions.NotFoundException;
 import com.appointment.commons.exceptions.ObjectNotFoundException;
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.net.UnknownHostException;
 
@@ -24,8 +21,9 @@ import java.net.UnknownHostException;
  * 400-level (Client error) — Client sent an invalid request
  * 500-level (Server error) — Server failed to fulfill a valid request due to an error with server
  */
-@RestControllerAdvice
+@ControllerAdvice
 @Slf4j
+@Hidden
 public class ApiExceptionHandler {
 
     @ExceptionHandler(UnknownHostException.class)
