@@ -9,9 +9,9 @@ CREATE SEQUENCE stores_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE services_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE store_employee_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE user_favorite_stores_sequence START WITH 1 INCREMENT BY 1;
-CREATE SEQUENCE status_dates_sequence START WITH 1 INCREMENT BY 1;
-CREATE SEQUENCE client_dates_sequence START WITH 1 INCREMENT BY 1;
-CREATE SEQUENCE rate_date_sequence START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE status_appointments_sequence START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE client_appointments_sequence START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE rate_appointment_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE config_employee_schedule_sequence START WITH 1 INCREMENT BY 1;
 
 CREATE TABLE status (
@@ -123,34 +123,34 @@ CREATE TABLE user_favorite_stores(
   CONSTRAINT fk_stores FOREIGN KEY (store_id) REFERENCES stores(store_id)
 );
 
-CREATE TABLE status_dates(
-  status_date_id BIGINT PRIMARY KEY DEFAULT nextval('status_dates_sequence'),
+CREATE TABLE status_appointments(
+  status_appointment_id BIGINT PRIMARY KEY DEFAULT nextval('status_appointments_sequence'),
   name TEXT NOT NULL,
   created_at TIMESTAMP DEFAULT NOW()
 );
 
-CREATE TABLE client_dates(
-  client_date_id BIGINT PRIMARY KEY DEFAULT nextval('client_dates_sequence'),
-  user_date TIMESTAMP,
-  status_date_id BIGINT NOT NULL,
+CREATE TABLE client_appointments(
+  client_appointment_id BIGINT PRIMARY KEY DEFAULT nextval('client_appointments_sequence'),
+  user_appointment TIMESTAMP,
+  status_appointment_id BIGINT NOT NULL,
   service_id BIGINT NOT NULL,
   client_id BIGINT NOT NULL,
   store_employee_id BIGINT NOT NULL,
   total_paid DECIMAL,
   created_at TIMESTAMP DEFAULT NOW(),
-  CONSTRAINT fk_status_dates FOREIGN KEY (status_date_id) REFERENCES status_dates(status_date_id),
+  CONSTRAINT fk_status_appointments FOREIGN KEY (status_appointment_id) REFERENCES status_appointments(status_appointment_id),
   CONSTRAINT fk_services FOREIGN KEY (service_id) REFERENCES services(service_id),
   CONSTRAINT fk_client FOREIGN KEY (client_id) REFERENCES users(user_id),
   CONSTRAINT fk_store_employee FOREIGN KEY (store_employee_id) REFERENCES store_employee(store_employee_id)
 );
 
-CREATE TABLE rate_date(
-  rate_date_id BIGINT PRIMARY KEY DEFAULT nextval('rate_date_sequence'),
+CREATE TABLE rate_appointment(
+  rate_appointment_id BIGINT PRIMARY KEY DEFAULT nextval('rate_appointment_sequence'),
   comment TEXT,
   rate NUMERIC(3, 1) NOT NULL,
-  client_date_id BIGINT NOT NULL,
+  client_appointment_id BIGINT NOT NULL,
   created_at TIMESTAMP DEFAULT NOW(),
-  CONSTRAINT fk_client_dates FOREIGN KEY (client_date_id) REFERENCES client_dates(client_date_id)
+  CONSTRAINT fk_client_appointments FOREIGN KEY (client_appointment_id) REFERENCES client_appointments(client_appointment_id)
 );
 
 CREATE TABLE config_employee_schedule(
@@ -165,6 +165,6 @@ CREATE TABLE config_employee_schedule(
   default_status_date_id INTEGER  NOT NULL,
   created_at TIMESTAMP DEFAULT NOW(),
   CONSTRAINT fk_store_employee FOREIGN KEY (store_employee_id) REFERENCES store_employee(store_employee_id),
-  CONSTRAINT fk_status_dates FOREIGN KEY (default_status_date_id) REFERENCES status_dates(status_date_id)
+  CONSTRAINT fk_status_appointments FOREIGN KEY (default_status_date_id) REFERENCES status_appointments(status_appointment_id)
 
 );

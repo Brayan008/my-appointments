@@ -1,7 +1,6 @@
 package com.appointment.auth.business.impl;
 
 import com.appointment.auth.business.UserBusiness;
-import com.appointment.auth.dto.UserAuthResDTO;
 import com.appointment.auth.dto.UserInfoDTORes;
 import com.appointment.auth.entities.User;
 import com.appointment.auth.repository.UserRepository;
