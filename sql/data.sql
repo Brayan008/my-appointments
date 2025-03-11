@@ -34,11 +34,11 @@ INSERT INTO store_employee(user_id, store_id, status_id) VALUES (3, 1, 1);
 
 INSERT INTO user_favorite_stores(user_id, store_id) VALUES (3, 1);
 
-INSERT INTO status_dates(name) VALUES ('PENDING'), ('CANCELED'), ('COMPLETED'), ('NOPAID');
+INSERT INTO status_appointments(name) VALUES ('PENDING'), ('ACCEPTED'), ('IN_PROCESS'), ('CANCELED'), ('COMPLETED'), ('NOPAID');
 
-INSERT INTO client_dates(user_date, status_date_id, service_id, client_id, store_employee_id, total_paid)
+INSERT INTO client_appointments(user_appointment, status_appointment_id, service_id, client_id, store_employee_id, total_paid)
 VALUES ('2025-02-26 14:00:00.84322', 1, 1, 1,1, 88.8);
-INSERT INTO client_dates(user_date, status_date_id, service_id, client_id, store_employee_id, total_paid)
+INSERT INTO client_appointments(user_appointment, status_appointment_id, service_id, client_id, store_employee_id, total_paid)
 VALUES ('2025-02-26 14:00:00.84322', 1, 1, 2, 1, 2);
 
-INSERT INTO rate_date(comment, rate, client_date_id) VALUES('Muy buen servicio, personas muy amables', 4, 1);
+INSERT INTO rate_appointment(comment, rate, client_appointment_id) VALUES('Muy buen servicio, personas muy amables', 4, 1);

@@ -1,11 +1,11 @@
 package com.appointment.database.services.impl;
 
 import com.appointment.commons.exceptions.BusinessException;
-import com.appointment.database.entities.ClientDateEntity;
+import com.appointment.database.entities.ClientAppointmentEntity;
 import com.appointment.database.entities.ConfigEmployeeSchedule;
 import com.appointment.database.repositories.ClientDatesRepository;
 import com.appointment.database.repositories.ConfigEmployeeScheduleRepository;
-import com.appointment.database.services.ClientDatesService;
+import com.appointment.database.services.ClientAppointmentsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,15 +16,15 @@ import java.time.LocalTime;
 
 @Service
 @RequiredArgsConstructor
-public class ClientDatesServiceImpl implements ClientDatesService {
+public class ClientAppointmentsServiceImpl implements ClientAppointmentsService {
 
     private final ClientDatesRepository clientDatesRepository;
     private final ConfigEmployeeScheduleRepository configEmployeeScheduleRepository;
 
     @Override
-    public ClientDateEntity createClientDate(ClientDateEntity clientDateEntity) {
+    public ClientAppointmentEntity createClientDate(ClientAppointmentEntity clientAppointmentEntity) {
         // Verify that the date does not exist and is not cancelled.
-        if (clientDatesRepository.existsActiveUserDate(clientDateEntity.getUserDate())) {
+        if (clientDatesRepository.existsActiveUserDate(clientAppointmentEntity.getUserAppointment())) {
             throw new BusinessException(
                 HttpStatus.CONFLICT.name(),
                 "That date is currently occupied",
@@ -34,7 +34,7 @@ public class ClientDatesServiceImpl implements ClientDatesService {
         }
 
         // Validate that the appointment is in the future.
-        if (clientDateEntity.getUserDate().isBefore(LocalDateTime.now())) {
+        if (clientAppointmentEntity.getUserAppointment().isBefore(LocalDateTime.now())) {
             throw new BusinessException(
                 HttpStatus.CONFLICT.name(),
                 "Appointment date is in the past",
@@ -44,10 +44,10 @@ public class ClientDatesServiceImpl implements ClientDatesService {
         }
 
         // Get employee settings for the relevant day.
-        LocalDateTime userDateTime = clientDateEntity.getUserDate();
+        LocalDateTime userDateTime = clientAppointmentEntity.getUserAppointment();
         int dayOfWeek = userDateTime.getDayOfWeek().getValue(); // Monday=1, Sunday=7
         ConfigEmployeeSchedule schedule = configEmployeeScheduleRepository
-            .findByStoreEmployeeEntityAndDayOfWeek(clientDateEntity.getStoreEmployeeEntity(), dayOfWeek);
+            .findByStoreEmployeeEntityAndDayOfWeek(clientAppointmentEntity.getStoreEmployeeEntity(), dayOfWeek);
 
         if (schedule == null) {
             throw new BusinessException(
@@ -91,8 +91,7 @@ public class ClientDatesServiceImpl implements ClientDatesService {
         }
 
         //Set status of date configured
-        clientDateEntity.setStatusDateId(schedule.getDefaultStatusDateEntity().getStatusDateId());
-
-        return clientDatesRepository.save(clientDateEntity);
+        clientAppointmentEntity.setStatusAppointmentId(schedule.getDefaultStatusAppointmentEntity().getStatusAppointmentId());
+        return clientDatesRepository.save(clientAppointmentEntity);
     }
 }

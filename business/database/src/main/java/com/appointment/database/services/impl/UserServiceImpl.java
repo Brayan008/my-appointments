@@ -70,8 +70,8 @@ public class UserServiceImpl implements UserService {
         String typeUserToReturn = typeUser != null ? typeUser : "user";
 
         UserEntity user = userRepository.findByEmail(email)
-            .orElseThrow(() -> new ObjectNotFoundException(HttpStatus.NOT_FOUND.value(),
-                "The " + typeUserToReturn + " not found.", HttpStatus.NOT_FOUND));
+            .orElseThrow(() -> new BusinessException(HttpStatus.NOT_FOUND.name(),
+                "The " + typeUserToReturn + " not found.", "", HttpStatus.NOT_FOUND));
 
         if(user.getStatusId().equals(StatusConstants.ID_STATUS_DISABLED))
             throw new BusinessException(HttpStatus.CONFLICT.name(), "The "+ typeUserToReturn +" are disabled", "", HttpStatus.CONFLICT);

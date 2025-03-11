@@ -1,14 +1,13 @@
 package com.appointment.auth.service.impl;
 
-import com.appointment.auth.dto.UserAuthResDTO;
 import com.appointment.auth.service.Auth0Service;
+import com.appointment.commons.dtos.response.UserAuthResponse;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -18,7 +17,7 @@ import reactor.core.publisher.Mono;
 public class Auth0ServicesImpl implements Auth0Service {
     private WebClient webClient;
 
-    @Value("${spring.security.auth0.domain}")
+    @Value("${auth0.domain}")
     private String domain;
 
     @PostConstruct
@@ -29,7 +28,7 @@ public class Auth0ServicesImpl implements Auth0Service {
     }
 
     @Override
-    public Mono<UserAuthResDTO> getUserInfo(String accessToken) {
+    public Mono<UserAuthResponse> getUserInfo(String accessToken) {
         return webClient.get()
                 .uri("/userinfo")
                 .header("Authorization", "Bearer " + accessToken)
@@ -40,6 +39,6 @@ public class Auth0ServicesImpl implements Auth0Service {
                             return Mono.error(new Exception(String.valueOf(error)));
                         })
                 )
-                .bodyToMono(UserAuthResDTO.class);
+                .bodyToMono(UserAuthResponse.class);
     }
 }

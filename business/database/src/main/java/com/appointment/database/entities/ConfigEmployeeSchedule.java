@@ -29,7 +29,7 @@ public class ConfigEmployeeSchedule {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "default_status_date_id", insertable = false, updatable = false)
-    private StatusDateEntity defaultStatusDateEntity;
+    private StatusAppointmentEntity defaultStatusAppointmentEntity;
 
     @Column(name = "day_of_week", nullable = false)
     private Integer dayOfWeek;

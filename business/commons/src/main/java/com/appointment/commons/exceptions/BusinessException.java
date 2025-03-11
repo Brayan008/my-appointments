@@ -13,13 +13,6 @@ public class BusinessException extends RuntimeException {
     private String detail;
     private HttpStatus httpStatus;
 
-    public BusinessException(Long id, String code, String message, HttpStatus httpStatus) {
-        super(message);
-        this.id = id;
-        this.code = code;
-        this.httpStatus = httpStatus;
-    }
-
     public BusinessException(String code, String message, String detail, HttpStatus httpStatus) {
         super(message);
         this.code = code;

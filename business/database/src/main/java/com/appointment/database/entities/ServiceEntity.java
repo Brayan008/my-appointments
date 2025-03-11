@@ -29,7 +29,7 @@ public class ServiceEntity {
 
     @Check(constraints = "rating >= 0")
     @Column(nullable = false)
-    private BigDecimal price;
+    private Double price;
 
     @Column(name = "store_id", nullable = false)
     private Long storeId;

@@ -2,7 +2,6 @@ package com.appointment.database.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -12,22 +11,22 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@SequenceGenerator(name = "client_dates_seq", sequenceName = "client_dates_sequence", allocationSize = 1)
-@Table(name = "client_dates")
+@SequenceGenerator(name = "client_appointments_seq", sequenceName = "client_appointments_sequence", allocationSize = 1)
+@Table(name = "client_appointments")
 @Getter
 @Setter
 @ToString
-public class ClientDateEntity {
+public class ClientAppointmentEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_favorite_stores_seq")
-    @Column(name = "client_date_id", nullable = false)
-    private Long clientDateId;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_appointments_seq")
+    @Column(name = "client_appointment_id", nullable = false)
+    private Long clientAppointmentId;
 
-    @Column(name = "user_date", nullable = false)
-    private LocalDateTime userDate;
+    @Column(name = "user_appointment", nullable = false)
+    private LocalDateTime userAppointment;
 
-    @Column(name = "status_date_id", nullable = false)
-    private Long statusDateId;
+    @Column(name = "status_appointment_id", nullable = false)
+    private Long statusAppointmentId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "service_id", insertable = false, updatable = false)
@@ -53,12 +52,12 @@ public class ClientDateEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ClientDateEntity that = (ClientDateEntity) o;
-        return Objects.equals(clientDateId, that.clientDateId);
+        ClientAppointmentEntity that = (ClientAppointmentEntity) o;
+        return Objects.equals(clientAppointmentId, that.clientAppointmentId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(clientDateId);
+        return Objects.hashCode(clientAppointmentId);
     }
 }
