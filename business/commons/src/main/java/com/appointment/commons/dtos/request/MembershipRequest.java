@@ -1,5 +1,8 @@
 package com.appointment.commons.dtos.request;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +15,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 public class MembershipRequest implements Serializable {
+    @NotBlank
     private String description;
+    @NotNull
     private Long statusId;
 }
