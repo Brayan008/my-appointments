@@ -36,7 +36,7 @@ public class DatabaseServiceImpl implements DatabaseService {
             .retrieve()
             .onStatus(HttpStatusCode::isError, res -> res.bodyToMono(String.class)
                 .flatMap(error -> {
-                    log.error("Error on get token {}", error);
+                    log.error("Error on database token {}", error);
                     return Mono.error(new Exception(String.valueOf(error)));
                 })
             )

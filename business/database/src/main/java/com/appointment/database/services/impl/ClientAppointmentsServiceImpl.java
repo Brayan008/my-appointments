@@ -3,7 +3,7 @@ package com.appointment.database.services.impl;
 import com.appointment.commons.exceptions.BusinessException;
 import com.appointment.database.entities.ClientAppointmentEntity;
 import com.appointment.database.entities.ConfigEmployeeSchedule;
-import com.appointment.database.repositories.ClientDatesRepository;
+import com.appointment.database.repositories.ClientAppointmentsRepository;
 import com.appointment.database.repositories.ConfigEmployeeScheduleRepository;
 import com.appointment.database.services.ClientAppointmentsService;
 import lombok.RequiredArgsConstructor;
@@ -18,13 +18,13 @@ import java.time.LocalTime;
 @RequiredArgsConstructor
 public class ClientAppointmentsServiceImpl implements ClientAppointmentsService {
 
-    private final ClientDatesRepository clientDatesRepository;
+    private final ClientAppointmentsRepository clientAppointmentsRepository;
     private final ConfigEmployeeScheduleRepository configEmployeeScheduleRepository;
 
     @Override
-    public ClientAppointmentEntity createClientDate(ClientAppointmentEntity clientAppointmentEntity) {
+    public ClientAppointmentEntity createClientAppointment(ClientAppointmentEntity clientAppointmentEntity) {
         // Verify that the date does not exist and is not cancelled.
-        if (clientDatesRepository.existsActiveUserDate(clientAppointmentEntity.getUserAppointment())) {
+        if (clientAppointmentsRepository.existsActiveUserDate(clientAppointmentEntity.getUserAppointment())) {
             throw new BusinessException(
                 HttpStatus.CONFLICT.name(),
                 "That date is currently occupied",
@@ -69,7 +69,7 @@ public class ClientAppointmentsServiceImpl implements ClientAppointmentsService 
             );
         }
 
-        // Validate that the appointment time is not in the rest interval.
+        // Validate that the appointment time is not in the break.
         if (!appointmentTime.isBefore(schedule.getStartTimeBreak()) && appointmentTime.isBefore(schedule.getEndTimeBreak())) {
             throw new BusinessException(
                 HttpStatus.CONFLICT.name(),
@@ -90,8 +90,18 @@ public class ClientAppointmentsServiceImpl implements ClientAppointmentsService 
             );
         }
 
+        // Validate limit of appointments per day
+        int clientAppointmentsCount = clientAppointmentsRepository.countAppointmentsByClientAndDay(clientAppointmentEntity.getUserAppointment(), clientAppointmentEntity.getClientEntity().getUserId());
+        if (clientAppointmentsCount >= schedule.getAppointmentsPerDay()) {
+            throw new BusinessException(HttpStatus.CONFLICT.name(),
+                "Daily appointment limit reached",
+                "The client has reached the maximum number of appointments for this day.",
+                HttpStatus.CONFLICT);
+        }
+
+
         //Set status of date configured
         clientAppointmentEntity.setStatusAppointmentId(schedule.getDefaultStatusAppointmentEntity().getStatusAppointmentId());
-        return clientDatesRepository.save(clientAppointmentEntity);
+        return clientAppointmentsRepository.save(clientAppointmentEntity);
     }
 }

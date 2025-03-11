@@ -49,6 +49,9 @@ public class ConfigEmployeeSchedule {
     @Column(name = "interval_in_minutes", nullable = false)
     private Integer intervalInMinutes;
 
+    @Column(name = "appointments_per_day", nullable = false)
+    private Integer appointmentsPerDay;
+
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
