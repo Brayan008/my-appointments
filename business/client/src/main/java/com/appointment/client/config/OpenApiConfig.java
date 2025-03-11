@@ -1,4 +1,4 @@
-package com.appointment.database.config;
+package com.appointment.client.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.models.Components;
@@ -15,16 +15,26 @@ import java.util.List;
 @Configuration
 @OpenAPIDefinition
 public class OpenApiConfig {
-    @Value("${openapi.service.url-database}")
-    private String urlDatabase;
+
+    @Value("${openapi.service.url-gateway}")
+    private String urlGateway;
+    @Value("${openapi.service.url-client}")
+    private String urlClient;
+
 
     @Bean
     public OpenAPI userOpenAPI(
         @Value("${openapi.service.title}") String serviceTitle,
         @Value("${openapi.service.version}") String serviceVersion) {
         return new OpenAPI()
-            .servers(List.of(new Server().url(urlDatabase)))
-            .info(new Info().title(serviceTitle).version(serviceVersion));
+            .servers(List.of(new Server().url(urlGateway), new Server().url(urlClient)))
+            .info(new Info().title(serviceTitle).version(serviceVersion))
+            .components(new Components()
+                .addSecuritySchemes("bearer-jwt", new SecurityScheme()
+                    .type(SecurityScheme.Type.HTTP)
+                    .scheme("bearer")
+                    .bearerFormat("JWT")
+                    .description("Insert the JWT")));
     }
 
 }

@@ -1,4 +1,4 @@
-package com.appointment.auth.service;
+package com.appointment.client.services;
 
 import com.appointment.commons.dtos.response.UserAuthResponse;
 import reactor.core.publisher.Mono;

@@ -11,16 +11,16 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@SequenceGenerator(name = "status_dates_seq", sequenceName = "status_dates_sequence", allocationSize = 1)
-@Table(name = "status_dates")
+@SequenceGenerator(name = "status_appointments_seq", sequenceName = "status_appointments_sequence", allocationSize = 1)
+@Table(name = "status_appointments")
 @Getter
 @Setter
 @ToString
-public class StatusDateEntity {
+public class StatusAppointmentEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "status_dates_seq")
-    @Column(name = "status_date_id", nullable = false)
-    private Long statusDateId;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "status_appointments_seq")
+    @Column(name = "status_appointment_id", nullable = false)
+    private Long statusAppointmentId;
 
     @Column(nullable = false, length = 300)
     private String name;
@@ -34,12 +34,12 @@ public class StatusDateEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        StatusDateEntity that = (StatusDateEntity) o;
-        return Objects.equals(statusDateId, that.statusDateId);
+        StatusAppointmentEntity that = (StatusAppointmentEntity) o;
+        return Objects.equals(statusAppointmentId, that.statusAppointmentId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(statusDateId);
+        return Objects.hashCode(statusAppointmentId);
     }
 }
