@@ -25,7 +25,7 @@ public class ClientAppointmentController {
     @Operation(summary = "Create an appointment to client")
     @PostMapping()
     public ResponseEntity<?> createClientAppointment(@RequestBody ClientDBAppointmentRequest clientDBAppointmentRequest){
-        log.info("create: client date {}", clientDBAppointmentRequest);
+        log.info("create: client appoitnment {}", clientDBAppointmentRequest);
         return new ResponseEntity<>(this.clientAppointmentBusiness.createClientAppointment(clientDBAppointmentRequest), HttpStatus.CREATED);
     }
 

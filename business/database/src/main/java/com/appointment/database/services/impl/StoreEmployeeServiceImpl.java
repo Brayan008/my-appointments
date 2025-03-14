@@ -10,10 +10,13 @@ import com.appointment.database.repositories.StoreEmployeeRepository;
 import com.appointment.database.services.StoreEmployeeService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @Slf4j
@@ -21,6 +24,7 @@ import java.util.List;
 public class StoreEmployeeServiceImpl implements StoreEmployeeService {
 
     private final StoreEmployeeRepository storeEmployeeRepository;
+    private final MessageSource messageSource;
 
     @Override
     public List<StoreEmployeeEntity> getEmployees() {
@@ -29,16 +33,19 @@ public class StoreEmployeeServiceImpl implements StoreEmployeeService {
 
     @Override
     public StoreEmployeeEntity getStoreEmployeeById(Long storeEmployeeId) {
-
+        Locale locale = LocaleContextHolder.getLocale();
         StoreEmployeeEntity storeEmployeeEntity = storeEmployeeRepository.findById(storeEmployeeId)
             .orElseThrow(() -> new ObjectNotFoundException(HttpStatus.NOT_FOUND.value(),
-                "The employee not found", HttpStatus.NOT_FOUND));
+                messageSource.getMessage("error.404.store-employee", null, locale), HttpStatus.NOT_FOUND));
+
+        if(storeEmployeeEntity.getStatus().getStatusId().equals(StatusConstants.ID_STATUS_DISABLED))
+            throw new BusinessException(String.valueOf(HttpStatus.CONFLICT.value()), messageSource.getMessage("error.4091.store-employee", null, locale), "", HttpStatus.CONFLICT);
 
         if(storeEmployeeEntity.getUser().getStatus().getStatusId().equals(StatusConstants.ID_STATUS_DISABLED))
-            throw new BusinessException(HttpStatus.CONFLICT.name(), "The employee are disabled", "", HttpStatus.CONFLICT);
+            throw new BusinessException(String.valueOf(HttpStatus.CONFLICT.value()), messageSource.getMessage("error.4091.user", null, locale), "", HttpStatus.CONFLICT);
 
         if(storeEmployeeEntity.getStore().getStatus().getStatusId().equals(StatusConstants.ID_STATUS_DISABLED))
-            throw new BusinessException(HttpStatus.CONFLICT.name(), "The store are disabled", "", HttpStatus.CONFLICT);
+            throw new BusinessException(String.valueOf(HttpStatus.CONFLICT.value()), messageSource.getMessage("error.4091.store", null, locale), "", HttpStatus.CONFLICT);
 
         return storeEmployeeEntity;
     }

@@ -25,7 +25,7 @@ public class ClientAppointmentBusinessImpl implements ClientAppointmentBusiness 
 
     @Override
     public ClientAppointmentEntity createClientAppointment(ClientDBAppointmentRequest clientDBAppointmentRequest) {
-        UserEntity client = this.userService.getUserByEmail(clientDBAppointmentRequest.getClientEmail(), "client");
+        UserEntity client = this.userService.getUserByEmail(clientDBAppointmentRequest.getClientEmail());
         ServiceEntity service = this.serviceService.getServiceById(clientDBAppointmentRequest.getServiceId());
         StoreEmployeeEntity storeEmployee = this.storeEmployeeService.getStoreEmployeeById(clientDBAppointmentRequest.getStoreEmployeeId());
 

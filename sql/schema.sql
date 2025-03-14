@@ -162,10 +162,10 @@ CREATE TABLE config_employee_schedule(
   end_time_break    TIME NOT NULL,
   interval_in_minutes INTEGER NOT NULL,
   store_employee_id INTEGER  NOT NULL,
-  default_status_date_id INTEGER  NOT NULL,
-  appointments_per_day INTEGER NOT NULL,
+  default_status_appointment_id INTEGER  NOT NULL,
+  appointments_per_client INTEGER NOT NULL,
   created_at TIMESTAMP DEFAULT NOW(),
   CONSTRAINT fk_store_employee FOREIGN KEY (store_employee_id) REFERENCES store_employee(store_employee_id),
-  CONSTRAINT fk_status_appointments FOREIGN KEY (default_status_date_id) REFERENCES status_appointments(status_appointment_id)
+  CONSTRAINT fk_status_appointments FOREIGN KEY (default_status_appointment_id) REFERENCES status_appointments(status_appointment_id)
 
 );

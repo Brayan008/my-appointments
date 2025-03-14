@@ -19,6 +19,6 @@ public interface UserService {
 
     List<UserEntity> findByStatusId(Long statusId);
 
-    UserEntity getUserByEmail(String email, String typeUser);
+    UserEntity getUserByEmail(String email);
 
 }
