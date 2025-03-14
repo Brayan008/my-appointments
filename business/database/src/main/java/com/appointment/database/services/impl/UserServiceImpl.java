@@ -8,16 +8,20 @@ import com.appointment.database.entities.UserEntity;
 import com.appointment.database.repositories.UserRepository;
 import com.appointment.database.services.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final MessageSource messageSource;
 
     @Override
     public List<UserEntity> getUsers() {
@@ -65,16 +69,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity getUserByEmail(String email, String typeUser) {
-
-        String typeUserToReturn = typeUser != null ? typeUser : "user";
-
+    public UserEntity getUserByEmail(String email) {
+        Locale locale = LocaleContextHolder.getLocale();
         UserEntity user = userRepository.findByEmail(email)
-            .orElseThrow(() -> new BusinessException(HttpStatus.NOT_FOUND.name(),
-                "The " + typeUserToReturn + " not found.", "", HttpStatus.NOT_FOUND));
+            .orElseThrow(() -> new BusinessException(String.valueOf(HttpStatus.NOT_FOUND.value()),
+                messageSource.getMessage("error.404.user", null, locale), "", HttpStatus.NOT_FOUND));
 
         if(user.getStatusId().equals(StatusConstants.ID_STATUS_DISABLED))
-            throw new BusinessException(HttpStatus.CONFLICT.name(), "The "+ typeUserToReturn +" are disabled", "", HttpStatus.CONFLICT);
+            throw new BusinessException(String.valueOf(4091),
+                messageSource.getMessage("error.4091.user", null, locale), "", HttpStatus.CONFLICT);
 
         return user;
     }

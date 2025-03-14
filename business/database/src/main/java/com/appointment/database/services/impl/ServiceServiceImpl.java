@@ -8,10 +8,13 @@ import com.appointment.database.repositories.ServiceRepository;
 import com.appointment.database.services.ServiceService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @Slf4j
@@ -19,6 +22,7 @@ import java.util.List;
 public class ServiceServiceImpl implements ServiceService {
 
     private final ServiceRepository serviceRepository;
+    private final MessageSource messageSource;
 
     @Override
     public List<ServiceEntity> getServices() {
@@ -27,11 +31,12 @@ public class ServiceServiceImpl implements ServiceService {
 
     @Override
     public ServiceEntity getServiceById(Long serviceId) {
+        Locale locale = LocaleContextHolder.getLocale();
         ServiceEntity service = serviceRepository.findById(serviceId)
             .orElseThrow(() -> new ObjectNotFoundException(HttpStatus.NOT_FOUND.value(),
-                "service not found with.", HttpStatus.NOT_FOUND));
+                messageSource.getMessage("error.404.store-services", null, locale), HttpStatus.NOT_FOUND));
         if(service.getStatusId().equals(Status.DISABLED.getCode()))
-            throw new BusinessException(HttpStatus.CONFLICT.name(), "The services are disabled.", "", HttpStatus.CONFLICT);
+            throw new BusinessException(HttpStatus.CONFLICT.name(), messageSource.getMessage("error.4091.store-services", null, locale), "", HttpStatus.CONFLICT);
         return service;
     }
 

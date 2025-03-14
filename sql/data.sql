@@ -42,3 +42,9 @@ INSERT INTO client_appointments(user_appointment, status_appointment_id, service
 VALUES ('2025-02-26 14:00:00.84322', 1, 1, 2, 1, 2);
 
 INSERT INTO rate_appointment(comment, rate, client_appointment_id) VALUES('Muy buen servicio, personas muy amables', 4, 1);
+
+INSERT INTO config_employee_schedule(day_of_week, start_time, end_time, start_time_break, end_time_break, interval_in_minutes, store_employee_id, default_status_appointment_id, appointments_per_client)
+VALUES (1, '9:00', '18:00', '12:00', '14:00', 30, 1, 1, 1),
+(3, '9:00', '18:00', '12:00', '14:00', 30, 1, 1, 1),
+(5, '8:00', '18:00', '12:00', '14:00', 30, 1, 1, 2);
+
