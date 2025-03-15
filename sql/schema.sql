@@ -6,7 +6,7 @@ CREATE SEQUENCE users_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE companies_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE owners_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE stores_sequence START WITH 1 INCREMENT BY 1;
-CREATE SEQUENCE services_sequence START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE store_services_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE store_employee_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE user_favorite_stores_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE status_appointments_sequence START WITH 1 INCREMENT BY 1;
@@ -92,8 +92,8 @@ CREATE TABLE stores(
   CONSTRAINT fk_companies FOREIGN KEY (company_id) REFERENCES companies(company_id)
 );
 
-CREATE TABLE services(
-  service_id BIGINT PRIMARY KEY DEFAULT nextval('services_sequence'),
+CREATE TABLE store_services(
+  store_service_id BIGINT PRIMARY KEY DEFAULT nextval('store_services_sequence'),
   name TEXT NOT NULL,
   price NUMERIC(12, 2) NOT NULL,
   store_id BIGINT NOT NULL,
@@ -133,13 +133,13 @@ CREATE TABLE client_appointments(
   client_appointment_id BIGINT PRIMARY KEY DEFAULT nextval('client_appointments_sequence'),
   user_appointment TIMESTAMP,
   status_appointment_id BIGINT NOT NULL,
-  service_id BIGINT NOT NULL,
+  store_service_id BIGINT NOT NULL,
   client_id BIGINT NOT NULL,
   store_employee_id BIGINT NOT NULL,
   total_paid DECIMAL,
   created_at TIMESTAMP DEFAULT NOW(),
   CONSTRAINT fk_status_appointments FOREIGN KEY (status_appointment_id) REFERENCES status_appointments(status_appointment_id),
-  CONSTRAINT fk_services FOREIGN KEY (service_id) REFERENCES services(service_id),
+  CONSTRAINT fk_services FOREIGN KEY (store_service_id) REFERENCES store_services(store_service_id),
   CONSTRAINT fk_client FOREIGN KEY (client_id) REFERENCES users(user_id),
   CONSTRAINT fk_store_employee FOREIGN KEY (store_employee_id) REFERENCES store_employee(store_employee_id)
 );
