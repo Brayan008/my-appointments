@@ -21,5 +21,4 @@ public class ServiceResponse implements Serializable {
     private BigDecimal price;
     private Long storeId;
     private StoreResponse store;
-    private LocalDateTime createdAt;
 }

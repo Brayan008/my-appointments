@@ -20,5 +20,4 @@ public class OwnerResponse implements Serializable {
     private Long companyId;
     private UserResponse user;
     private CompanyResponse company;
-    private LocalDateTime createdAt;
 }

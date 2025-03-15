@@ -18,5 +18,4 @@ public class MembershipResponse implements Serializable {
     private Long membershipId;
     private String description;
     private StatusResponse status;
-    private LocalDateTime createdAt;
 }
