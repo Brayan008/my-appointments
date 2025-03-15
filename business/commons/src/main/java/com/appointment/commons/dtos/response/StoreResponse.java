@@ -24,5 +24,4 @@ public class StoreResponse implements Serializable {
     private Long companyId;
     private StatusResponse status;
     private CompanyResponse company;
-    private LocalDateTime createdAt;
 }
