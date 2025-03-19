@@ -24,20 +24,23 @@ spring:
         - id: auth
           uri: lb://auth
           predicates:
-            - Path=/api/v1/auth/**
+            - Path=/api/v1/auth/**, /api/auth/v3/api-docs
         - id: owner
           uri: lb://owner
           predicates:
-            - Path=/api/v1/owner/**
+            - Path=/api/v1/owner/**, /api/owner/v3/api-docs
         - id: client
           uri: lb://client
           predicates:
-            - Path=/api/v1/client/**
+            - Path=/api/v1/client/**, /api/client/v3/api-docs
         - id: employee
           uri: lb://employee
           predicates:
-            - Path=/api/v1/employee/**
+            - Path=/api/v1/employee/**, /api/employee/v3/api-docs
 springdoc:
+  enable-native-support: true
+  api-docs:
+    enabled: true
   swagger-ui:
     enabled: true
     path: /swagger-ui.html

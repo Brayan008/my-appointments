@@ -2,6 +2,7 @@ package com.appointment.client.controllers;
 
 import com.appointment.client.business.StoreBusiness;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,7 @@ public class StoreController {
 
     private final StoreBusiness storeBusiness;
 
-    @Operation(summary = "Add user favorite store")
+    @Operation(summary = "Add user favorite store", security = @SecurityRequirement(name = "bearer-jwt"))
     @PostMapping("/{storeId}/favorite-store")
     public ResponseEntity<?> addFavoriteStore(@PathVariable Long storeId,
                                               @RequestHeader("AccessToken") String accessToken){
@@ -25,7 +26,7 @@ public class StoreController {
         return ResponseEntity.ok(this.storeBusiness.addStoreToFavorites(accessToken, storeId));
     }
 
-    @Operation(summary = "Delete user favorite store")
+    @Operation(summary = "Delete user favorite store", security = @SecurityRequirement(name = "bearer-jwt"))
     @DeleteMapping("/favorite-store/{userFavoriteStoreId}")
     public ResponseEntity<?> deleteFavoriteStore(@PathVariable Long userFavoriteStoreId){
         log.info("Delete favorite store {}", userFavoriteStoreId);
