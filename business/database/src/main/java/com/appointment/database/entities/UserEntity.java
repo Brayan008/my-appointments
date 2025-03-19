@@ -51,7 +51,7 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<FavoriteStoresEntity> favoriteStores;
+    private List<UserFavoriteStoresEntity> favoriteStores;
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")

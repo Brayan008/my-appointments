@@ -11,7 +11,7 @@ spring:
     config:
       username: ${security.name}
       password: ${security.password}
-      name: auth
+      name: general, auth
       profile: dev
       retry:
         max-attempts: 1

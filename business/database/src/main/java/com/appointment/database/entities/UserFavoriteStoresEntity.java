@@ -16,24 +16,18 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-public class FavoriteStoresEntity {
+public class UserFavoriteStoresEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_favorite_stores_seq")
     @Column(name = "user_favorite_store_id", nullable = false)
     private Long favoriteStoreId;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
-
-    @Column(name = "store_id", nullable = false)
-    private Long storeId;
-
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id")
     private UserEntity user;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "store_id", insertable = false, updatable = false)
+    @JoinColumn(name = "store_id")
     private StoreEntity store;
 
     @CreationTimestamp
@@ -45,7 +39,7 @@ public class FavoriteStoresEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        FavoriteStoresEntity that = (FavoriteStoresEntity) o;
+        UserFavoriteStoresEntity that = (UserFavoriteStoresEntity) o;
         return Objects.equals(favoriteStoreId, that.favoriteStoreId);
     }
 

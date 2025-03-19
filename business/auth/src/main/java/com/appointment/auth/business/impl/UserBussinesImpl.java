@@ -5,6 +5,7 @@ import com.appointment.auth.dto.UserInfoDTORes;
 import com.appointment.auth.entities.User;
 import com.appointment.auth.repository.UserRepository;
 import com.appointment.auth.service.Auth0Service;
+import com.appointment.commons.dtos.response.UserAuthResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -32,7 +33,7 @@ public class UserBussinesImpl implements UserBusiness {
         });
     }
 
-    private UserInfoDTORes buildUserInfo(UserAuthResDTO auth0User, User dbUser) {
+    private UserInfoDTORes buildUserInfo(UserAuthResponse auth0User, User dbUser) {
         return UserInfoDTORes.builder()
             .idUser(dbUser.getUserId())
             .userAuth0(auth0User)

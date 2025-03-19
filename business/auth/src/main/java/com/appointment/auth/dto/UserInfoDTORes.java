@@ -1,8 +1,6 @@
 package com.appointment.auth.dto;
 
-
-import com.appointment.auth.entities.Role;
-import com.appointment.auth.entities.Status;
+import com.appointment.commons.dtos.response.UserAuthResponse;
 import lombok.*;
 
 @Getter
@@ -13,5 +11,5 @@ public class UserInfoDTORes {
     private Long idUser;
     private Long roleId;
     private Long statusId;
-    private UserAuthResDTO userAuth0;
+    private UserAuthResponse userAuth0;
 }
