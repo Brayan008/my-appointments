@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 @RestController
 @Slf4j
 @AllArgsConstructor
-@RequestMapping("/appointment")
+@RequestMapping("/api/v1/client/appointment")
 @Tag(name = "Appointments Controller", description = "Endpoints management appointments.")
 public class AppointmentController {
 

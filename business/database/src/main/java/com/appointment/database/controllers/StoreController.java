@@ -1,5 +1,6 @@
 package com.appointment.database.controllers;
 
+import com.appointment.database.business.UserFavoriteStoreBusiness;
 import com.appointment.database.entities.StoreEntity;
 import com.appointment.database.services.StoreEmployeeService;
 import com.appointment.database.services.StoreService;
@@ -22,6 +23,7 @@ public class StoreController {
 
     private final StoreService storeService;
     private final StoreEmployeeService storeEmployeeService;
+    private final UserFavoriteStoreBusiness userFavoriteStoreBusiness;
 
     @Operation(summary = "get stores")
     @GetMapping()
@@ -89,5 +91,20 @@ public class StoreController {
     @GetMapping("/search")
     public ResponseEntity<?> findStoresBySearchText(@RequestParam(name = "searchText") String searchText){
         return ResponseEntity.ok(storeService.findStoresBySearchText(searchText));
+    }
+
+    @Operation(summary = "Add user favorite store")
+    @PostMapping("/{storeId}/favorite-store/user/{email}")
+    public ResponseEntity<?> addFavoriteStore(@PathVariable Long storeId,
+                                              @PathVariable String email){
+        log.info("Set favorite store {}", storeId);
+        return ResponseEntity.ok(this.userFavoriteStoreBusiness.addFavoriteStore(storeId, email));
+    }
+
+    @Operation(summary = "Delete user favorite store")
+    @DeleteMapping("/favorite-store/{userFavoriteStoreId}")
+    public ResponseEntity<?> deleteFavoriteStore(@PathVariable Long userFavoriteStoreId){
+        log.info("Delete favorite store {}", userFavoriteStoreId);
+        return ResponseEntity.ok(this.userFavoriteStoreBusiness.deleteFavoriteStore(userFavoriteStoreId));
     }
 }
