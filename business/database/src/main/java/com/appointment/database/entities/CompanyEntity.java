@@ -17,53 +17,55 @@ import java.util.Objects;
 @Setter
 @Getter
 public class CompanyEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "companies_seq")
-    @Column(nullable = false)
-    private Long companyId;
+   @Id
+   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "companies_seq")
+   @Column(nullable = false)
+   private Long companyId;
 
-    @Column(nullable = false, unique = true)
-    private String name;
-    @Column(nullable = false)
-    private String logo;
-    @Column(nullable = false, length = 15)
-    private String phoneNumber;
-    private String instagramUrl;
-    private String facebookUrl;
+   @Column(nullable = false, unique = true)
+   private String name;
 
-    @Column(name = "membership_id", nullable = false)
-    private Long membershipId;
+   @Column(nullable = false)
+   private String logo;
 
-    @Column(name = "status_id", nullable = false)
-    private Long statusId;
+   @Column(nullable = false, length = 15)
+   private String phoneNumber;
+   private String instagramUrl;
+   private String facebookUrl;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "membership_id", insertable = false, updatable = false)
-    private MembershipEntity membership;
+   @Column(name = "membership_id", nullable = false)
+   private Long membershipId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "status_id", insertable = false, updatable = false)
-    private StatusEntity status;
+   @Column(name = "status_id", nullable = false)
+   private Long statusId;
 
-    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<OwnerEntity> owners;
+   @ManyToOne(fetch = FetchType.EAGER)
+   @JoinColumn(name = "membership_id", insertable = false, updatable = false)
+   private MembershipEntity membership;
 
-    @CreationTimestamp
-    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
+   @ManyToOne(fetch = FetchType.EAGER)
+   @JoinColumn(name = "status_id", insertable = false, updatable = false)
+   private StatusEntity status;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CompanyEntity that = (CompanyEntity) o;
-        return Objects.equals(companyId, that.companyId);
-    }
+   @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
+   @JsonIgnore
+   private List<OwnerEntity> owners;
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(companyId);
-    }
+   @CreationTimestamp
+   @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
+   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+   private LocalDateTime createdAt;
+
+   @Override
+   public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      CompanyEntity that = (CompanyEntity) o;
+      return Objects.equals(companyId, that.companyId);
+   }
+
+   @Override
+   public int hashCode() {
+      return Objects.hashCode(companyId);
+   }
 }

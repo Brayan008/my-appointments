@@ -5,11 +5,11 @@ import com.appointment.database.entities.RoleEntity;
 import java.util.List;
 
 public interface RoleService {
-    List<RoleEntity> getRoles();
+   List<RoleEntity> getRoles();
 
-    RoleEntity getRoleById(Long roleId);
+   RoleEntity getRoleById(Long roleId);
 
-    RoleEntity createRole(RoleEntity role);
+   RoleEntity createRole(RoleEntity role);
 
-    RoleEntity updateRole(RoleEntity role, Long roleId);
+   RoleEntity updateRole(RoleEntity role, Long roleId);
 }

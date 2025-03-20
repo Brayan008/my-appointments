@@ -17,39 +17,39 @@ import java.util.Objects;
 @Getter
 @ToString
 public class MembershipBenefit {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "membership_benefits_seq")
-    @Column(name = "membership_benefit_id", nullable = false)
-    private Long membershipBenefitId;
+   @Id
+   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "membership_benefits_seq")
+   @Column(name = "membership_benefit_id", nullable = false)
+   private Long membershipBenefitId;
 
-    @Column(nullable = false)
-    private String benefit;
+   @Column(nullable = false)
+   private String benefit;
 
-    @Column(nullable = false)
-    private String description;
+   @Column(nullable = false)
+   private String description;
 
-    @Column(name = "membership_id", nullable = false)
-    private Long membershipId;
+   @Column(name = "membership_id", nullable = false)
+   private Long membershipId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "membership_id", insertable = false, updatable = false)
-    private MembershipEntity membership;
+   @ManyToOne(fetch = FetchType.EAGER)
+   @JoinColumn(name = "membership_id", insertable = false, updatable = false)
+   private MembershipEntity membership;
 
-    @CreationTimestamp
-    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
+   @CreationTimestamp
+   @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
+   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+   private LocalDateTime createdAt;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MembershipBenefit that = (MembershipBenefit) o;
-        return Objects.equals(membershipBenefitId, that.membershipBenefitId);
-    }
+   @Override
+   public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      MembershipBenefit that = (MembershipBenefit) o;
+      return Objects.equals(membershipBenefitId, that.membershipBenefitId);
+   }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(membershipBenefitId);
-    }
+   @Override
+   public int hashCode() {
+      return Objects.hashCode(membershipBenefitId);
+   }
 }

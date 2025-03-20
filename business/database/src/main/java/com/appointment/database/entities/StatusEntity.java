@@ -19,33 +19,33 @@ import java.util.Objects;
 @Getter
 @ToString
 public class StatusEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "status_seq")
-    @Column(nullable = false)
-    private Long statusId;
+   @Id
+   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "status_seq")
+   @Column(nullable = false)
+   private Long statusId;
 
-    @Column(nullable = false, length = 50)
-    private String name;
+   @Column(nullable = false, length = 50)
+   private String name;
 
-    @OneToMany(mappedBy = "status", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<UserEntity> users;
+   @OneToMany(mappedBy = "status", fetch = FetchType.LAZY)
+   @JsonIgnore
+   private List<UserEntity> users;
 
-    @CreationTimestamp
-    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
+   @CreationTimestamp
+   @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
+   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+   private LocalDateTime createdAt;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        StatusEntity that = (StatusEntity) o;
-        return Objects.equals(statusId, that.statusId);
-    }
+   @Override
+   public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      StatusEntity that = (StatusEntity) o;
+      return Objects.equals(statusId, that.statusId);
+   }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(statusId);
-    }
+   @Override
+   public int hashCode() {
+      return Objects.hashCode(statusId);
+   }
 }

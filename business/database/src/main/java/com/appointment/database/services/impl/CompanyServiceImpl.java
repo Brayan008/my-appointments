@@ -16,55 +16,54 @@ import java.util.List;
 @Slf4j
 @AllArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
+   private final CompanyRepository companyRepository;
 
-    private final CompanyRepository companyRepository;
+   @Override
+   public List<CompanyEntity> getCompanies() {
+      return companyRepository.findAll();
+   }
 
-    @Override
-    public List<CompanyEntity> getCompanies() {
-        return companyRepository.findAll();
-    }
+   @Override
+   public CompanyEntity getCompanyById(Long companyId) {
+      return companyRepository.findById(companyId)
+         .orElseThrow(() -> new ObjectNotFoundException(HttpStatus.NOT_FOUND.value(),
+            "Company not found with id " + companyId, HttpStatus.NOT_FOUND));
+   }
 
-    @Override
-    public CompanyEntity getCompanyById(Long companyId) {
-        return companyRepository.findById(companyId)
-            .orElseThrow(() -> new ObjectNotFoundException(HttpStatus.NOT_FOUND.value(),
-                "Company not found with id " + companyId, HttpStatus.NOT_FOUND));
-    }
+   @Override
+   public CompanyEntity createCompany(CompanyEntity company) {
+      return companyRepository.save(company);
+   }
 
-    @Override
-    public CompanyEntity createCompany(CompanyEntity company) {
-        return companyRepository.save(company);
-    }
+   @Override
+   public CompanyEntity updateCompany(CompanyEntity company, Long companyId) {
+      CompanyEntity currentCompany = this.getCompanyById(companyId);
+      currentCompany.setName(company.getName());
+      currentCompany.setLogo(company.getLogo());
+      currentCompany.setPhoneNumber(company.getPhoneNumber());
+      currentCompany.setInstagramUrl(company.getInstagramUrl());
+      currentCompany.setFacebookUrl(company.getFacebookUrl());
+      currentCompany.setMembershipId(company.getMembershipId());
+      currentCompany.setStatusId(company.getStatusId());
+      return this.createCompany(currentCompany);
+   }
 
-    @Override
-    public CompanyEntity updateCompany(CompanyEntity company, Long companyId) {
-        CompanyEntity currentCompany = this.getCompanyById(companyId);
-        currentCompany.setName(company.getName());
-        currentCompany.setLogo(company.getLogo());
-        currentCompany.setPhoneNumber(company.getPhoneNumber());
-        currentCompany.setInstagramUrl(company.getInstagramUrl());
-        currentCompany.setFacebookUrl(company.getFacebookUrl());
-        currentCompany.setMembershipId(company.getMembershipId());
-        currentCompany.setStatusId(company.getStatusId());
-        return this.createCompany(currentCompany);
-    }
+   @Override
+   public CompanyEntity disableById(Long companyId) {
+      CompanyEntity currentCompany = this.getCompanyById(companyId);
+      currentCompany.setStatusId(Status.DISABLED.getCode());
+      return this.createCompany(currentCompany);
+   }
 
-    @Override
-    public CompanyEntity disableById(Long companyId) {
-        CompanyEntity currentCompany = this.getCompanyById(companyId);
-        currentCompany.setStatusId(Status.DISABLED.getCode());
-        return this.createCompany(currentCompany);
-    }
+   @Override
+   public CompanyEntity enableById(Long companyId) {
+      CompanyEntity currentCompany = this.getCompanyById(companyId);
+      currentCompany.setStatusId(Status.ENABLED.getCode());
+      return this.createCompany(currentCompany);
+   }
 
-    @Override
-    public CompanyEntity enableById(Long companyId) {
-        CompanyEntity currentCompany = this.getCompanyById(companyId);
-        currentCompany.setStatusId(Status.ENABLED.getCode());
-        return this.createCompany(currentCompany);
-    }
-
-    @Override
-    public List<CompanyEntity> findByStatusId(Long statusId) {
-        return companyRepository.findByStatusId(statusId);
-    }
+   @Override
+   public List<CompanyEntity> findByStatusId(Long statusId) {
+      return companyRepository.findByStatusId(statusId);
+   }
 }
