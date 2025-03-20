@@ -19,15 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/client-appointment")
 public class ClientAppointmentController {
+   private final ClientAppointmentBusiness clientAppointmentBusiness;
 
-    private final ClientAppointmentBusiness clientAppointmentBusiness;
-
-    @Operation(summary = "Create an appointment to client")
-    @PostMapping()
-    public ResponseEntity<?> createClientAppointment(@RequestBody ClientDBAppointmentRequest clientDBAppointmentRequest){
-        log.info("create: client appoitnment {}", clientDBAppointmentRequest);
-        return new ResponseEntity<>(this.clientAppointmentBusiness.createClientAppointment(clientDBAppointmentRequest), HttpStatus.CREATED);
-    }
-
-
+   @Operation(summary = "Create an appointment to client")
+   @PostMapping()
+   public ResponseEntity<?> createClientAppointment(@RequestBody ClientDBAppointmentRequest clientDBAppointmentRequest){
+      log.info("create: client appoitnment {}", clientDBAppointmentRequest);
+      return new ResponseEntity<>(this.clientAppointmentBusiness.createClientAppointment(clientDBAppointmentRequest), HttpStatus.CREATED);
+   }
 }

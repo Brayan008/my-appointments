@@ -15,32 +15,31 @@ import java.util.List;
 @Slf4j
 @AllArgsConstructor
 public class MembershipBenefitServiceImpl implements MembershipBenefitService {
+   private final MembershipBenefitRepository membershipBenefitRepository;
 
-    private final MembershipBenefitRepository membershipBenefitRepository;
+   @Override
+   public List<MembershipBenefit> getBenefits() {
+      return membershipBenefitRepository.findAll();
+   }
 
-    @Override
-    public List<MembershipBenefit> getBenefits() {
-        return membershipBenefitRepository.findAll();
-    }
+   @Override
+   public MembershipBenefit getBenefitById(Long benefitId) {
+      return membershipBenefitRepository.findById(benefitId)
+         .orElseThrow(() -> new ObjectNotFoundException(HttpStatus.NOT_FOUND.value(),
+            "benefit not found with id " + benefitId, HttpStatus.NOT_FOUND));
+   }
 
-    @Override
-    public MembershipBenefit getBenefitById(Long benefitId) {
-        return membershipBenefitRepository.findById(benefitId)
-            .orElseThrow(() -> new ObjectNotFoundException(HttpStatus.NOT_FOUND.value(),
-                "benefit not found with id " + benefitId, HttpStatus.NOT_FOUND));
-    }
+   @Override
+   public MembershipBenefit createBenefit(MembershipBenefit benefit) {
+      return membershipBenefitRepository.save(benefit);
+   }
 
-    @Override
-    public MembershipBenefit createBenefit(MembershipBenefit benefit) {
-        return membershipBenefitRepository.save(benefit);
-    }
-
-    @Override
-    public MembershipBenefit updateBenefit(MembershipBenefit benefit, Long benefitId) {
-        MembershipBenefit currentBenefit = this.getBenefitById(benefitId);
-        currentBenefit.setBenefit(benefit.getBenefit());
-        currentBenefit.setDescription(benefit.getDescription());
-        currentBenefit.setMembershipId(benefit.getMembershipId());
-        return this.createBenefit(currentBenefit);
-    }
+   @Override
+   public MembershipBenefit updateBenefit(MembershipBenefit benefit, Long benefitId) {
+      MembershipBenefit currentBenefit = this.getBenefitById(benefitId);
+      currentBenefit.setBenefit(benefit.getBenefit());
+      currentBenefit.setDescription(benefit.getDescription());
+      currentBenefit.setMembershipId(benefit.getMembershipId());
+      return this.createBenefit(currentBenefit);
+   }
 }

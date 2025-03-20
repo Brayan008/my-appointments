@@ -19,32 +19,32 @@ import java.util.Objects;
 @Setter
 @ToString
 public class RoleEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roles_seq")
-    @Column(nullable = false)
-    private Long roleId;
+   @Id
+   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roles_seq")
+   @Column(nullable = false)
+   private Long roleId;
 
-    private String name;
+   private String name;
 
-    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<UserEntity> users;
+   @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+   @JsonIgnore
+   private List<UserEntity> users;
 
-    @CreationTimestamp
-    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
+   @CreationTimestamp
+   @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
+   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+   private LocalDateTime createdAt;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        RoleEntity that = (RoleEntity) o;
-        return Objects.equals(roleId, that.roleId);
-    }
+   @Override
+   public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      RoleEntity that = (RoleEntity) o;
+      return Objects.equals(roleId, that.roleId);
+   }
 
-    @Override
-    public int hashCode() {
+   @Override
+   public int hashCode() {
         return Objects.hashCode(roleId);
     }
 }

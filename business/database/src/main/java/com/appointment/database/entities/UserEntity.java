@@ -19,55 +19,55 @@ import java.util.Objects;
 @Setter
 @ToString
 public class UserEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customers_seq")
-    @Column(nullable = false)
-    private Long userId;
+   @Id
+   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customers_seq")
+   @Column(nullable = false)
+   private Long userId;
 
-    @Column(nullable = false)
-    private String email;
+   @Column(nullable = false)
+   private String email;
 
-    @Column(name = "status_id", nullable = false)
-    private Long statusId;
+   @Column(name = "status_id", nullable = false)
+   private Long statusId;
 
-    @Column(name = "role_id", nullable = false)
-    private Long roleId;
+   @Column(name = "role_id", nullable = false)
+   private Long roleId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "status_id", insertable = false, updatable = false)
-    private StatusEntity status;
+   @ManyToOne(fetch = FetchType.EAGER)
+   @JoinColumn(name = "status_id", insertable = false, updatable = false)
+   private StatusEntity status;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_id", insertable = false, updatable = false)
-    private RoleEntity role;
+   @ManyToOne(fetch = FetchType.EAGER)
+   @JoinColumn(name = "role_id", insertable = false, updatable = false)
+   private RoleEntity role;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<OwnerEntity> owners;
+   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+   @JsonIgnore
+   private List<OwnerEntity> owners;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<StoreEmployeeEntity> employees;
+   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+   @JsonIgnore
+   private List<StoreEmployeeEntity> employees;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<UserFavoriteStoresEntity> favoriteStores;
+   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+   @JsonIgnore
+   private List<UserFavoriteStoresEntity> favoriteStores;
 
-    @CreationTimestamp
-    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
+   @CreationTimestamp
+   @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
+   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+   private LocalDateTime createdAt;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserEntity that = (UserEntity) o;
-        return Objects.equals(userId, that.userId);
-    }
+   @Override
+   public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      UserEntity that = (UserEntity) o;
+      return Objects.equals(userId, that.userId);
+   }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(userId);
-    }
+   @Override
+   public int hashCode() {
+      return Objects.hashCode(userId);
+   }
 }

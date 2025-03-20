@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
-    List<UserEntity> findByStatusId(Long statusId);
-    Optional<UserEntity> findByEmail(String email);
+   List<UserEntity> findByStatusId(Long statusId);
+   Optional<UserEntity> findByEmail(String email);
 }

@@ -5,12 +5,11 @@ import com.appointment.database.entities.MembershipBenefit;
 import java.util.List;
 
 public interface MembershipBenefitService {
-    List<MembershipBenefit> getBenefits();
+   List<MembershipBenefit> getBenefits();
 
-    MembershipBenefit getBenefitById(Long benefitId);
+   MembershipBenefit getBenefitById(Long benefitId);
 
-    MembershipBenefit createBenefit(MembershipBenefit benefit);
+   MembershipBenefit createBenefit(MembershipBenefit benefit);
 
-    MembershipBenefit updateBenefit(MembershipBenefit benefit, Long benefitId);
-
+   MembershipBenefit updateBenefit(MembershipBenefit benefit, Long benefitId);
 }

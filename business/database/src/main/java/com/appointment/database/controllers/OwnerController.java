@@ -19,46 +19,45 @@ import java.net.URI;
 @RestController
 @RequestMapping("/owners")
 public class OwnerController {
-    private final Environment env;
+   private final Environment env;
+   private final OwnerService ownerService;
 
-    private final OwnerService ownerService;
+   @Operation(summary = "get owners")
+   @GetMapping()
+   public ResponseEntity<?> owners(){
+      log.info("Get: owners ");
+      return ResponseEntity.ok(this.ownerService.getOwners());
+   }
 
-    @Operation(summary = "get owners")
-    @GetMapping()
-    public ResponseEntity<?> owners(){
-        log.info("Get: owners ");
-        return ResponseEntity.ok(this.ownerService.getOwners());
-    }
+   @Operation(summary = "get a owner given a owner id")
+   @GetMapping("/{ownerId}")
+   public ResponseEntity<?> ownerById(@PathVariable(name = "ownerId") Long ownerId){
+      log.info("Get: owner {}", ownerId);
+      return ResponseEntity.ok(this.ownerService.getOwnerById(ownerId));
+   }
 
-    @Operation(summary = "get a owner given a owner id")
-    @GetMapping("/{ownerId}")
-    public ResponseEntity<?> ownerById(@PathVariable(name = "ownerId") Long ownerId){
-        log.info("Get: owner {}", ownerId);
-        return ResponseEntity.ok(this.ownerService.getOwnerById(ownerId));
-    }
+   @Operation(summary = "create a owner")
+   @PostMapping()
+   public ResponseEntity<?> createOwner(@RequestBody OwnerEntity owner, HttpServletRequest request){
+      log.info("create: owner {}", owner.getUserId());
+      OwnerEntity newOwner = this.ownerService.createOwner(owner);
 
-    @Operation(summary = "create a owner")
-    @PostMapping()
-    public ResponseEntity<?> createOwner(@RequestBody OwnerEntity owner, HttpServletRequest request){
-        log.info("create: owner {}", owner.getUserId());
-        OwnerEntity newOwner = this.ownerService.createOwner(owner);
+      String baseUrl = request.getRequestURI();
+      URI newLocation = URI.create(baseUrl + "/"+ newOwner.getOwnerId());
 
-        String baseUrl = request.getRequestURI();
-        URI newLocation = URI.create(baseUrl + "/"+ newOwner.getOwnerId());
+      return ResponseEntity.created(newLocation).body(newOwner);
+   }
 
-        return ResponseEntity.created(newLocation).body(newOwner);
-    }
+   @Operation(summary = "update a owner by owner id")
+   @PutMapping("/{ownerId}")
+   public ResponseEntity<?> updateOwner(@PathVariable(name = "ownerId") Long ownerId,
+                                        @RequestBody OwnerEntity owner){
+      log.info("updating: owner {}", ownerId);
+      return ResponseEntity.ok(this.ownerService.updateOwner(owner, ownerId));
+   }
 
-    @Operation(summary = "update a owner by owner id")
-    @PutMapping("/{ownerId}")
-    public ResponseEntity<?> updateOwner(@PathVariable(name = "ownerId") Long ownerId,
-                                         @RequestBody OwnerEntity owner){
-        log.info("updating: owner {}", ownerId);
-        return ResponseEntity.ok(this.ownerService.updateOwner(owner, ownerId));
-    }
-
-    @GetMapping("/check")
-    public String check(){
-        return "Your environment is " + env.getProperty("environment") + " with the database "+ env.getProperty("db");
-    }
+   @GetMapping("/check")
+   public String check(){
+      return "Your environment is " + env.getProperty("environment") + " with the database "+ env.getProperty("db");
+   }
 }

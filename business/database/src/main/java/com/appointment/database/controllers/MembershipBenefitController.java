@@ -19,41 +19,40 @@ import java.net.URI;
 @RestController
 @RequestMapping("/membership/benefits")
 public class MembershipBenefitController {
+   private final MembershipBenefitService membershipBenefitService;
 
-    private final MembershipBenefitService membershipBenefitService;
+   @Operation(summary = "get membership benefits")
+   @GetMapping()
+   public ResponseEntity<?> benefits(){
+      log.info("Get: benefits ");
+      return ResponseEntity.ok(this.membershipBenefitService.getBenefits());
+   }
 
-    @Operation(summary = "get membership benefits")
-    @GetMapping()
-    public ResponseEntity<?> benefits(){
-        log.info("Get: benefits ");
-        return ResponseEntity.ok(this.membershipBenefitService.getBenefits());
-    }
+   @Operation(summary = "get a membership benefit given a benefit id")
+   @GetMapping("/{benefitId}")
+   public ResponseEntity<?> benefitById(@PathVariable(name = "benefitId") Long benefitId){
+      log.info("Get: benefit {}", benefitId);
+      return ResponseEntity.ok(this.membershipBenefitService.getBenefitById(benefitId));
+   }
 
-    @Operation(summary = "get a membership benefit given a benefit id")
-    @GetMapping("/{benefitId}")
-    public ResponseEntity<?> benefitById(@PathVariable(name = "benefitId") Long benefitId){
-        log.info("Get: benefit {}", benefitId);
-        return ResponseEntity.ok(this.membershipBenefitService.getBenefitById(benefitId));
-    }
+   @Operation(summary = "create a membership benefit")
+   @PostMapping()
+   public ResponseEntity<?> createBenefit(@Valid @RequestBody MembershipBenefit membershipBenefit,
+                                          HttpServletRequest request){
+      log.info("create: membership benefit {}", membershipBenefit.getBenefit());
+      MembershipBenefit newBenefit = this.membershipBenefitService.createBenefit(membershipBenefit);
 
-    @Operation(summary = "create a membership benefit")
-    @PostMapping()
-    public ResponseEntity<?> createBenefit(@Valid @RequestBody MembershipBenefit membershipBenefit,
-                                           HttpServletRequest request){
-        log.info("create: membership benefit {}", membershipBenefit.getBenefit());
-        MembershipBenefit newBenefit = this.membershipBenefitService.createBenefit(membershipBenefit);
+      String baseUrl = request.getRequestURI();
+      URI newLocation = URI.create(baseUrl + "/"+ newBenefit.getMembershipBenefitId());
 
-        String baseUrl = request.getRequestURI();
-        URI newLocation = URI.create(baseUrl + "/"+ newBenefit.getMembershipBenefitId());
+      return ResponseEntity.created(newLocation).body(newBenefit);
+   }
 
-        return ResponseEntity.created(newLocation).body(newBenefit);
-    }
-
-    @Operation(summary = "update a membership benefit by benefit id")
-    @PutMapping("/{benefitId}")
-    public ResponseEntity<?> updateBenefit(@PathVariable(name = "benefitId") Long benefitId,
-                                           @Valid @RequestBody MembershipBenefit membershipBenefit){
-        log.info("updating: membershipBenefit {}", membershipBenefit.getBenefit());
-        return ResponseEntity.ok(this.membershipBenefitService.updateBenefit(membershipBenefit, benefitId));
-    }
+   @Operation(summary = "update a membership benefit by benefit id")
+   @PutMapping("/{benefitId}")
+   public ResponseEntity<?> updateBenefit(@PathVariable(name = "benefitId") Long benefitId,
+                                          @Valid @RequestBody MembershipBenefit membershipBenefit){
+      log.info("updating: membershipBenefit {}", membershipBenefit.getBenefit());
+      return ResponseEntity.ok(this.membershipBenefitService.updateBenefit(membershipBenefit, benefitId));
+   }
 }

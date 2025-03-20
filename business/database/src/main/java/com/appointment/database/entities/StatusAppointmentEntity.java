@@ -17,29 +17,29 @@ import java.util.Objects;
 @Setter
 @ToString
 public class StatusAppointmentEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "status_appointments_seq")
-    @Column(name = "status_appointment_id", nullable = false)
-    private Long statusAppointmentId;
+   @Id
+   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "status_appointments_seq")
+   @Column(name = "status_appointment_id", nullable = false)
+   private Long statusAppointmentId;
 
-    @Column(nullable = false, length = 300)
-    private String name;
+   @Column(nullable = false, length = 300)
+   private String name;
 
-    @CreationTimestamp
-    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
+   @CreationTimestamp
+   @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
+   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+   private LocalDateTime createdAt;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        StatusAppointmentEntity that = (StatusAppointmentEntity) o;
-        return Objects.equals(statusAppointmentId, that.statusAppointmentId);
-    }
+   @Override
+   public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      StatusAppointmentEntity that = (StatusAppointmentEntity) o;
+      return Objects.equals(statusAppointmentId, that.statusAppointmentId);
+   }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(statusAppointmentId);
-    }
+   @Override
+   public int hashCode() {
+      return Objects.hashCode(statusAppointmentId);
+   }
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserFavoriteStoreRepository extends JpaRepository<UserFavoriteStoresEntity, Long> {
 
-    UserFavoriteStoresEntity findByUserAndStore(UserEntity user, StoreEntity store);
+   UserFavoriteStoresEntity findByUserAndStore(UserEntity user, StoreEntity store);
 
-    StoreEntity user(UserEntity user);
+   StoreEntity user(UserEntity user);
 }
