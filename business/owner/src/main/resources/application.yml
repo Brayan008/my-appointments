@@ -12,7 +12,7 @@ spring:
     config:
       username: ${security.name}
       password: ${security.password}
-      name: db,general,owner
+      name: general,owner
       profile: dev
       retry:
         max-attempts: 1
@@ -22,6 +22,3 @@ eureka:
   client:
     serviceUrl:
       defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka}
-microservice:
-  endpoint:
-    database: http://database/internal/v1/
