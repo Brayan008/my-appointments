@@ -17,16 +17,15 @@ import java.util.Map;
 @AllArgsConstructor
 public class TestController {
 
-    @Operation(summary = "Probar API", description = "Endpoint de prueba para verificar la disponibilidad del API.", security = @SecurityRequirement(name = "bearer-jwt"))
-    @GetMapping("/test")
-    public ResponseEntity<String> testEndpoint() {
-        return ResponseEntity.ok("API is working!");
-    }
+   @Operation(summary = "Probar API", description = "Endpoint de prueba para verificar la disponibilidad del API.", security = @SecurityRequirement(name = "bearer-jwt"))
+   @GetMapping("/test")
+   public ResponseEntity<String> testEndpoint() {
+      return ResponseEntity.ok("API is working!");
+   }
 
-    @Operation(summary = "Probar API para admins", description = "Endpoint de prueba para verificar que el rol admin funciona.", security = @SecurityRequirement(name = "bearer-jwt"))
-    @GetMapping("/test-admin")
-    public ResponseEntity<String> testAdminRole() {
-        return ResponseEntity.ok("API is working! - HI ADMIN");
-    }
-
+   @Operation(summary = "Probar API para admins", description = "Endpoint de prueba para verificar que el rol admin funciona.", security = @SecurityRequirement(name = "bearer-jwt"))
+   @GetMapping("/test-admin")
+   public ResponseEntity<String> testAdminRole() {
+      return ResponseEntity.ok("API is working! - HI ADMIN");
+   }
 }
