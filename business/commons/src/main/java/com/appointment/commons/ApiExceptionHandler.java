@@ -62,7 +62,7 @@ public class ApiExceptionHandler {
     public ResponseEntity<Object> handleException(Exception ex){
         log.error("Exception {}", ex.getMessage());
         ex.printStackTrace();
-        StandardizedApiExceptionResponse response = new StandardizedApiExceptionResponse("Error de generico",
+        StandardizedApiExceptionResponse response = new StandardizedApiExceptionResponse("Sorry, an unexpected error occurred. Please try later.",
             String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR), ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }

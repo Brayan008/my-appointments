@@ -1,5 +1,6 @@
 package com.appointment.client.services.impl;
 
+import com.appointment.client.dtos.StoreResponse;
 import com.appointment.client.services.DatabaseService;
 import com.appointment.commons.dtos.GenericResponse;
 import com.appointment.commons.dtos.StandardizedApiExceptionResponse;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -87,5 +89,23 @@ public class DatabaseServiceImpl implements DatabaseService {
                 return Mono.just(res);
             });
     }
+
+   @Override
+   public Flux<StoreResponse> findStoresBySearchText(String searchText) {
+      return webClient
+         .get()
+         .uri(uriBuilder -> uriBuilder
+            .path("/stores/search")
+            .queryParam("searchText", searchText)
+            .build())
+         .retrieve()
+         .onStatus(HttpStatusCode::isError, res -> res.bodyToMono(StandardizedApiExceptionResponse.class)
+            .flatMap(error -> {
+               log.error("Error on get stores by search text {}", error);
+               return Mono.error(new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), (HttpStatus) res.statusCode()));
+            })
+         )
+         .bodyToFlux(StoreResponse.class);
+   }
 
 }

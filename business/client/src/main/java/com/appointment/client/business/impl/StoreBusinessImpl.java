@@ -1,11 +1,13 @@
 package com.appointment.client.business.impl;
 
 import com.appointment.client.business.StoreBusiness;
+import com.appointment.client.dtos.StoreResponse;
 import com.appointment.client.services.Auth0Service;
 import com.appointment.client.services.DatabaseService;
 import com.appointment.commons.dtos.GenericResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -27,4 +29,9 @@ public class StoreBusinessImpl implements StoreBusiness {
     public Mono<GenericResponse> deleteFavoriteStore(Long userFavoriteStoreId) {
         return this.databaseService.deleteFavoriteStore(userFavoriteStoreId);
     }
+
+   @Override
+   public Flux<StoreResponse> findStoresBySearchText(String searchText) {
+      return this.databaseService.findStoresBySearchText(searchText);
+   }
 }

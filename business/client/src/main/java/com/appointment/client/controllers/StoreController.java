@@ -34,5 +34,12 @@ public class StoreController {
     }
 
 
+   @Operation(summary = "Find stores by search text (name, address or coordinates)")
+   @GetMapping("/search")
+   public ResponseEntity<?> findStoresBySearchText(@RequestParam(name = "searchText") String searchText){
+      return ResponseEntity.ok(this.storeBusiness.findStoresBySearchText(searchText));
+   }
+
+
 
 }
