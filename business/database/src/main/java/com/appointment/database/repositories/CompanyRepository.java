@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface CompanyRepository extends JpaRepository<CompanyEntity, Long> {
 
-    List<CompanyEntity> findByStatusId(Long statusId);
+   List<CompanyEntity> findByStatusId(Long statusId);
 
 }

@@ -12,15 +12,15 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class GatewayServerApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(GatewayServerApplication.class, args);
-    }
+   public static void main(String[] args) {
+      SpringApplication.run(GatewayServerApplication.class, args);
+   }
 
-    @Bean
-    public RouteLocator routeLocator(RouteLocatorBuilder builder) {
-        return builder
-            .routes()
-            .route(r -> r.path("/api/auth/v3/api-docs").and().method(HttpMethod.GET).uri("lb://auth"))
-            .build();
-    }
+   @Bean
+   public RouteLocator routeLocator(RouteLocatorBuilder builder) {
+      return builder
+         .routes()
+         .route(r -> r.path("/api/auth/v3/api-docs").and().method(HttpMethod.GET).uri("lb://auth"))
+         .build();
+   }
 }

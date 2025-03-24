@@ -19,47 +19,47 @@ import java.util.Objects;
 @Setter
 @ToString
 public class ServiceEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "services_seq")
-    @Column(nullable = false)
-    private Long serviceId;
+   @Id
+   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "services_seq")
+   @Column(nullable = false)
+   private Long serviceId;
 
-    @Column(nullable = false, length = 255)
-    private String name;
+   @Column(nullable = false, length = 255)
+   private String name;
 
-    @Check(constraints = "rating >= 0")
-    @Column(nullable = false)
-    private Double price;
+   @Check(constraints = "rating >= 0")
+   @Column(nullable = false)
+   private Double price;
 
-    @Column(name = "store_id", nullable = false)
-    private Long storeId;
+   @Column(name = "store_id", nullable = false)
+   private Long storeId;
 
-    @Column(name = "status_id", nullable = false)
-    private Long statusId;
+   @Column(name = "status_id", nullable = false)
+   private Long statusId;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "store_id", insertable = false, updatable = false)
-    private StoreEntity store;
+   @OneToOne(fetch = FetchType.EAGER)
+   @JoinColumn(name = "store_id", insertable = false, updatable = false)
+   private StoreEntity store;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "status_id", insertable = false, updatable = false)
-    private StatusEntity status;
+   @OneToOne(fetch = FetchType.EAGER)
+   @JoinColumn(name = "status_id", insertable = false, updatable = false)
+   private StatusEntity status;
 
-    @CreationTimestamp
-    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
+   @CreationTimestamp
+   @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
+   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+   private LocalDateTime createdAt;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ServiceEntity that = (ServiceEntity) o;
-        return Objects.equals(serviceId, that.serviceId);
-    }
+   @Override
+   public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      ServiceEntity that = (ServiceEntity) o;
+      return Objects.equals(serviceId, that.serviceId);
+   }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(serviceId);
-    }
+   @Override
+   public int hashCode() {
+      return Objects.hashCode(serviceId);
+   }
 }

@@ -22,107 +22,96 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
+   private final RestClient restClient;
+   private final ExceptionMapper exceptionMapper;
 
-    private RestClient restClient;
-    private final ExceptionMapper exceptionMapper;
+   @Override
+   public List<CompanyResponse> getCompanies() {
+      return restClient.get()
+         .uri("/company/companies")
+         .retrieve()
+         .onStatus(HttpStatusCode::isError, (req, res) -> {
+            log.error("Error: {}", res);
+            StandardizedApiExceptionResponse error = exceptionMapper.apiExceptionMapper(res.getBody());
+            throw new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), HttpStatus.valueOf(res.getStatusCode().value()));
+         })
+         .body(new ParameterizedTypeReference<>() {});
+   }
 
-    @Value("${microservice.endpoint.database}")
-    private String domain;
+   @Override
+   public CompanyResponse createCompany(CompanyRequest companyRequest) {
+      return restClient
+         .post()
+         .uri("/company/companies")
+         .body(companyRequest)
+         .retrieve()
+         .onStatus(HttpStatusCode::isError, (req, res) -> {
+            log.error("Error: {}", res);
+            StandardizedApiExceptionResponse error = exceptionMapper.apiExceptionMapper(res.getBody());
+            throw new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), HttpStatus.valueOf(res.getStatusCode().value()));
+         })
+         .body(CompanyResponse.class);
+   }
 
-    @PostConstruct
-    public void init() {
-        this.restClient = RestClient.builder()
-            .baseUrl(domain)
-            .build();
-    }
+   @Override
+   public CompanyResponse getCompanyById(Long companyId) {
+      return restClient
+         .get()
+         .uri("/company/"+companyId)
+         .retrieve()
+         .onStatus(HttpStatusCode::isError, (req, res) -> {
+            log.error("Error: {}", res);
+            StandardizedApiExceptionResponse error = exceptionMapper.apiExceptionMapper(res.getBody());
+            throw new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), HttpStatus.valueOf(res.getStatusCode().value()));
+         })
+         .body(CompanyResponse.class);
+   }
 
-    @Override
-    public List<CompanyResponse> getCompanies() {
-        return restClient.get()
-            .uri("/company/companies")
-            .retrieve()
-            .onStatus(HttpStatusCode::isError, (req, res) -> {
-                log.error("Error: {}", res);
-                StandardizedApiExceptionResponse error = exceptionMapper.apiExceptionMapper(res.getBody());
-                throw new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), HttpStatus.valueOf(res.getStatusCode().value()));
-            })
-            .body(new ParameterizedTypeReference<>() {});
-    }
+   @Override
+   public CompanyResponse updateCompany(CompanyRequest company, Long companyId) {
+      return restClient
+         .put()
+         .uri("/company/"+companyId)
+         .body(company)
+         .retrieve()
+         .onStatus(HttpStatusCode::isError, (req, res) -> {
+            log.error("Error: {}", res);
+            StandardizedApiExceptionResponse error = exceptionMapper.apiExceptionMapper(res.getBody());
+            throw new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), HttpStatus.valueOf(res.getStatusCode().value()));
+         })
+         .body(CompanyResponse.class);
+   }
 
-    @Override
-    public CompanyResponse createCompany(CompanyRequest companyRequest) {
-        return restClient
-            .post()
-            .uri("/company/companies")
-            .body(companyRequest)
-            .retrieve()
-            .onStatus(HttpStatusCode::isError, (req, res) -> {
-                log.error("Error: {}", res);
-                StandardizedApiExceptionResponse error = exceptionMapper.apiExceptionMapper(res.getBody());
-                throw new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), HttpStatus.valueOf(res.getStatusCode().value()));
-            })
-            .body(CompanyResponse.class);
-    }
+   @Override
+   public CompanyResponse disableById(Long companyId) {
+      return restClient
+         .put()
+         .uri("/company/"+companyId+"/enabled")
+         .retrieve()
+         .onStatus(HttpStatusCode::isError, (req, res) -> {
+            log.error("Error: {}", res);
+            StandardizedApiExceptionResponse error = exceptionMapper.apiExceptionMapper(res.getBody());
+            throw new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), HttpStatus.valueOf(res.getStatusCode().value()));
+         })
+         .body(CompanyResponse.class);
+   }
 
-    @Override
-    public CompanyResponse getCompanyById(Long companyId) {
-        return restClient
-            .get()
-            .uri("/company/"+companyId)
-            .retrieve()
-            .onStatus(HttpStatusCode::isError, (req, res) -> {
-                log.error("Error: {}", res);
-                StandardizedApiExceptionResponse error = exceptionMapper.apiExceptionMapper(res.getBody());
-                throw new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), HttpStatus.valueOf(res.getStatusCode().value()));
-            })
-            .body(CompanyResponse.class);
-    }
+   @Override
+   public CompanyResponse enableById(Long companyId) {
+      return restClient
+         .put()
+         .uri("/company/"+companyId+"/disabled")
+         .retrieve()
+         .onStatus(HttpStatusCode::isError, (req, res) -> {
+            log.error("Error: {}", res);
+            StandardizedApiExceptionResponse error = exceptionMapper.apiExceptionMapper(res.getBody());
+            throw new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), HttpStatus.valueOf(res.getStatusCode().value()));
+         })
+         .body(CompanyResponse.class);
+   }
 
-    @Override
-    public CompanyResponse updateCompany(CompanyRequest company, Long companyId) {
-        return restClient
-            .put()
-            .uri("/company/"+companyId)
-            .body(company)
-            .retrieve()
-            .onStatus(HttpStatusCode::isError, (req, res) -> {
-                log.error("Error: {}", res);
-                StandardizedApiExceptionResponse error = exceptionMapper.apiExceptionMapper(res.getBody());
-                throw new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), HttpStatus.valueOf(res.getStatusCode().value()));
-            })
-            .body(CompanyResponse.class);
-    }
-
-    @Override
-    public CompanyResponse disableById(Long companyId) {
-        return restClient
-            .put()
-            .uri("/company/"+companyId+"/enabled")
-            .retrieve()
-            .onStatus(HttpStatusCode::isError, (req, res) -> {
-                log.error("Error: {}", res);
-                StandardizedApiExceptionResponse error = exceptionMapper.apiExceptionMapper(res.getBody());
-                throw new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), HttpStatus.valueOf(res.getStatusCode().value()));
-            })
-            .body(CompanyResponse.class);
-    }
-
-    @Override
-    public CompanyResponse enableById(Long companyId) {
-        return restClient
-            .put()
-            .uri("/company/"+companyId+"/disabled")
-            .retrieve()
-            .onStatus(HttpStatusCode::isError, (req, res) -> {
-                log.error("Error: {}", res);
-                StandardizedApiExceptionResponse error = exceptionMapper.apiExceptionMapper(res.getBody());
-                throw new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), HttpStatus.valueOf(res.getStatusCode().value()));
-            })
-            .body(CompanyResponse.class);
-    }
-
-    @Override
-    public List<CompanyResponse> findByStatusId(Long statusId) {
+   @Override
+   public List<CompanyResponse> findByStatusId(Long statusId) {
         return null;
     }
 }

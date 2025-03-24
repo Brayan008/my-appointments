@@ -18,40 +18,39 @@ import java.net.URI;
 @RestController
 @RequestMapping("/status")
 public class StatusController {
+   private final StatusService statusService;
 
-    private final StatusService statusService;
+   @Operation(summary = "get status")
+   @GetMapping()
+   public ResponseEntity<?> status(){
+      log.info("Get: status ");
+      return ResponseEntity.ok(this.statusService.getStatus());
+   }
 
-    @Operation(summary = "get status")
-    @GetMapping()
-    public ResponseEntity<?> status(){
-        log.info("Get: status ");
-        return ResponseEntity.ok(this.statusService.getStatus());
-    }
+   @Operation(summary = "get a status given a status id")
+   @GetMapping("/{statusId}")
+   public ResponseEntity<?> statusById(@PathVariable(name = "statusId") Long statusId){
+      log.info("Get: status {}", statusId);
+      return ResponseEntity.ok(this.statusService.getStatusById(statusId));
+   }
 
-    @Operation(summary = "get a status given a status id")
-    @GetMapping("/{statusId}")
-    public ResponseEntity<?> statusById(@PathVariable(name = "statusId") Long statusId){
-        log.info("Get: status {}", statusId);
-        return ResponseEntity.ok(this.statusService.getStatusById(statusId));
-    }
+   @Operation(summary = "create a status")
+   @PostMapping()
+   public ResponseEntity<?> createStatus(@RequestBody StatusEntity status, HttpServletRequest request){
+      log.info("create: status {}", status.getName());
+      StatusEntity newStatus = this.statusService.createStatus(status);
 
-    @Operation(summary = "create a status")
-    @PostMapping()
-    public ResponseEntity<?> createStatus(@RequestBody StatusEntity status, HttpServletRequest request){
-        log.info("create: status {}", status.getName());
-        StatusEntity newStatus = this.statusService.createStatus(status);
+      String baseUrl = request.getRequestURI();
+      URI newLocation = URI.create(baseUrl + "/"+ newStatus.getStatusId());
 
-        String baseUrl = request.getRequestURI();
-        URI newLocation = URI.create(baseUrl + "/"+ newStatus.getStatusId());
+      return ResponseEntity.created(newLocation).body(newStatus);
+   }
 
-        return ResponseEntity.created(newLocation).body(newStatus);
-    }
-
-    @Operation(summary = "update a status by status id")
-    @PutMapping("/{statusId}")
-    public ResponseEntity<?> updateStatus(@PathVariable(name = "statusId") Long statusId,
-                                          @RequestBody StatusEntity status){
-        log.info("updating: status {}", statusId);
-        return ResponseEntity.ok(this.statusService.updateStatus(status, statusId));
-    }
+   @Operation(summary = "update a status by status id")
+   @PutMapping("/{statusId}")
+   public ResponseEntity<?> updateStatus(@PathVariable(name = "statusId") Long statusId,
+                                         @RequestBody StatusEntity status){
+      log.info("updating: status {}", statusId);
+      return ResponseEntity.ok(this.statusService.updateStatus(status, statusId));
+   }
 }

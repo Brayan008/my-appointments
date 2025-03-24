@@ -5,18 +5,18 @@ import com.appointment.database.entities.StoreEntity;
 import java.util.List;
 
 public interface StoreService {
-    List<StoreEntity> getStores();
+   List<StoreEntity> getStores();
 
-    StoreEntity getStoreById(Long storeId);
+   StoreEntity getStoreById(Long storeId);
 
-    StoreEntity createStore(StoreEntity store);
+   StoreEntity createStore(StoreEntity store);
 
-    StoreEntity updateStore(StoreEntity store, Long storeId);
+   StoreEntity updateStore(StoreEntity store, Long storeId);
 
-    StoreEntity disableById(Long storeId);
+   StoreEntity disableById(Long storeId);
 
-    StoreEntity enableById(Long storeId);
+   StoreEntity enableById(Long storeId);
 
-    List<StoreEntity> findByStatusId(Long statusId);
-    List<StoreEntity> findStoresBySearchText(String searchText);
+   List<StoreEntity> findByStatusId(Long statusId);
+   List<StoreEntity> findStoresBySearchText(String searchText);
 }

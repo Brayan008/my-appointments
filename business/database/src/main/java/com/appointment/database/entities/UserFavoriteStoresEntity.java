@@ -17,34 +17,34 @@ import java.util.Objects;
 @Setter
 @ToString
 public class UserFavoriteStoresEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_favorite_stores_seq")
-    @Column(name = "user_favorite_store_id", nullable = false)
-    private Long favoriteStoreId;
+   @Id
+   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_favorite_stores_seq")
+   @Column(name = "user_favorite_store_id", nullable = false)
+   private Long favoriteStoreId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
+   @ManyToOne(fetch = FetchType.EAGER)
+   @JoinColumn(name = "user_id")
+   private UserEntity user;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "store_id")
-    private StoreEntity store;
+   @ManyToOne(fetch = FetchType.EAGER)
+   @JoinColumn(name = "store_id")
+   private StoreEntity store;
 
-    @CreationTimestamp
-    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
+   @CreationTimestamp
+   @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")
+   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+   private LocalDateTime createdAt;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserFavoriteStoresEntity that = (UserFavoriteStoresEntity) o;
-        return Objects.equals(favoriteStoreId, that.favoriteStoreId);
-    }
+   @Override
+   public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      UserFavoriteStoresEntity that = (UserFavoriteStoresEntity) o;
+      return Objects.equals(favoriteStoreId, that.favoriteStoreId);
+   }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(favoriteStoreId);
-    }
+   @Override
+   public int hashCode() {
+      return Objects.hashCode(favoriteStoreId);
+   }
 }

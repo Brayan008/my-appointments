@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface StoreEmployeeRepository extends JpaRepository<StoreEmployeeEntity, Long> {
-    List<StoreEmployeeEntity> findByStatusId(Long statusId);
+   List<StoreEmployeeEntity> findByStatusId(Long statusId);
 
-    @Query("SELECT e.user FROM StoreEmployeeEntity e WHERE e.store.id = :storeId")
-    List<UserEntity> findEmployeesByStoreId(@Param("storeId") Long storeId);
+   @Query("SELECT e.user FROM StoreEmployeeEntity e WHERE e.store.id = :storeId")
+   List<UserEntity> findEmployeesByStoreId(@Param("storeId") Long storeId);
 
-    Optional<StoreEmployeeEntity> findByStoreIdAndUserId(Long storeId, Long userId);
+   Optional<StoreEmployeeEntity> findByStoreIdAndUserId(Long storeId, Long userId);
 }
