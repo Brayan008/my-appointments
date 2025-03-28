@@ -11,7 +11,10 @@ import com.appointment.database.services.ServiceService;
 import com.appointment.database.services.StoreEmployeeService;
 import com.appointment.database.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,11 +31,19 @@ public class ClientAppointmentBusinessImpl implements ClientAppointmentBusiness 
       StoreEmployeeEntity storeEmployee = this.storeEmployeeService.getStoreEmployeeById(clientDBAppointmentRequest.getStoreEmployeeId());
 
       ClientAppointmentEntity clientAppointmentEntity = new ClientAppointmentEntity();
-      clientAppointmentEntity.setStoreEmployeeEntity(storeEmployee);
-      clientAppointmentEntity.setClientEntity(client);
+      clientAppointmentEntity.setStoreEmployee(storeEmployee);
+      clientAppointmentEntity.setClient(client);
       clientAppointmentEntity.setUserAppointment(clientDBAppointmentRequest.getUserAppointment());
-      clientAppointmentEntity.setServiceEntity(service);
+      clientAppointmentEntity.setService(service);
       clientAppointmentEntity.setTotalPaid(service.getPrice());
       return this.clientAppointmentsService.createClientAppointment(clientAppointmentEntity);
    }
+
+   @Override
+   public Page<ClientAppointmentEntity> findClientAppointment(String email, int page, int size) {
+      UserEntity client = this.userService.getUserByEmail(email);
+      return this.clientAppointmentsService.findClientAppointment(client, page, size);
+   }
+
+
 }

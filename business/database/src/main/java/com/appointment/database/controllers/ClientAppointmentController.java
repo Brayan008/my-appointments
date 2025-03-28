@@ -8,10 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Client Appointment", description = "This APi serve all functionality for management clients appointment")
 @Slf4j
@@ -26,5 +23,14 @@ public class ClientAppointmentController {
    public ResponseEntity<?> createClientAppointment(@RequestBody ClientDBAppointmentRequest clientDBAppointmentRequest){
       log.info("create: client appoitnment {}", clientDBAppointmentRequest);
       return new ResponseEntity<>(this.clientAppointmentBusiness.createClientAppointment(clientDBAppointmentRequest), HttpStatus.CREATED);
+   }
+
+   @Operation(summary = "Find client appointments by email")
+   @GetMapping("/{email}")
+   public ResponseEntity<?> findClientAppointment(@PathVariable String email,
+                                                  @RequestParam(required = false, defaultValue = "0") int page,
+                                                  @RequestParam(required = false, defaultValue = "10") int size){
+      log.info("Find client appointments by email: {}", email);
+      return new ResponseEntity<>(this.clientAppointmentBusiness.findClientAppointment(email, page, size), HttpStatus.OK);
    }
 }

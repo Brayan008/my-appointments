@@ -30,18 +30,18 @@ public class ClientAppointmentEntity {
 
    @ManyToOne(fetch = FetchType.EAGER)
    @JoinColumn(name = "service_id", insertable = false, updatable = false)
-   private ServiceEntity serviceEntity;
+   private ServiceEntity service;
 
    @Column(name = "total_paid", nullable = false)
    private Double totalPaid;
 
    @ManyToOne(fetch = FetchType.EAGER)
    @JoinColumn(name = "client_id", insertable = false, updatable = false)
-   private UserEntity clientEntity;
+   private UserEntity client;
 
    @ManyToOne(fetch = FetchType.EAGER)
    @JoinColumn(name = "store_employee_id", insertable = false, updatable = false)
-   private StoreEmployeeEntity storeEmployeeEntity;
+   private StoreEmployeeEntity storeEmployee;
 
    @CreationTimestamp
    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")

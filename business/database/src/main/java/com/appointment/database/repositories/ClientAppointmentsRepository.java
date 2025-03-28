@@ -1,11 +1,15 @@
 package com.appointment.database.repositories;
 
 import com.appointment.database.entities.ClientAppointmentEntity;
+import com.appointment.database.entities.UserEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 public interface ClientAppointmentsRepository extends JpaRepository<ClientAppointmentEntity, Long> {
@@ -20,5 +24,7 @@ public interface ClientAppointmentsRepository extends JpaRepository<ClientAppoin
        AND cd.status_date_id != 2
        """, nativeQuery = true)
    int countAppointmentsByClientAndDay(LocalDateTime userDate,Long clientId);
+
+   Page<ClientAppointmentEntity> findByClient(UserEntity userEntity, Pageable pageable);
 
 }

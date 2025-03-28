@@ -3,12 +3,16 @@ package com.appointment.database.services.impl;
 import com.appointment.commons.exceptions.BusinessException;
 import com.appointment.database.entities.ClientAppointmentEntity;
 import com.appointment.database.entities.ConfigEmployeeSchedule;
+import com.appointment.database.entities.UserEntity;
 import com.appointment.database.repositories.ClientAppointmentsRepository;
 import com.appointment.database.repositories.ConfigEmployeeScheduleRepository;
 import com.appointment.database.services.ClientAppointmentsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +55,7 @@ public class ClientAppointmentsServiceImpl implements ClientAppointmentsService 
       LocalDateTime userDateTime = clientAppointmentEntity.getUserAppointment();
       int dayOfWeek = userDateTime.getDayOfWeek().getValue(); // Monday=1, Sunday=7
       ConfigEmployeeSchedule schedule = configEmployeeScheduleRepository
-         .findByStoreEmployeeEntityAndDayOfWeek(clientAppointmentEntity.getStoreEmployeeEntity(), dayOfWeek);
+         .findByStoreEmployeeEntityAndDayOfWeek(clientAppointmentEntity.getStoreEmployee(), dayOfWeek);
 
       if (schedule == null) {
          throw new BusinessException(
@@ -107,7 +111,7 @@ public class ClientAppointmentsServiceImpl implements ClientAppointmentsService 
       }
 
       // Validate limit of appointments per day
-      int clientAppointmentsCount = clientAppointmentsRepository.countAppointmentsByClientAndDay(clientAppointmentEntity.getUserAppointment(), clientAppointmentEntity.getClientEntity().getUserId());
+      int clientAppointmentsCount = clientAppointmentsRepository.countAppointmentsByClientAndDay(clientAppointmentEntity.getUserAppointment(), clientAppointmentEntity.getClient().getUserId());
       if (clientAppointmentsCount >= schedule.getAppointmentsPerClient()) {
          throw new BusinessException(HttpStatus.CONFLICT.name(),
             messageSource.getMessage("error.40906.client-appointment", null, locale),
@@ -118,5 +122,12 @@ public class ClientAppointmentsServiceImpl implements ClientAppointmentsService 
       //Set status of date configured
       clientAppointmentEntity.setStatusAppointmentId(schedule.getDefaultStatusAppointmentEntity().getStatusAppointmentId());
       return clientAppointmentsRepository.save(clientAppointmentEntity);
+   }
+
+   @Override
+   public Page<ClientAppointmentEntity> findClientAppointment(UserEntity userEntity, int page, int size) {
+      Pageable pageable = PageRequest.of(page, size);
+      return this.clientAppointmentsRepository.findByClient(userEntity, pageable);
+
    }
 }
