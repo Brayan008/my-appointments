@@ -1,5 +1,6 @@
 package com.appointment.client.services.impl;
 
+import com.appointment.client.dtos.PageableClientAppointmentResponse;
 import com.appointment.client.dtos.StoreResponse;
 import com.appointment.client.services.DatabaseService;
 import com.appointment.commons.dtos.GenericResponse;
@@ -106,6 +107,25 @@ public class DatabaseServiceImpl implements DatabaseService {
             })
          )
          .bodyToFlux(StoreResponse.class);
+   }
+
+   @Override
+   public Mono<PageableClientAppointmentResponse> findClientAppointments(String email, int page, int size) {
+      return webClient
+         .get()
+         .uri(uriBuilder -> uriBuilder
+            .path("/client-appointment/"+email)
+            .queryParam("page", page)
+            .queryParam("size", size)
+            .build())
+         .retrieve()
+         .onStatus(HttpStatusCode::isError, res -> res.bodyToMono(StandardizedApiExceptionResponse.class)
+            .flatMap(error -> {
+               log.error("Error on find client appointments {}", error);
+               return Mono.error(new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), (HttpStatus) res.statusCode()));
+            })
+         )
+         .bodyToMono(PageableClientAppointmentResponse.class);
    }
 
 }

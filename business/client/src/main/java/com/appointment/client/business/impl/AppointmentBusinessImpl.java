@@ -2,6 +2,7 @@ package com.appointment.client.business.impl;
 
 import com.appointment.client.business.AppointmentBusiness;
 import com.appointment.client.dtos.NewAppointmentReq;
+import com.appointment.client.dtos.PageableClientAppointmentResponse;
 import com.appointment.client.services.Auth0Service;
 import com.appointment.client.services.DatabaseService;
 import com.appointment.commons.dtos.request.ClientDBAppointmentRequest;
@@ -29,4 +30,11 @@ public class AppointmentBusinessImpl implements AppointmentBusiness {
                     .map(res -> "SUCCESS")
             );
     }
+
+   @Override
+   public Mono<PageableClientAppointmentResponse> findClientAppointments(String accessToken, int page, int size) {
+      return this.auth0Service.getUserInfo(accessToken)
+         .flatMap(userInfo ->
+            databaseService.findClientAppointments(userInfo.getEmail(), page, size));
+   }
 }

@@ -1,5 +1,6 @@
 package com.appointment.client.services;
 
+import com.appointment.client.dtos.PageableClientAppointmentResponse;
 import com.appointment.client.dtos.StoreResponse;
 import com.appointment.commons.dtos.GenericResponse;
 import com.appointment.commons.dtos.request.ClientDBAppointmentRequest;
@@ -13,5 +14,6 @@ public interface DatabaseService {
     Mono<GenericResponse> addFavoriteStore(Long storeId, String email);
     Mono<GenericResponse> deleteFavoriteStore(Long userFavoriteStoreId);
     Flux<StoreResponse> findStoresBySearchText(String searchText);
+    Mono<PageableClientAppointmentResponse> findClientAppointments(String email, int page, int size);
 }
 
