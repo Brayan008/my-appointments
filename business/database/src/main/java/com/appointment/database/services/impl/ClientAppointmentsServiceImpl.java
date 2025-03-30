@@ -1,5 +1,6 @@
 package com.appointment.database.services.impl;
 
+import com.appointment.commons.enums.StatusAppointmentsEnum;
 import com.appointment.commons.exceptions.BusinessException;
 import com.appointment.database.entities.ClientAppointmentEntity;
 import com.appointment.database.entities.ConfigEmployeeSchedule;
@@ -129,5 +130,10 @@ public class ClientAppointmentsServiceImpl implements ClientAppointmentsService 
       Pageable pageable = PageRequest.of(page, size);
       return this.clientAppointmentsRepository.findByClient(userEntity, pageable);
 
+   }
+
+   @Override
+   public ClientAppointmentEntity findClientAppointmentByIdAndStatus(Long idClientAppointment, StatusAppointmentsEnum status) {
+      return this.clientAppointmentsRepository.findClientAppointmentByIdAndStatus(idClientAppointment, status.getCode());
    }
 }
