@@ -82,7 +82,7 @@ public class StoreController {
    @Operation(summary = "Get Employees Associated with the Store")
    @GetMapping("/{storeId}/employees")
    public ResponseEntity<?> employeesAssociated(@PathVariable(name = "storeId") Long storeId){
-      log.info("enabled store " + storeId);
+      log.info("get employees of store: " + storeId);
       return ResponseEntity.ok(storeEmployeeService.getEmployeesAssociated(storeId));
    }
 

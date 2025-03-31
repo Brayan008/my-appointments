@@ -83,7 +83,7 @@ public class StoreEmployeeServiceImpl implements StoreEmployeeService {
    }
 
    @Override
-   public List<UserEntity> getEmployeesAssociated(Long storeId) {
+   public List<StoreEmployeeEntity> getEmployeesAssociated(Long storeId) {
       return storeEmployeeRepository.findEmployeesByStoreId(storeId);
    }
 }

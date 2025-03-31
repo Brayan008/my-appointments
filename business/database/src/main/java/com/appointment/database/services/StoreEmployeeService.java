@@ -20,5 +20,5 @@ public interface StoreEmployeeService {
 
    List<StoreEmployeeEntity> findByStatusId(Long statusId);
 
-   List<UserEntity> getEmployeesAssociated(Long storeId);
+   List<StoreEmployeeEntity> getEmployeesAssociated(Long storeId);
 }

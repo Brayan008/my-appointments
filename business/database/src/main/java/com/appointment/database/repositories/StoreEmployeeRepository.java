@@ -12,8 +12,8 @@ import java.util.Optional;
 public interface StoreEmployeeRepository extends JpaRepository<StoreEmployeeEntity, Long> {
    List<StoreEmployeeEntity> findByStatusId(Long statusId);
 
-   @Query("SELECT e.user FROM StoreEmployeeEntity e WHERE e.store.id = :storeId")
-   List<UserEntity> findEmployeesByStoreId(@Param("storeId") Long storeId);
+   @Query("SELECT e FROM StoreEmployeeEntity e WHERE e.store.storeId = :storeId")
+   List<StoreEmployeeEntity> findEmployeesByStoreId(@Param("storeId") Long storeId);
 
    Optional<StoreEmployeeEntity> findByStoreIdAndUserId(Long storeId, Long userId);
 }

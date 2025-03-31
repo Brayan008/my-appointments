@@ -13,4 +13,5 @@ public class StoreResponse {
    private String description;
    private String coordinates;
    private CompanyResponse company;
+   private Long statusId;
 }
