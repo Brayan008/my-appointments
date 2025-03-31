@@ -1,6 +1,7 @@
 package com.appointment.client.business.impl;
 
 import com.appointment.client.business.StoreBusiness;
+import com.appointment.client.dtos.StoreEmployeeResponse;
 import com.appointment.client.dtos.StoreResponse;
 import com.appointment.client.services.Auth0Service;
 import com.appointment.client.services.DatabaseService;
@@ -33,5 +34,10 @@ public class StoreBusinessImpl implements StoreBusiness {
    @Override
    public Flux<StoreResponse> findStoresBySearchText(String searchText) {
       return this.databaseService.findStoresBySearchText(searchText);
+   }
+
+   @Override
+   public Flux<StoreEmployeeResponse> getEmployeesOfStore(Long storeId) {
+      return this.databaseService.getEmployeesOfStore(storeId);
    }
 }

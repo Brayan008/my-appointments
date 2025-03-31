@@ -9,4 +9,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class UserResponse {
    private String email;
+   private Long statusId;
 }

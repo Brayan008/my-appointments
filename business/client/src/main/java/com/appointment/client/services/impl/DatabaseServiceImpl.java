@@ -1,6 +1,7 @@
 package com.appointment.client.services.impl;
 
 import com.appointment.client.dtos.PageableClientAppointmentResponse;
+import com.appointment.client.dtos.StoreEmployeeResponse;
 import com.appointment.client.dtos.StoreResponse;
 import com.appointment.client.services.DatabaseService;
 import com.appointment.commons.dtos.GenericResponse;
@@ -170,6 +171,21 @@ public class DatabaseServiceImpl implements DatabaseService {
             log.info("Update rate appointment {}", res);
             return Mono.just(res);
          });
+   }
+
+   @Override
+   public Flux<StoreEmployeeResponse> getEmployeesOfStore(Long storeId) {
+      return webClient
+         .get()
+         .uri("/stores/"+storeId+"/employees")
+         .retrieve()
+         .onStatus(HttpStatusCode::isError, res -> res.bodyToMono(StandardizedApiExceptionResponse.class)
+            .flatMap(error -> {
+               log.error("Error on get employees from store {}", error);
+               return Mono.error(new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), (HttpStatus) res.statusCode()));
+            })
+         )
+         .bodyToFlux(StoreEmployeeResponse.class);
    }
 
 }

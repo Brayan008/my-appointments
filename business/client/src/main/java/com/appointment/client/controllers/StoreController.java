@@ -40,6 +40,12 @@ public class StoreController {
       return ResponseEntity.ok(this.storeBusiness.findStoresBySearchText(searchText));
    }
 
+   @Operation(summary = "Get employees of store", security = @SecurityRequirement(name = "bearer-jwt"))
+   @GetMapping("/{storeId}/employees")
+   public ResponseEntity<?> getEmployeesOfStore(@PathVariable Long storeId){
+      return ResponseEntity.ok(this.storeBusiness.getEmployeesOfStore(storeId));
+   }
+
 
 
 }

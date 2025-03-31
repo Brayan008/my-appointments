@@ -1,6 +1,7 @@
 package com.appointment.client.services;
 
 import com.appointment.client.dtos.PageableClientAppointmentResponse;
+import com.appointment.client.dtos.StoreEmployeeResponse;
 import com.appointment.client.dtos.StoreResponse;
 import com.appointment.commons.dtos.GenericResponse;
 import com.appointment.commons.dtos.request.ClientDBAppointmentRequest;
@@ -18,5 +19,6 @@ public interface DatabaseService {
     Mono<PageableClientAppointmentResponse> findClientAppointments(String email, int page, int size);
     Mono<GenericResponse> addRateAppointment(Long idClientAppointment, RateAppointmentRequest rateAppointmentRequest);
     Mono<GenericResponse> updateRateAppointment(Long idRateAppointment, RateAppointmentRequest rateAppointmentRequest);
+   Flux<StoreEmployeeResponse> getEmployeesOfStore(Long storeId);
 }
 

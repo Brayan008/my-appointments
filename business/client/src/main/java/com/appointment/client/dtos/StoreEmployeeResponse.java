@@ -8,5 +8,8 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class StoreEmployeeResponse {
+   private Long storeEmployeeId;
    private UserResponse user;
+   private StoreResponse store;
+   private Long statusId;
 }
