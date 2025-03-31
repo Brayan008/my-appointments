@@ -6,6 +6,7 @@ import com.appointment.client.services.DatabaseService;
 import com.appointment.commons.dtos.GenericResponse;
 import com.appointment.commons.dtos.StandardizedApiExceptionResponse;
 import com.appointment.commons.dtos.request.ClientDBAppointmentRequest;
+import com.appointment.commons.dtos.request.RateAppointmentRequest;
 import com.appointment.commons.dtos.response.ClientDBAppointmentResponse;
 import com.appointment.commons.exceptions.BusinessException;
 import jakarta.annotation.PostConstruct;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -126,6 +128,48 @@ public class DatabaseServiceImpl implements DatabaseService {
             })
          )
          .bodyToMono(PageableClientAppointmentResponse.class);
+   }
+
+   @Override
+   public Mono<GenericResponse> addRateAppointment(Long idClientAppointment, RateAppointmentRequest rateAppointmentRequest) {
+      return webClient
+         .post()
+         .uri("/client-appointment/"+idClientAppointment+"/rate")
+         .contentType(MediaType.APPLICATION_JSON)
+         .body(Mono.just(rateAppointmentRequest), RateAppointmentRequest.class)
+         .retrieve()
+         .onStatus(HttpStatusCode::isError, res -> res.bodyToMono(StandardizedApiExceptionResponse.class)
+            .flatMap(error -> {
+               log.error("Error on add rate appointment {}", error);
+               return Mono.error(new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), (HttpStatus) res.statusCode()));
+            })
+         )
+         .bodyToMono(GenericResponse.class)
+         .flatMap(res -> {
+            log.info("Add rate appointment {}", res);
+            return Mono.just(res);
+         });
+   }
+
+   @Override
+   public Mono<GenericResponse> updateRateAppointment(Long idRateAppointment, RateAppointmentRequest rateAppointmentRequest) {
+      return webClient
+         .put()
+         .uri("/client-appointment/rate/"+idRateAppointment)
+         .contentType(MediaType.APPLICATION_JSON)
+         .body(Mono.just(rateAppointmentRequest), RateAppointmentRequest.class)
+         .retrieve()
+         .onStatus(HttpStatusCode::isError, res -> res.bodyToMono(StandardizedApiExceptionResponse.class)
+            .flatMap(error -> {
+               log.error("Error on update rate appointment {}", error);
+               return Mono.error(new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), (HttpStatus) res.statusCode()));
+            })
+         )
+         .bodyToMono(GenericResponse.class)
+         .flatMap(res -> {
+            log.info("Update rate appointment {}", res);
+            return Mono.just(res);
+         });
    }
 
 }

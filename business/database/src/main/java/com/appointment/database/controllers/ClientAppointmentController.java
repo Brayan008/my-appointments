@@ -1,6 +1,7 @@
 package com.appointment.database.controllers;
 
 import com.appointment.commons.dtos.request.ClientDBAppointmentRequest;
+import com.appointment.commons.dtos.request.RateAppointmentRequest;
 import com.appointment.database.business.ClientAppointmentBusiness;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -33,4 +34,21 @@ public class ClientAppointmentController {
       log.info("Find client appointments by email: {}", email);
       return new ResponseEntity<>(this.clientAppointmentBusiness.findClientAppointment(email, page, size), HttpStatus.OK);
    }
+
+   @Operation(summary = "Rate client appointment")
+   @PostMapping("/{idClientAppointment}/rate")
+   public ResponseEntity<?> rateClientAppointment(@PathVariable Long idClientAppointment,
+                                                  @RequestBody RateAppointmentRequest rateAppointmentRequest){
+      log.info("Rate client appointment: {} {}", idClientAppointment, rateAppointmentRequest);
+      return new ResponseEntity<>(this.clientAppointmentBusiness.addRateAppointment(idClientAppointment, rateAppointmentRequest), HttpStatus.OK);
+   }
+
+   @Operation(summary = "Update rate client appointment")
+   @PutMapping("/rate/{idRateAppointment}")
+   public ResponseEntity<?> updateRateClientAppointment(@PathVariable Long idRateAppointment,
+                                                  @RequestBody RateAppointmentRequest rateAppointmentRequest){
+      log.info("Update rate client appointment: {} {}", idRateAppointment, rateAppointmentRequest);
+      return new ResponseEntity<>(this.clientAppointmentBusiness.updateRateAppointment(idRateAppointment, rateAppointmentRequest), HttpStatus.OK);
+   }
+
 }
