@@ -1,6 +1,6 @@
 package com.appointment.database.services.impl;
 
-import com.appointment.commons.enums.Status;
+import com.appointment.commons.enums.StatusEnum;
 import com.appointment.commons.exceptions.BusinessException;
 import com.appointment.commons.exceptions.ObjectNotFoundException;
 import com.appointment.database.entities.ServiceEntity;
@@ -34,7 +34,7 @@ public class ServiceServiceImpl implements ServiceService {
       ServiceEntity service = serviceRepository.findById(serviceId)
          .orElseThrow(() -> new ObjectNotFoundException(HttpStatus.NOT_FOUND.value(),
             messageSource.getMessage("error.404.store-services", null, locale), HttpStatus.NOT_FOUND));
-      if(service.getStatusId().equals(Status.DISABLED.getCode()))
+      if(service.getStatusId().equals(StatusEnum.DISABLED.getCode()))
          throw new BusinessException(HttpStatus.CONFLICT.name(), messageSource.getMessage("error.4091.store-services", null, locale), "", HttpStatus.CONFLICT);
       return service;
    }
@@ -57,14 +57,14 @@ public class ServiceServiceImpl implements ServiceService {
    @Override
    public ServiceEntity disableById(Long serviceId) {
       ServiceEntity currentService = this.getServiceById(serviceId);
-      currentService.setStatusId(Status.DISABLED.getCode());
+      currentService.setStatusId(StatusEnum.DISABLED.getCode());
       return this.createService(currentService);
    }
 
    @Override
    public ServiceEntity enableById(Long serviceId) {
       ServiceEntity currentService = this.getServiceById(serviceId);
-      currentService.setStatusId(Status.ENABLED.getCode());
+      currentService.setStatusId(StatusEnum.ENABLED.getCode());
       return this.createService(currentService);
    }
 

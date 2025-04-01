@@ -10,7 +10,8 @@ public enum StatusAppointmentsEnum {
    IN_PROGRESS("IN_PROGRESS", 3L),
    CANCELED("CANCELED", 4L),
    COMPLETED("COMPLETED", 5L),
-   NOPAID("NOPAID", 6L);
+   NOPAID("NOPAID", 6L),
+   AVAILABLE("AVAILABLE", 7L);
 
     private final String name;
     private final Long code;

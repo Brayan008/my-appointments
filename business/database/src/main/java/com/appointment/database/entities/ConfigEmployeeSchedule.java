@@ -24,11 +24,11 @@ public class ConfigEmployeeSchedule {
 
    @ManyToOne(fetch = FetchType.EAGER)
    @JoinColumn(name = "store_employee_id", insertable = false, updatable = false)
-   private StoreEmployeeEntity storeEmployeeEntity;
+   private StoreEmployeeEntity storeEmployee;
 
    @ManyToOne(fetch = FetchType.EAGER)
    @JoinColumn(name = "default_status_appointment_id", insertable = false, updatable = false)
-   private StatusAppointmentEntity defaultStatusAppointmentEntity;
+   private StatusAppointmentEntity defaultStatusAppointment;
 
    @Column(name = "day_of_week", nullable = false)
    private Integer dayOfWeek;
@@ -50,6 +50,10 @@ public class ConfigEmployeeSchedule {
 
    @Column(name = "appointments_per_client", nullable = false)
    private Integer appointmentsPerClient;
+
+   @ManyToOne(fetch = FetchType.EAGER)
+   @JoinColumn(name = "status_id", insertable = false, updatable = false)
+   private StatusEntity status;
 
    @CreationTimestamp
    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()")

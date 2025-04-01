@@ -1,6 +1,6 @@
 package com.appointment.database.services.impl;
 
-import com.appointment.commons.enums.Status;
+import com.appointment.commons.enums.StatusEnum;
 import com.appointment.commons.exceptions.BusinessException;
 import com.appointment.commons.exceptions.ObjectNotFoundException;
 import com.appointment.database.entities.StoreEntity;
@@ -51,14 +51,14 @@ public class StoreServiceImpl implements StoreService {
    @Override
    public StoreEntity disableById(Long storeId) {
       StoreEntity currentStore = this.getStoreById(storeId);
-      currentStore.setStatusId(Status.DISABLED.getCode());
+      currentStore.setStatusId(StatusEnum.DISABLED.getCode());
       return this.createStore(currentStore);
    }
 
    @Override
    public StoreEntity enableById(Long storeId) {
       StoreEntity currentStore = this.getStoreById(storeId);
-      currentStore.setStatusId(Status.ENABLED.getCode());
+      currentStore.setStatusId(StatusEnum.ENABLED.getCode());
       return this.createStore(currentStore);
    }
 

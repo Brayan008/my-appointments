@@ -3,7 +3,7 @@ package com.appointment.owner.business.impl;
 import com.appointment.commons.dtos.request.EmployeeRequest;
 import com.appointment.commons.dtos.response.EmployeeResponse;
 import com.appointment.commons.dtos.response.UserResponse;
-import com.appointment.commons.enums.Status;
+import com.appointment.commons.enums.StatusEnum;
 import com.appointment.owner.business.EmployeeBusiness;
 import com.appointment.owner.services.EmployeeService;
 import lombok.AllArgsConstructor;
@@ -50,12 +50,12 @@ public class EmployeeBusinessImpl implements EmployeeBusiness {
 
     @Override
     public List<EmployeeResponse> getEnabledEmployee() {
-        return this.employeeService.findByStatusId(Status.ENABLED.getCode());
+        return this.employeeService.findByStatusId(StatusEnum.ENABLED.getCode());
     }
 
     @Override
     public List<EmployeeResponse> getDisabledEmployee() {
-        return this.employeeService.findByStatusId(Status.DISABLED.getCode());
+        return this.employeeService.findByStatusId(StatusEnum.DISABLED.getCode());
     }
 
     @Override

@@ -1,11 +1,9 @@
 package com.appointment.database.services.impl;
 
 import com.appointment.commons.constants.StatusConstants;
-import com.appointment.commons.enums.Status;
+import com.appointment.commons.enums.StatusEnum;
 import com.appointment.commons.exceptions.BusinessException;
-import com.appointment.commons.exceptions.ObjectNotFoundException;
 import com.appointment.database.entities.StoreEmployeeEntity;
-import com.appointment.database.entities.UserEntity;
 import com.appointment.database.repositories.StoreEmployeeRepository;
 import com.appointment.database.services.StoreEmployeeService;
 import lombok.AllArgsConstructor;
@@ -34,8 +32,8 @@ public class StoreEmployeeServiceImpl implements StoreEmployeeService {
    public StoreEmployeeEntity getStoreEmployeeById(Long storeEmployeeId) {
       Locale locale = LocaleContextHolder.getLocale();
       StoreEmployeeEntity storeEmployeeEntity = storeEmployeeRepository.findById(storeEmployeeId)
-         .orElseThrow(() -> new ObjectNotFoundException(HttpStatus.NOT_FOUND.value(),
-            messageSource.getMessage("error.404.store-employee", null, locale), HttpStatus.NOT_FOUND));
+         .orElseThrow(() -> new BusinessException("404",
+            messageSource.getMessage("error.404.store-employee", null, locale), "", HttpStatus.NOT_FOUND));
 
       if(storeEmployeeEntity.getStatus().getStatusId().equals(StatusConstants.ID_STATUS_DISABLED))
          throw new BusinessException(String.valueOf(HttpStatus.CONFLICT.value()), messageSource.getMessage("error.4091.store-employee", null, locale), "", HttpStatus.CONFLICT);
@@ -66,14 +64,14 @@ public class StoreEmployeeServiceImpl implements StoreEmployeeService {
    @Override
    public StoreEmployeeEntity disableById(Long employeeId) {
       StoreEmployeeEntity currentEmployee = this.getStoreEmployeeById(employeeId);
-      currentEmployee.setStatusId(Status.DISABLED.getCode());
+      currentEmployee.setStatusId(StatusEnum.DISABLED.getCode());
       return this.createEmployee(currentEmployee);
    }
 
    @Override
    public StoreEmployeeEntity enableById(Long employeeId) {
       StoreEmployeeEntity currentEmployee = this.getStoreEmployeeById(employeeId);
-      currentEmployee.setStatusId(Status.ENABLED.getCode());
+      currentEmployee.setStatusId(StatusEnum.ENABLED.getCode());
       return this.createEmployee(currentEmployee);
    }
 

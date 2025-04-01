@@ -1,6 +1,6 @@
 package com.appointment.database.services.impl;
 
-import com.appointment.commons.enums.Status;
+import com.appointment.commons.enums.StatusEnum;
 import com.appointment.commons.exceptions.ObjectNotFoundException;
 import com.appointment.database.entities.CompanyEntity;
 import com.appointment.database.repositories.CompanyRepository;
@@ -51,14 +51,14 @@ public class CompanyServiceImpl implements CompanyService {
    @Override
    public CompanyEntity disableById(Long companyId) {
       CompanyEntity currentCompany = this.getCompanyById(companyId);
-      currentCompany.setStatusId(Status.DISABLED.getCode());
+      currentCompany.setStatusId(StatusEnum.DISABLED.getCode());
       return this.createCompany(currentCompany);
    }
 
    @Override
    public CompanyEntity enableById(Long companyId) {
       CompanyEntity currentCompany = this.getCompanyById(companyId);
-      currentCompany.setStatusId(Status.ENABLED.getCode());
+      currentCompany.setStatusId(StatusEnum.ENABLED.getCode());
       return this.createCompany(currentCompany);
    }
 

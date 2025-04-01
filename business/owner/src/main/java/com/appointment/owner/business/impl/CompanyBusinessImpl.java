@@ -2,7 +2,7 @@ package com.appointment.owner.business.impl;
 
 import com.appointment.commons.dtos.request.CompanyRequest;
 import com.appointment.commons.dtos.response.CompanyResponse;
-import com.appointment.commons.enums.Status;
+import com.appointment.commons.enums.StatusEnum;
 import com.appointment.owner.business.CompanyBusiness;
 import com.appointment.owner.services.CompanyService;
 import lombok.AllArgsConstructor;
@@ -48,11 +48,11 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 
     @Override
     public List<CompanyResponse> getEnabledCompany() {
-        return this.companyService.findByStatusId(Status.ENABLED.getCode());
+        return this.companyService.findByStatusId(StatusEnum.ENABLED.getCode());
     }
 
     @Override
     public List<CompanyResponse> getDisabledCompany() {
-        return this.companyService.findByStatusId(Status.DISABLED.getCode());
+        return this.companyService.findByStatusId(StatusEnum.DISABLED.getCode());
     }
 }

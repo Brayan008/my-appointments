@@ -2,7 +2,7 @@ package com.appointment.owner.business.impl;
 
 import com.appointment.commons.dtos.request.MembershipRequest;
 import com.appointment.commons.dtos.response.MembershipResponse;
-import com.appointment.commons.enums.Status;
+import com.appointment.commons.enums.StatusEnum;
 import com.appointment.owner.business.MembershipBusiness;
 import com.appointment.owner.services.MembershipService;
 import lombok.AllArgsConstructor;
@@ -48,11 +48,11 @@ public class MembershipBusinessImpl implements MembershipBusiness {
 
     @Override
     public List<MembershipResponse> getEnabledMembership() {
-        return this.membershipService.findByStatusId(Status.ENABLED.getCode());
+        return this.membershipService.findByStatusId(StatusEnum.ENABLED.getCode());
     }
 
     @Override
     public List<MembershipResponse> getDisabledMembership() {
-        return this.membershipService.findByStatusId(Status.DISABLED.getCode());
+        return this.membershipService.findByStatusId(StatusEnum.DISABLED.getCode());
     }
 }
