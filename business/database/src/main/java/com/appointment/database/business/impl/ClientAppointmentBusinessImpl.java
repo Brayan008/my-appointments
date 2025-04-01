@@ -15,6 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -93,6 +95,12 @@ public class ClientAppointmentBusinessImpl implements ClientAppointmentBusiness 
             null,
             locale))
          .build();
+   }
+
+   @Override
+   public List<ClientAppointmentEntity> getAppointmentsByEmployeeAndDateWithoutStatus(Long storeEmployeeId, LocalDate date, Long excludedStatusId) {
+      StoreEmployeeEntity storeEmployeeEntity = this.storeEmployeeService.getStoreEmployeeById(storeEmployeeId);
+      return this.clientAppointmentsService.getAppointmentsByStoreEmployeeEntityAndDateWithoutStatus(storeEmployeeEntity, date, excludedStatusId);
    }
 
 

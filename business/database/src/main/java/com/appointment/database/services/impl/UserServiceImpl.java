@@ -1,7 +1,7 @@
 package com.appointment.database.services.impl;
 
 import com.appointment.commons.constants.StatusConstants;
-import com.appointment.commons.enums.Status;
+import com.appointment.commons.enums.StatusEnum;
 import com.appointment.commons.exceptions.BusinessException;
 import com.appointment.commons.exceptions.ObjectNotFoundException;
 import com.appointment.database.entities.UserEntity;
@@ -51,14 +51,14 @@ public class UserServiceImpl implements UserService {
    @Override
    public UserEntity disableById(Long userId) {
       UserEntity currentUser = this.getUserById(userId);
-      currentUser.setStatusId(Status.DISABLED.getCode());
+      currentUser.setStatusId(StatusEnum.DISABLED.getCode());
       return this.createUser(currentUser);
    }
 
    @Override
    public UserEntity enableById(Long userId) {
       UserEntity currentUser = this.getUserById(userId);
-      currentUser.setStatusId(Status.ENABLED.getCode());
+      currentUser.setStatusId(StatusEnum.ENABLED.getCode());
       return this.createUser(currentUser);
    }
 

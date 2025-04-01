@@ -4,6 +4,7 @@ import com.appointment.commons.enums.StatusAppointmentsEnum;
 import com.appointment.commons.exceptions.BusinessException;
 import com.appointment.database.entities.ClientAppointmentEntity;
 import com.appointment.database.entities.ConfigEmployeeSchedule;
+import com.appointment.database.entities.StoreEmployeeEntity;
 import com.appointment.database.entities.UserEntity;
 import com.appointment.database.repositories.ClientAppointmentsRepository;
 import com.appointment.database.repositories.ConfigEmployeeScheduleRepository;
@@ -18,8 +19,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Locale;
 
 @Service
@@ -56,7 +59,7 @@ public class ClientAppointmentsServiceImpl implements ClientAppointmentsService 
       LocalDateTime userDateTime = clientAppointmentEntity.getUserAppointment();
       int dayOfWeek = userDateTime.getDayOfWeek().getValue(); // Monday=1, Sunday=7
       ConfigEmployeeSchedule schedule = configEmployeeScheduleRepository
-         .findByStoreEmployeeEntityAndDayOfWeek(clientAppointmentEntity.getStoreEmployee(), dayOfWeek);
+         .findByStoreEmployeeAndDayOfWeek(clientAppointmentEntity.getStoreEmployee(), dayOfWeek);
 
       if (schedule == null) {
          throw new BusinessException(
@@ -121,7 +124,7 @@ public class ClientAppointmentsServiceImpl implements ClientAppointmentsService 
       }
 
       //Set status of date configured
-      clientAppointmentEntity.setStatusAppointmentId(schedule.getDefaultStatusAppointmentEntity().getStatusAppointmentId());
+      clientAppointmentEntity.setStatusAppointmentId(schedule.getDefaultStatusAppointment().getStatusAppointmentId());
       return clientAppointmentsRepository.save(clientAppointmentEntity);
    }
 
@@ -135,5 +138,19 @@ public class ClientAppointmentsServiceImpl implements ClientAppointmentsService 
    @Override
    public ClientAppointmentEntity findClientAppointmentByIdAndStatus(Long idClientAppointment, StatusAppointmentsEnum status) {
       return this.clientAppointmentsRepository.findClientAppointmentByIdAndStatus(idClientAppointment, status.getCode());
+   }
+
+   @Override
+   public List<ClientAppointmentEntity> getAppointmentsByStoreEmployeeEntityAndDateWithoutStatus(StoreEmployeeEntity storeEmployee,
+                                                                                                 LocalDate date,
+                                                                                                 Long excludedStatusId) {
+      LocalDateTime startOfDay = date.atStartOfDay();
+      LocalDateTime endOfDay = date.atTime(LocalTime.MAX);
+      return this.clientAppointmentsRepository.findByEmployeeAndDateRangeAndStatusNot(
+         storeEmployee.getStoreEmployeeId(),
+         startOfDay,
+         endOfDay,
+         excludedStatusId
+      );
    }
 }

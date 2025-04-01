@@ -1,6 +1,7 @@
 package com.appointment.database.repositories;
 
 import com.appointment.database.entities.ClientAppointmentEntity;
+import com.appointment.database.entities.StoreEmployeeEntity;
 import com.appointment.database.entities.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,5 +33,16 @@ public interface ClientAppointmentsRepository extends JpaRepository<ClientAppoin
        WHERE ca.client_appointment_id = :id AND ca.status_appointment_id = :statusAppointmentId
        """, nativeQuery = true)
    ClientAppointmentEntity findClientAppointmentByIdAndStatus(Long id, Long statusAppointmentId);
+
+   @Query("SELECT c FROM ClientAppointmentEntity c " +
+      "WHERE c.storeEmployee.storeEmployeeId = :employeeId " +
+      "AND c.userAppointment BETWEEN :start AND :end " +
+      "AND c.statusAppointmentId != :excludedStatusId")
+   List<ClientAppointmentEntity> findByEmployeeAndDateRangeAndStatusNot(
+      Long employeeId,
+      LocalDateTime start,
+      LocalDateTime end,
+      Long excludedStatusId
+   );
 
 }

@@ -1,8 +1,6 @@
 package com.appointment.client.services.impl;
 
-import com.appointment.client.dtos.PageableClientAppointmentResponse;
-import com.appointment.client.dtos.StoreEmployeeResponse;
-import com.appointment.client.dtos.StoreResponse;
+import com.appointment.client.dtos.*;
 import com.appointment.client.services.DatabaseService;
 import com.appointment.commons.dtos.GenericResponse;
 import com.appointment.commons.dtos.StandardizedApiExceptionResponse;
@@ -20,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.time.LocalDate;
 
 @Service
 @Slf4j
@@ -186,6 +186,60 @@ public class DatabaseServiceImpl implements DatabaseService {
             })
          )
          .bodyToFlux(StoreEmployeeResponse.class);
+   }
+
+   @Override
+   public Mono<StoreEmployeeResponse> getStoreEmployeeById(Long storeEmployeeId) {
+      return webClient
+         .get()
+         .uri("/employees/"+storeEmployeeId)
+         .retrieve()
+         .onStatus(HttpStatusCode::isError, res -> res.bodyToMono(StandardizedApiExceptionResponse.class)
+            .flatMap(error -> {
+               log.error("Error on get store employees by id {}", error);
+               return Mono.error(new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), (HttpStatus) res.statusCode()));
+            })
+         )
+         .bodyToMono(StoreEmployeeResponse.class);
+   }
+
+   @Override
+   public Mono<ConfigEmployeeResponse> findConfigEmployeeByStoreEmployeeIdAndDayOfWeek(Long storeEmployeeId, Integer dayOfWeek) {
+      return webClient
+         .get()
+         .uri(uriBuilder -> uriBuilder
+            .path("/config-employee-schedule")
+            .queryParam("storeEmployeeId", storeEmployeeId)
+            .queryParam("dayOfWeek", dayOfWeek)
+            .build())
+         .retrieve()
+         .onStatus(HttpStatusCode::isError, res -> res.bodyToMono(StandardizedApiExceptionResponse.class)
+            .flatMap(error -> {
+               log.error("Error on find config employee by store employee id and day of week {}", error);
+               return Mono.error(new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), (HttpStatus) res.statusCode()));
+            })
+         )
+         .bodyToMono(ConfigEmployeeResponse.class);
+   }
+
+   @Override
+   public Flux<ClientAppointmentResponse> getAppointmentsByStoreEmployeeIdAndDateWithoutStatus(Long storeEmployeeId, LocalDate date, Long excludedStatusId) {
+      return webClient
+         .get()
+         .uri(uriBuilder -> uriBuilder
+            .path("/client-appointment")
+            .queryParam("storeEmployeeId", storeEmployeeId)
+            .queryParam("date", date)
+            .queryParam("excludedStatusId", excludedStatusId)
+            .build())
+         .retrieve()
+         .onStatus(HttpStatusCode::isError, res -> res.bodyToMono(StandardizedApiExceptionResponse.class)
+            .flatMap(error -> {
+               log.error("Error on find client appointment by storeEmployeeId, date and excludedStatusId {}", error);
+               return Mono.error(new BusinessException(error.getCode(), error.getTitle(), error.getDetail(), (HttpStatus) res.statusCode()));
+            })
+         )
+         .bodyToFlux(ClientAppointmentResponse.class);
    }
 
 }

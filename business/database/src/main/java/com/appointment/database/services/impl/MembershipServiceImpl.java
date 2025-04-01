@@ -1,6 +1,6 @@
 package com.appointment.database.services.impl;
 
-import com.appointment.commons.enums.Status;
+import com.appointment.commons.enums.StatusEnum;
 import com.appointment.commons.exceptions.ObjectNotFoundException;
 import com.appointment.database.entities.MembershipEntity;
 import com.appointment.database.repositories.MembershipRepository;
@@ -46,14 +46,14 @@ public class MembershipServiceImpl implements MembershipService {
    @Override
    public MembershipEntity disableById(Long membershipId) {
       MembershipEntity currentMembership = this.getMembershipById(membershipId);
-      currentMembership.setStatusId(Status.DISABLED.getCode());
+      currentMembership.setStatusId(StatusEnum.DISABLED.getCode());
       return this.createMembership(currentMembership);
    }
 
    @Override
    public MembershipEntity enableById(Long membershipId) {
       MembershipEntity currentMembership = this.getMembershipById(membershipId);
-      currentMembership.setStatusId(Status.ENABLED.getCode());
+      currentMembership.setStatusId(StatusEnum.ENABLED.getCode());
       return this.createMembership(currentMembership);
    }
 

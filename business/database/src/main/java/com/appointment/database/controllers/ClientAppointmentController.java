@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @Tag(name = "Client Appointment", description = "This APi serve all functionality for management clients appointment")
 @Slf4j
 @AllArgsConstructor
@@ -49,6 +51,13 @@ public class ClientAppointmentController {
                                                   @RequestBody RateAppointmentRequest rateAppointmentRequest){
       log.info("Update rate client appointment: {} {}", idRateAppointment, rateAppointmentRequest);
       return new ResponseEntity<>(this.clientAppointmentBusiness.updateRateAppointment(idRateAppointment, rateAppointmentRequest), HttpStatus.OK);
+   }
+
+   @Operation(summary = "Update rate client appointment")
+   @GetMapping
+   public ResponseEntity<?> getAppointmentsByEmployeeAndDateWithoutStatus(@RequestParam Long storeEmployeeId, @RequestParam LocalDate date, @RequestParam Long excludedStatusId){
+      log.info("Get appointments by id store employee, date and without status: {} {} {}", storeEmployeeId, date, excludedStatusId);
+      return new ResponseEntity<>(this.clientAppointmentBusiness.getAppointmentsByEmployeeAndDateWithoutStatus(storeEmployeeId, date, excludedStatusId), HttpStatus.OK);
    }
 
 }

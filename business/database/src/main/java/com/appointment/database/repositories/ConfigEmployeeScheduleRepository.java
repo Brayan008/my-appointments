@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ConfigEmployeeScheduleRepository extends JpaRepository<ConfigEmployeeSchedule, Long> {
-   ConfigEmployeeSchedule findByStoreEmployeeEntityAndDayOfWeek(StoreEmployeeEntity storeEmployeeEntity, Integer dayOfWeek);
+   ConfigEmployeeSchedule findByStoreEmployeeAndDayOfWeek(StoreEmployeeEntity storeEmployeeEntity, Integer dayOfWeek);
 }
