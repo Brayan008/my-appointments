@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -30,10 +31,10 @@ public class ClientAppointmentEntity {
 
    @ManyToOne(fetch = FetchType.EAGER)
    @JoinColumn(name = "service_id", insertable = false, updatable = false)
-   private ServiceEntity service;
+   private StoreServiceEntity service;
 
    @Column(name = "total_paid", nullable = false)
-   private Double totalPaid;
+   private BigDecimal totalPaid;
 
    @ManyToOne(fetch = FetchType.EAGER)
    @JoinColumn(name = "client_id", insertable = false, updatable = false)

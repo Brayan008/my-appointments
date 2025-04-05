@@ -13,23 +13,23 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@SequenceGenerator(name = "services_seq", sequenceName = "services_sequence", allocationSize = 1)
-@Table(name = "services")
+@SequenceGenerator(name = "store_services_seq", sequenceName = "store_services_sequence", allocationSize = 1)
+@Table(name = "store_services")
 @Getter
 @Setter
 @ToString
-public class ServiceEntity {
+public class StoreServiceEntity {
    @Id
-   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "services_seq")
+   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "store_services_seq")
    @Column(nullable = false)
-   private Long serviceId;
+   private Long storeServiceId;
 
    @Column(nullable = false, length = 255)
    private String name;
 
-   @Check(constraints = "rating >= 0")
-   @Column(nullable = false)
-   private Double price;
+   @Check(constraints = "price >= 0")
+   @Column(nullable = false, precision = 12, scale = 2)
+   private BigDecimal price;
 
    @Column(name = "store_id", nullable = false)
    private Long storeId;
@@ -54,12 +54,12 @@ public class ServiceEntity {
    public boolean equals(Object o) {
       if (this == o) return true;
       if (o == null || getClass() != o.getClass()) return false;
-      ServiceEntity that = (ServiceEntity) o;
-      return Objects.equals(serviceId, that.serviceId);
+      StoreServiceEntity that = (StoreServiceEntity) o;
+      return Objects.equals(storeServiceId, that.storeServiceId);
    }
 
    @Override
    public int hashCode() {
-      return Objects.hashCode(serviceId);
+      return Objects.hashCode(storeServiceId);
    }
 }

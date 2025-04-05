@@ -1,13 +1,12 @@
 package com.appointment.database.controllers;
 
-import com.appointment.database.entities.ServiceEntity;
-import com.appointment.database.services.ServiceService;
+import com.appointment.database.entities.StoreServiceEntity;
+import com.appointment.database.services.StoreServiceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +17,8 @@ import java.net.URI;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/services")
-public class ServiceController {
-   private final ServiceService serviceService;
+public class StoreServiceController {
+   private final StoreServiceService serviceService;
 
    @Operation(summary = "get services")
    @GetMapping()
@@ -37,12 +36,12 @@ public class ServiceController {
 
    @Operation(summary = "create a service")
    @PostMapping()
-   public ResponseEntity<?> createService(@RequestBody ServiceEntity serviceEntity, HttpServletRequest request){
+   public ResponseEntity<?> createService(@RequestBody StoreServiceEntity serviceEntity, HttpServletRequest request){
       log.info("create: service {}", serviceEntity.getName());
-      ServiceEntity newService = this.serviceService.createService(serviceEntity);
+      StoreServiceEntity newService = this.serviceService.createService(serviceEntity);
 
       String baseUrl = request.getRequestURI();
-      URI newLocation = URI.create(baseUrl + "/"+ newService.getServiceId());
+      URI newLocation = URI.create(baseUrl + "/"+ newService.getStoreServiceId());
 
       return ResponseEntity.created(newLocation).body(newService);
    }
@@ -50,7 +49,7 @@ public class ServiceController {
    @Operation(summary = "update a service by service id")
    @PutMapping("/{serviceId}")
    public ResponseEntity<?> updateService(@PathVariable(name = "serviceId") Long serviceId,
-                                          @RequestBody ServiceEntity serviceEntity){
+                                          @RequestBody StoreServiceEntity serviceEntity){
       log.info("updating: service {}", serviceEntity.getName());
       return ResponseEntity.ok(this.serviceService.updateService(serviceEntity, serviceId));
    }
