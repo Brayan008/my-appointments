@@ -25,7 +25,7 @@ import java.util.Objects;
 public class ClientAppointmentBusinessImpl implements ClientAppointmentBusiness {
    private final UserService userService;
    private final ClientAppointmentsService clientAppointmentsService;
-   private final ServiceService serviceService;
+   private final StoreServiceService serviceService;
    private final StoreEmployeeService storeEmployeeService;
    private final RateAppointmentService rateAppointmentService;
    private final MessageSource messageSource;
@@ -33,7 +33,7 @@ public class ClientAppointmentBusinessImpl implements ClientAppointmentBusiness 
    @Override
    public ClientAppointmentEntity createClientAppointment(ClientDBAppointmentRequest clientDBAppointmentRequest) {
       UserEntity client = this.userService.getUserByEmail(clientDBAppointmentRequest.getClientEmail());
-      ServiceEntity service = this.serviceService.getServiceById(clientDBAppointmentRequest.getServiceId());
+      StoreServiceEntity service = this.serviceService.getServiceById(clientDBAppointmentRequest.getServiceId());
       StoreEmployeeEntity storeEmployee = this.storeEmployeeService.getStoreEmployeeById(clientDBAppointmentRequest.getStoreEmployeeId());
 
       ClientAppointmentEntity clientAppointmentEntity = new ClientAppointmentEntity();

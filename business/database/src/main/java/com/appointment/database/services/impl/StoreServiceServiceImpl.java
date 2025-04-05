@@ -3,9 +3,9 @@ package com.appointment.database.services.impl;
 import com.appointment.commons.enums.StatusEnum;
 import com.appointment.commons.exceptions.BusinessException;
 import com.appointment.commons.exceptions.ObjectNotFoundException;
-import com.appointment.database.entities.ServiceEntity;
-import com.appointment.database.repositories.ServiceRepository;
-import com.appointment.database.services.ServiceService;
+import com.appointment.database.entities.StoreServiceEntity;
+import com.appointment.database.repositories.StoreServiceRepository;
+import com.appointment.database.services.StoreServiceService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
@@ -19,19 +19,19 @@ import java.util.Locale;
 @Service
 @Slf4j
 @AllArgsConstructor
-public class ServiceServiceImpl implements ServiceService {
-   private final ServiceRepository serviceRepository;
+public class StoreServiceServiceImpl implements StoreServiceService {
+   private final StoreServiceRepository serviceRepository;
    private final MessageSource messageSource;
 
    @Override
-   public List<ServiceEntity> getServices() {
+   public List<StoreServiceEntity> getServices() {
       return serviceRepository.findAll();
    }
 
    @Override
-   public ServiceEntity getServiceById(Long serviceId) {
+   public StoreServiceEntity getServiceById(Long serviceId) {
       Locale locale = LocaleContextHolder.getLocale();
-      ServiceEntity service = serviceRepository.findById(serviceId)
+      StoreServiceEntity service = serviceRepository.findById(serviceId)
          .orElseThrow(() -> new ObjectNotFoundException(HttpStatus.NOT_FOUND.value(),
             messageSource.getMessage("error.404.store-services", null, locale), HttpStatus.NOT_FOUND));
       if(service.getStatusId().equals(StatusEnum.DISABLED.getCode()))
@@ -40,13 +40,13 @@ public class ServiceServiceImpl implements ServiceService {
    }
 
    @Override
-   public ServiceEntity createService(ServiceEntity service) {
+   public StoreServiceEntity createService(StoreServiceEntity service) {
       return serviceRepository.save(service);
    }
 
    @Override
-   public ServiceEntity updateService(ServiceEntity service, Long serviceId) {
-      ServiceEntity currentService = this.getServiceById(serviceId);
+   public StoreServiceEntity updateService(StoreServiceEntity service, Long serviceId) {
+      StoreServiceEntity currentService = this.getServiceById(serviceId);
       currentService.setName(service.getName());
       currentService.setStatusId(service.getStatusId());
       currentService.setPrice(service.getPrice());
@@ -55,21 +55,21 @@ public class ServiceServiceImpl implements ServiceService {
    }
 
    @Override
-   public ServiceEntity disableById(Long serviceId) {
-      ServiceEntity currentService = this.getServiceById(serviceId);
+   public StoreServiceEntity disableById(Long serviceId) {
+      StoreServiceEntity currentService = this.getServiceById(serviceId);
       currentService.setStatusId(StatusEnum.DISABLED.getCode());
       return this.createService(currentService);
    }
 
    @Override
-   public ServiceEntity enableById(Long serviceId) {
-      ServiceEntity currentService = this.getServiceById(serviceId);
+   public StoreServiceEntity enableById(Long serviceId) {
+      StoreServiceEntity currentService = this.getServiceById(serviceId);
       currentService.setStatusId(StatusEnum.ENABLED.getCode());
       return this.createService(currentService);
    }
 
    @Override
-   public List<ServiceEntity> findByStatusId(Long statusId) {
+   public List<StoreServiceEntity> findByStatusId(Long statusId) {
       return serviceRepository.findByStatusId(statusId);
    }
 }
