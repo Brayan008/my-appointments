@@ -3,7 +3,6 @@ package com.appointment.client.business.impl;
 import com.appointment.client.business.StoreEmployeeBusiness;
 import com.appointment.client.dtos.ClientAppointmentResponse;
 import com.appointment.client.dtos.ConfigEmployeeResponse;
-import com.appointment.client.dtos.StoreEmployeeResponse;
 import com.appointment.client.services.DatabaseService;
 import com.appointment.commons.dtos.response.AppointmentDetailEmployeeRes;
 import com.appointment.commons.dtos.response.EmployeeAppointmentsAvailabilityResponse;
@@ -125,6 +124,12 @@ public class StoreEmployeeBusinessImpl implements StoreEmployeeBusiness {
    ) {
       List<LocalDateTime> availableSlots = generateAvailableSlots(date, config);
       Map<LocalDateTime, Long> appointmentMap = createAppointmentMap(appointments);
+
+      if (date.isEqual(LocalDate.now())) {
+         availableSlots = availableSlots.stream()
+            .filter(slot -> !slot.isBefore(LocalDateTime.now()))
+            .toList();
+      }
 
       return availableSlots.stream()
          .map(slot -> buildAppointmentDetail(slot, appointmentMap))
