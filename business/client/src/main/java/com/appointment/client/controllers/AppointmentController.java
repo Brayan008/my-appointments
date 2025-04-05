@@ -4,6 +4,7 @@ import com.appointment.client.business.AppointmentBusiness;
 import com.appointment.client.dtos.NewAppointmentReq;
 import com.appointment.commons.dtos.request.RateAppointmentRequest;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -30,8 +31,8 @@ public class AppointmentController {
     @PostMapping()
     public Mono<String> newAppointment(
         @RequestBody NewAppointmentReq newAppointmentReq,
-        @RequestHeader("AccessToken") String accessToken) {
-        return appointmentBusiness.newAppointment(accessToken, newAppointmentReq);
+        @Parameter(hidden = true) @RequestHeader("Authorization") String token) {
+        return appointmentBusiness.newAppointment(token, newAppointmentReq);
     }
 
    @Operation(
@@ -41,11 +42,11 @@ public class AppointmentController {
    )
    @GetMapping()
    public ResponseEntity<?> findClientAppointments(
-      @RequestHeader("AccessToken") String accessToken,
+      @Parameter(hidden = true) @RequestHeader("Authorization") String token,
       @RequestParam(required = false, defaultValue = "0") int page,
       @RequestParam(required = false, defaultValue = "10") int size){
       log.info("Find client appointments");
-      return new ResponseEntity<>(this.appointmentBusiness.findClientAppointments(accessToken, page, size), HttpStatus.OK);
+      return new ResponseEntity<>(this.appointmentBusiness.findClientAppointments(token, page, size), HttpStatus.OK);
    }
 
    @Operation(
@@ -54,11 +55,11 @@ public class AppointmentController {
       security = @SecurityRequirement(name = "bearer-jwt")
    )
    @PostMapping("/{idClientAppointment}/rate")
-   public ResponseEntity<?> rateClientAppointment(@RequestHeader("AccessToken") String accessToken,
+   public ResponseEntity<?> rateClientAppointment(@Parameter(hidden = true) @RequestHeader("Authorization") String token,
                                                   @PathVariable Long idClientAppointment,
                                                   @RequestBody RateAppointmentRequest rateAppointmentRequest){
       log.info("Rate client appointment: {} {}", idClientAppointment, rateAppointmentRequest);
-      return new ResponseEntity<>(this.appointmentBusiness.addRateAppointment(accessToken, idClientAppointment, rateAppointmentRequest), HttpStatus.OK);
+      return new ResponseEntity<>(this.appointmentBusiness.addRateAppointment(token, idClientAppointment, rateAppointmentRequest), HttpStatus.OK);
    }
 
    @Operation(
@@ -67,11 +68,11 @@ public class AppointmentController {
       security = @SecurityRequirement(name = "bearer-jwt")
    )
    @PutMapping("/rate/{idRateAppointment}")
-   public ResponseEntity<?> updateRateClientAppointment(@RequestHeader("AccessToken") String accessToken,
+   public ResponseEntity<?> updateRateClientAppointment(@Parameter(hidden = true) @RequestHeader("Authorization") String token,
                                                         @PathVariable Long idRateAppointment,
                                                         @RequestBody RateAppointmentRequest rateAppointmentRequest){
       log.info("Update rate client appointment: {} {}", idRateAppointment, rateAppointmentRequest);
-      return new ResponseEntity<>(this.appointmentBusiness.updateRateAppointment(accessToken, idRateAppointment, rateAppointmentRequest), HttpStatus.OK);
+      return new ResponseEntity<>(this.appointmentBusiness.updateRateAppointment(token, idRateAppointment, rateAppointmentRequest), HttpStatus.OK);
    }
 
 
