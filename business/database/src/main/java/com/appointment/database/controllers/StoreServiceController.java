@@ -24,21 +24,21 @@ public class StoreServiceController {
    @GetMapping()
    public ResponseEntity<?> services(){
       log.info("Get: services ");
-      return ResponseEntity.ok(this.serviceService.getServices());
+      return ResponseEntity.ok(this.serviceService.getStoreServices());
    }
 
    @Operation(summary = "get a service given a service id")
    @GetMapping("/{serviceId}")
    public ResponseEntity<?> serviceById(@PathVariable(name = "serviceId") Long serviceId){
       log.info("Get: serviceId {}", serviceId);
-      return ResponseEntity.ok(this.serviceService.getServiceById(serviceId));
+      return ResponseEntity.ok(this.serviceService.getStoreServiceById(serviceId));
    }
 
    @Operation(summary = "create a service")
    @PostMapping()
    public ResponseEntity<?> createService(@RequestBody StoreServiceEntity serviceEntity, HttpServletRequest request){
       log.info("create: service {}", serviceEntity.getName());
-      StoreServiceEntity newService = this.serviceService.createService(serviceEntity);
+      StoreServiceEntity newService = this.serviceService.createStoreService(serviceEntity);
 
       String baseUrl = request.getRequestURI();
       URI newLocation = URI.create(baseUrl + "/"+ newService.getStoreServiceId());
@@ -51,7 +51,7 @@ public class StoreServiceController {
    public ResponseEntity<?> updateService(@PathVariable(name = "serviceId") Long serviceId,
                                           @RequestBody StoreServiceEntity serviceEntity){
       log.info("updating: service {}", serviceEntity.getName());
-      return ResponseEntity.ok(this.serviceService.updateService(serviceEntity, serviceId));
+      return ResponseEntity.ok(this.serviceService.updateStoreService(serviceEntity, serviceId));
    }
 
    @Operation(summary = "enabled service")

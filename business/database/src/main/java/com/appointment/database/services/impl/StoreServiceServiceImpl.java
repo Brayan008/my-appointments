@@ -20,18 +20,18 @@ import java.util.Locale;
 @Slf4j
 @AllArgsConstructor
 public class StoreServiceServiceImpl implements StoreServiceService {
-   private final StoreServiceRepository serviceRepository;
+   private final StoreServiceRepository storeServiceRepository;
    private final MessageSource messageSource;
 
    @Override
-   public List<StoreServiceEntity> getServices() {
-      return serviceRepository.findAll();
+   public List<StoreServiceEntity> getStoreServices() {
+      return storeServiceRepository.findAll();
    }
 
    @Override
-   public StoreServiceEntity getServiceById(Long serviceId) {
+   public StoreServiceEntity getStoreServiceById(Long storeServiceId) {
       Locale locale = LocaleContextHolder.getLocale();
-      StoreServiceEntity service = serviceRepository.findById(serviceId)
+      StoreServiceEntity service = storeServiceRepository.findById(storeServiceId)
          .orElseThrow(() -> new ObjectNotFoundException(HttpStatus.NOT_FOUND.value(),
             messageSource.getMessage("error.404.store-services", null, locale), HttpStatus.NOT_FOUND));
       if(service.getStatusId().equals(StatusEnum.DISABLED.getCode()))
@@ -40,36 +40,36 @@ public class StoreServiceServiceImpl implements StoreServiceService {
    }
 
    @Override
-   public StoreServiceEntity createService(StoreServiceEntity service) {
-      return serviceRepository.save(service);
+   public StoreServiceEntity createStoreService(StoreServiceEntity service) {
+      return storeServiceRepository.save(service);
    }
 
    @Override
-   public StoreServiceEntity updateService(StoreServiceEntity service, Long serviceId) {
-      StoreServiceEntity currentService = this.getServiceById(serviceId);
+   public StoreServiceEntity updateStoreService(StoreServiceEntity service, Long storeServiceId) {
+      StoreServiceEntity currentService = this.getStoreServiceById(storeServiceId);
       currentService.setName(service.getName());
       currentService.setStatusId(service.getStatusId());
       currentService.setPrice(service.getPrice());
       currentService.setStatusId(service.getStatusId());
-      return this.createService(currentService);
+      return this.createStoreService(currentService);
    }
 
    @Override
-   public StoreServiceEntity disableById(Long serviceId) {
-      StoreServiceEntity currentService = this.getServiceById(serviceId);
+   public StoreServiceEntity disableById(Long storeServiceId) {
+      StoreServiceEntity currentService = this.getStoreServiceById(storeServiceId);
       currentService.setStatusId(StatusEnum.DISABLED.getCode());
-      return this.createService(currentService);
+      return this.createStoreService(currentService);
    }
 
    @Override
-   public StoreServiceEntity enableById(Long serviceId) {
-      StoreServiceEntity currentService = this.getServiceById(serviceId);
+   public StoreServiceEntity enableById(Long storeServiceId) {
+      StoreServiceEntity currentService = this.getStoreServiceById(storeServiceId);
       currentService.setStatusId(StatusEnum.ENABLED.getCode());
-      return this.createService(currentService);
+      return this.createStoreService(currentService);
    }
 
    @Override
    public List<StoreServiceEntity> findByStatusId(Long statusId) {
-      return serviceRepository.findByStatusId(statusId);
+      return storeServiceRepository.findByStatusId(statusId);
    }
 }

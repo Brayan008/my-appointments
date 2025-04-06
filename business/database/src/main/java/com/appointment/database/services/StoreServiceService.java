@@ -5,17 +5,17 @@ import com.appointment.database.entities.StoreServiceEntity;
 import java.util.List;
 
 public interface StoreServiceService {
-   List<StoreServiceEntity> getServices();
+   List<StoreServiceEntity> getStoreServices();
 
-   StoreServiceEntity getServiceById(Long serviceId);
+   StoreServiceEntity getStoreServiceById(Long storeServiceId);
 
-   StoreServiceEntity createService(StoreServiceEntity service);
+   StoreServiceEntity createStoreService(StoreServiceEntity service);
 
-   StoreServiceEntity updateService(StoreServiceEntity service, Long serviceId);
+   StoreServiceEntity updateStoreService(StoreServiceEntity service, Long storeServiceId);
 
-   StoreServiceEntity disableById(Long serviceId);
+   StoreServiceEntity disableById(Long storeServiceId);
 
-   StoreServiceEntity enableById(Long serviceId);
+   StoreServiceEntity enableById(Long storeServiceId);
 
    List<StoreServiceEntity> findByStatusId(Long statusId);
 }
