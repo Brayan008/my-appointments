@@ -29,8 +29,8 @@ public class StoreBusinessImpl implements StoreBusiness {
     }
 
    @Override
-   public Flux<StoreResponse> findStoresBySearchText(String searchText) {
-      return this.databaseService.findStoresBySearchText(searchText);
+   public Flux<StoreResponse> findStoresBySearchText(String searchText, Double lat, Double lng, Integer radius) {
+      return this.databaseService.findStoresBySearchText(searchText, lat, lng, radius);
    }
 
    @Override

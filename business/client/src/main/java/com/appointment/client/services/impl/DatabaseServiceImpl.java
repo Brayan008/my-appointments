@@ -95,12 +95,15 @@ public class DatabaseServiceImpl implements DatabaseService {
     }
 
    @Override
-   public Flux<StoreResponse> findStoresBySearchText(String searchText) {
+   public Flux<StoreResponse> findStoresBySearchText(String searchText, Double lat, Double lng, Integer radius) {
       return webClient
          .get()
          .uri(uriBuilder -> uriBuilder
             .path("/stores/search")
             .queryParam("searchText", searchText)
+            .queryParam("lat", lat)
+            .queryParam("lng", lng)
+            .queryParam("radius", radius)
             .build())
          .retrieve()
          .onStatus(HttpStatusCode::isError, res -> res.bodyToMono(StandardizedApiExceptionResponse.class)

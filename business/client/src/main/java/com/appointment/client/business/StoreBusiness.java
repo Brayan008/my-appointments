@@ -10,6 +10,6 @@ public interface StoreBusiness {
 
     Mono<GenericResponse> addStoreToFavorites(String token, Long idStore);
     Mono<GenericResponse> deleteFavoriteStore(Long userFavoriteStoreId);
-    Flux<StoreResponse> findStoresBySearchText(String searchText);
+    Flux<StoreResponse> findStoresBySearchText(String searchText, Double lat, Double lng, Integer radius);
     Flux<StoreEmployeeResponse> getEmployeesOfStore(Long storeId);
 }

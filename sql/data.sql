@@ -3,7 +3,7 @@ INSERT INTO status(name) VALUES ('ENABLED'), ('DISABLED'), ('PENDING');
 INSERT INTO roles(name) VALUES ('USER'), ('ADMIN');
 
 INSERT INTO users(email, status_id, role_id) VALUES ('armando@gmail.com', 1, 2),
-('brayan@gmail.com', 1, 2), ('fredy@gmail.com', 1, 1), ('eddy@gmail.com', 1, 1);
+('mares.bueno.brayan@gmail.com', 1, 2), ('fredy@gmail.com', 1, 1), ('eddy@gmail.com', 1, 1);
 
 INSERT INTO memberships(membership_type, price, description, status_id) VALUES
 ('Free', 0, 'The basics for individuals and organizations', 1),
@@ -23,9 +23,15 @@ VALUES('Barber', 'barber.png', '6544922933', 'https://www.instagram.com/', 'http
 
 INSERT INTO owners(user_id, company_id, owner_hierarchy) VALUES(1, 1, 'OWNER');
 
-INSERT INTO stores(name, address, description, coordinates, status_id, company_id)
-VALUES('Peluqueria A', 'Av. Tecnológico Ciudad Industrial, Las Aves, 38010 Celaya, Gto',
-'Barberia profecional', '1234', 1, 1);
+INSERT INTO stores(name, address, description, latitude, longitude, status_id,
+                   company_id)
+VALUES ('Peluqueria A',
+        'Av. Tecnológico Ciudad Industrial, Las Aves, 38010 Celaya, Gto',
+        'Barberia profecional', 20.547389, -100.821518, 1, 1),
+       ('Peluqueria B', 'Centro Dolores Hidalgo, GTO.',
+        'Baberia El cortesito.', 21.157229, -100.934892, 1, 1),
+       ('Barberia Mares', 'Av. de los Heroes Dolores Hidalgo.',
+        'Esto es una barberia chida.', 21.158226, -100.940752, 1, 1);
 
 INSERT INTO store_services(name, price, store_id, status_id) VALUES('Corte de pelo', 120, 1, 1);
 INSERT INTO store_services(name, price, store_id, status_id) VALUES('Corte de barba', 50, 1, 1);

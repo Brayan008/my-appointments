@@ -18,5 +18,5 @@ public interface StoreService {
    StoreEntity enableById(Long storeId);
 
    List<StoreEntity> findByStatusId(Long statusId);
-   List<StoreEntity> findStoresBySearchText(String searchText);
+   List<StoreEntity> findStoresBySearchText(String searchText, Double lat, Double lng, Integer radius);
 }

@@ -35,10 +35,14 @@ public class StoreController {
     }
 
 
-   @Operation(summary = "Find stores by search text (name, address or coordinates)", security = @SecurityRequirement(name = "bearer-jwt"))
+   @Operation(summary = "Find stores by search text (name, address or coordinates) and optianl lat, lng and radius")
    @GetMapping("/search")
-   public ResponseEntity<?> findStoresBySearchText(@RequestParam(name = "searchText") String searchText){
-      return ResponseEntity.ok(this.storeBusiness.findStoresBySearchText(searchText));
+   public ResponseEntity<?> findStoresBySearchText(
+      @RequestParam(name = "searchText") String searchText,
+      @RequestParam(name = "lat") Double lat,
+      @RequestParam(name = "lng") Double lng,
+      @RequestParam(name = "radius") Integer radius){
+      return ResponseEntity.ok(this.storeBusiness.findStoresBySearchText(searchText, lat, lng, radius));
    }
 
    @Operation(summary = "Get employees of store", security = @SecurityRequirement(name = "bearer-jwt"))

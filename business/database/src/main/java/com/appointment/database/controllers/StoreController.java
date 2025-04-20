@@ -86,10 +86,14 @@ public class StoreController {
       return ResponseEntity.ok(storeEmployeeService.getEmployeesAssociated(storeId));
    }
 
-   @Operation(summary = "Find stores by search text (name, address or coordinates)")
+   @Operation(summary = "Find stores by search text (name, address or coordinates) and optianl lat, lng and radius")
    @GetMapping("/search")
-   public ResponseEntity<?> findStoresBySearchText(@RequestParam(name = "searchText") String searchText){
-      return ResponseEntity.ok(storeService.findStoresBySearchText(searchText));
+   public ResponseEntity<?> findStoresBySearchText(
+      @RequestParam(name = "searchText") String searchText,
+      @RequestParam(name = "lat", required = false) Double lat,
+      @RequestParam(name = "lng", required = false) Double lng,
+      @RequestParam(name = "radius", required = false) Integer radius){
+      return ResponseEntity.ok(storeService.findStoresBySearchText(searchText, lat, lng, radius));
    }
 
    @Operation(summary = "Add user favorite store")

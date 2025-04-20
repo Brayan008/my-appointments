@@ -15,7 +15,7 @@ public interface DatabaseService {
     Mono<ClientDBAppointmentResponse> createClientAppointment(ClientDBAppointmentRequest clientDBAppointmentRequest);
     Mono<GenericResponse> addFavoriteStore(Long storeId, String email);
     Mono<GenericResponse> deleteFavoriteStore(Long userFavoriteStoreId);
-    Flux<StoreResponse> findStoresBySearchText(String searchText);
+    Flux<StoreResponse> findStoresBySearchText(String searchText, Double lat, Double lng, Integer radius);
     Mono<PageableClientAppointmentResponse> findClientAppointments(String email, int page, int size);
     Mono<GenericResponse> addRateAppointment(Long idClientAppointment, RateAppointmentRequest rateAppointmentRequest);
     Mono<GenericResponse> updateRateAppointment(Long idRateAppointment, RateAppointmentRequest rateAppointmentRequest);
