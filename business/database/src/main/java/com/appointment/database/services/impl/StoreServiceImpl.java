@@ -42,7 +42,8 @@ public class StoreServiceImpl implements StoreService {
       currentStore.setName(store.getName());
       currentStore.setAddress(store.getAddress());
       currentStore.setDescription(store.getDescription());
-      currentStore.setCoordinates(store.getCoordinates());
+      currentStore.setLatitude(store.getLatitude());
+      currentStore.setLongitude(store.getLongitude());
       currentStore.setStatusId(store.getStatusId());
       currentStore.setCompanyId(store.getCompanyId());
       return this.createStore(currentStore);
@@ -68,9 +69,18 @@ public class StoreServiceImpl implements StoreService {
    }
 
    @Override
-   public List<StoreEntity> findStoresBySearchText(String searchText) {
-      if(searchText == null || searchText.isBlank())
-         throw new BusinessException(HttpStatus.BAD_REQUEST.name(), "The search text cant be null or empty.", "", HttpStatus.BAD_REQUEST);
-      return this.storeRepository.searchStores(searchText);
+   public List<StoreEntity> findStoresBySearchText(String searchText, Double lat, Double lng, Integer radius) {
+
+      if (searchText == null || searchText.isBlank()) {
+         throw new BusinessException(HttpStatus.BAD_REQUEST.name(),
+            "The search text cannot be null or empty.", "", HttpStatus.BAD_REQUEST);
+      }
+
+      if (lat != null && lng != null && radius != null) {
+         return storeRepository.searchStoresByArea(searchText, lat, lng, radius);
+      }
+
+      return storeRepository.searchStores(searchText);
+
    }
 }

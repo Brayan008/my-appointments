@@ -14,6 +14,9 @@ CREATE SEQUENCE client_appointments_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE rate_appointment_sequence START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE config_employee_schedule_sequence START WITH 1 INCREMENT BY 1;
 
+CREATE EXTENSION IF NOT EXISTS cube;
+CREATE EXTENSION IF NOT EXISTS earthdistance;
+
 CREATE TABLE status (
   status_id BIGINT PRIMARY KEY DEFAULT nextval('status_sequence'),
   name VARCHAR(50) NOT NULL,
@@ -84,7 +87,8 @@ CREATE TABLE stores(
   name TEXT,
   address VARCHAR(200),
   description TEXT,
-  coordinates VARCHAR(400),
+  latitude DECIMAL(8, 6) NOT NULL,
+  longitude DECIMAL(9, 6) NOT NULL,
   status_id BIGINT NOT NULL,
   company_id BIGINT NOT NULL,
   created_at TIMESTAMP DEFAULT NOW(),

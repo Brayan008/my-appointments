@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -32,8 +33,11 @@ public class StoreEntity {
    @Column(nullable = false, length = 300)
    private String description;
 
-   @Column(nullable = false, length = 400)
-   private String coordinates;
+   @Column(nullable = false)
+   private BigDecimal latitude;
+
+   @Column(nullable = false)
+   private BigDecimal longitude;
 
    @Column(name = "status_id", nullable = false)
    private Long statusId;
